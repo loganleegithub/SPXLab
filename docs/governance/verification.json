@@ -1,0 +1,172 @@
+{
+  "reviewed_at_utc": "2026-09-15T14:04:13.831607+00:00",
+  "scope": "Read-only handoff document and static evidence review; no broker or cloud probe execution",
+  "source_directory": "/Users/logan/Codex/2026-09-15/yan/outputs/spx-project-handoff",
+  "source_manifest_sha256": "cde7ac2093f4eed3649643e5a2092a3bc8f4ab0361580f52efbfcbad02db13cb",
+  "source_zip_sha256": "ac9f07f5cf2a55c34bc81c9d2989e0b55e220ad5e4c6d310d4c00e534dfa9b74",
+  "runtime": {
+    "python": "3.12.13",
+    "jsonschema": "4.26.0"
+  },
+  "checks": {
+    "manifest": {
+      "entries": 35,
+      "mismatches": []
+    },
+    "zip": {
+      "entries": 36,
+      "crc_error": null,
+      "exact_payload_mismatches": []
+    },
+    "provenance": {
+      "entries": 19,
+      "originals_matching": 19,
+      "exceptions": []
+    },
+    "json_parse": {
+      "documents": 14,
+      "failures": []
+    },
+    "schema": {
+      "schema_valid": true,
+      "format_checker_enabled": true,
+      "quarantined_example_valid": true,
+      "unknown_target_promoted_to_valid_rejected": true,
+      "inline_event_envelope_rejected": true,
+      "valid_status_without_median_structurally_accepted": true,
+      "business_validation_not_executed": true
+    },
+    "raw_refs": {
+      "count": 3,
+      "mismatches": []
+    },
+    "config": {
+      "specification_only": true,
+      "status": "DRAFT_NOT_PREREGISTERED",
+      "mode": "shadow",
+      "live_enabled": false,
+      "broker_submission_enabled": false,
+      "real_account_allowlist": [],
+      "fee_model_unset": true,
+      "economic_threshold_unset": true
+    },
+    "probe_ast": {
+      "parsed": [
+        "quantconnect-spxw-control-probe.py",
+        "quantconnect-spxw-data-probe.py"
+      ],
+      "executed": false
+    },
+    "ledger": {
+      "rows": 37,
+      "unique_dates": 37,
+      "first_date": "2026-07-23",
+      "last_date": "2026-09-14",
+      "inside68": 34,
+      "inside95": 36,
+      "point_in_time_proven": false
+    },
+    "decimal_math": {
+      "cases": 14,
+      "passed": 14,
+      "details": [
+        {
+          "case": "payoff_S_7625",
+          "actual": "1900",
+          "expected": "1900",
+          "pass": true
+        },
+        {
+          "case": "payoff_S_7606",
+          "actual": "0",
+          "expected": "0",
+          "pass": true
+        },
+        {
+          "case": "payoff_S_7644",
+          "actual": "0",
+          "expected": "0",
+          "pass": true
+        },
+        {
+          "case": "payoff_S_7600",
+          "actual": "-600",
+          "expected": "-600",
+          "pass": true
+        },
+        {
+          "case": "payoff_S_7650",
+          "actual": "-600",
+          "expected": "-600",
+          "pass": true
+        },
+        {
+          "case": "payoff_S_7599",
+          "actual": "-600",
+          "expected": "-600",
+          "pass": true
+        },
+        {
+          "case": "payoff_S_7651",
+          "actual": "-600",
+          "expected": "-600",
+          "pass": true
+        },
+        {
+          "case": "fee_peak",
+          "actual": "1896",
+          "expected": "1896",
+          "pass": true
+        },
+        {
+          "case": "natural_ask",
+          "actual": "7.7",
+          "expected": "7.7",
+          "pass": true
+        },
+        {
+          "case": "natural_bid",
+          "actual": "6.9",
+          "expected": "6.9",
+          "pass": true
+        },
+        {
+          "case": "midpoint",
+          "actual": "7.3",
+          "expected": "7.3",
+          "pass": true
+        },
+        {
+          "case": "sep14_cost",
+          "actual": "6.00",
+          "expected": "6",
+          "pass": true
+        },
+        {
+          "case": "sep11_narrow_cost",
+          "actual": "9.00",
+          "expected": "9",
+          "pass": true
+        },
+        {
+          "case": "sep11_wide_cost",
+          "actual": "33.60",
+          "expected": "33.6",
+          "pass": true
+        }
+      ]
+    },
+    "markdown_local_links": {
+      "checked_occurrences": 82,
+      "missing": []
+    }
+  },
+  "limitations": [
+    "No account permission refresh or market collection performed",
+    "No historical author publication proof established",
+    "No production services, forecasts, orders or trading returns validated",
+    "Source HTML inspected statically; unrelated hidden product sections and scripts not executed",
+    "Original cloud run logs not included in source package",
+    "No independent second reviewer"
+  ]
+}
