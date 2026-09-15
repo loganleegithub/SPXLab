@@ -35,7 +35,7 @@ python3 -m venv .venv
 
 本次合约详情返回 `20260915:0830-20260915:1500`、`US/Central`，即纽约09:30–16:00。实际确认的合约与时段保存在 CONTRACT 事件，不能将该时段硬套到未来半日市。
 
-本任务 heartbeat `spx` 已按用户实时监控要求改为每分钟处理关键告警，独立行情监控器每秒更新。尾盘时间表、命令、故障与来源检查见 [监控手册](MONITORING.md)。北京时间9月16日04:00收盘后改为每15分钟核验结算，保持唤醒至04:30；结算与最终回放完成或达到当日12:00缺口报告截止后停止 heartbeat。
+本日 heartbeat `spx` 盘中每分钟处理关键告警，独立行情监控器每秒更新；收盘后每15分钟核验结算。9月15日正式结算与最终回放现已完成，本次监控按原计划停止。历史规范见[监控手册](MONITORING.md)，当前结论见[收盘报告](2026-09-15-CLOSEOUT.md)。
 
 ## 回放
 
@@ -60,6 +60,8 @@ python3 -m venv .venv
 ```
 
 每份结算证据写入单独追加日志 `settlements.sqlite`，生成带证据哈希的结果版本及 `SETTLED_REPORT.md`。主行情日志和事前决策不修改。纽约 16:00 之前不得填今日结算。日内最后报价、官方指数收盘和合约正式结算证据分别处理。
+
+09-15已完成操作见[单日结算操作档案](../var/2026-09-15/closeout-001/)：主组使用各次冻结CLI，003/004控制组使用对应冻结的同一结算函数，独立写入`control-settlements.sqlite`与`CONTROL_SETTLED_REPORT.md`。原回放证明保存在`settlement-preflight-001/`，当前最终证明指向结算时再次验证的回放。此脚本有一次性目录保护，不重复应用同一证据；通用CLI仍只有主组入口。
 
 入口：[Cboe 周度结算](https://www.cboe.com/index_settlement_values/weeklys_settlement_values/)。不要使用月度页面的 SET（AM）、其他日期或 XSP 四舍五入值替代当天 SPXW PM。
 
