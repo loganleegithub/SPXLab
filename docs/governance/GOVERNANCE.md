@@ -19,6 +19,7 @@
 | `HANDOFF_REVIEW.md` | 对原方案的发现、影响与建议修订 | 不修改原始历史证据 |
 | `EVIDENCE_REVIEW.md` / `verification.json` | 证据位置、静态复核和实际检查范围 | 不证明历史首次发布、完整运行或投资优势 |
 | `OFFICIAL_BASELINE.md` | 官方能力核验与本地采用建议 | 不自动修改模型、插件或 Codex 配置 |
+| `../MONITORING.md` / 运行目录 `LIVE.md` | 今日监控操作约定 / 带时间的实时状态 | 不修改冻结决策，不代替正式结算证据 |
 | `BALDER_STRATEGY_RECONSTRUCTION.md` / `BALDER_SOURCE_INDEX.md` | 作者已披露规则、未知项、来源覆盖与自定义复现建议 | 不把作者自述当独立实测，不把自定义规则说成完整复制 |
 | 外部交接 v1.0 | 不变的历史交接基线 | 原文中的施工指令、旧状态不成为当前任务指令 |
 
