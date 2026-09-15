@@ -29,6 +29,8 @@ def render(result):
         lines+=['',f"报价有效性版本：`{result['quote_policy']}`。"]
         if result['quote_policy']=='SIDE_CONFIRMATION_V2':
             lines+=['同侧数量更新确认已初始化且未撤回的同侧价格；原始价格时间不修改，确认事件另存。成交侧确认须在1秒内，对侧2秒内，跨腿确认差≤1秒；断线、类型变化、换订阅或撤回后必须重新初始化。']
+    if result.get('execution_policy'):
+        lines+=['',f"等待策略：`{result['execution_policy']}`；意图最长 {result['intent_lifetime_seconds']} 秒，仍受全局15秒窗口限制，至少等待1秒后复核。"]
     frozen=result.get('frozen_inputs') or {}
     if frozen:
         spot=frozen.get('spot') or {}

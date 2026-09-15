@@ -299,6 +299,9 @@ class Engine:
                 'fixed_costs_status':self.cfg.get('fixed_costs',{'status':'UNKNOWN'})}
         if 'quote_policy' in self.cfg:
             result['quote_policy']=self.cfg['quote_policy']
+        if 'execution_policy' in self.cfg:
+            result['execution_policy']=self.cfg['execution_policy']
+            result['intent_lifetime_seconds']=self.cfg['intent_lifetime_seconds']
         return result
 
 

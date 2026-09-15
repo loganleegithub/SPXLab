@@ -35,7 +35,17 @@ def validate(cfg, *, live=True):
         raise ValueError('Only the diagnostic shadow mode is implemented')
     if cfg['width']!=25 or cfg['max_all_in_points']!='6.25':
         raise ValueError('V0 requires width 25 and cap 6.25; change the versioned engine to change these')
-    if cfg['window_seconds']!=15 or cfg['latency_seconds']!=1 or cfg['intent_lifetime_seconds']!=3:
+    execution_policy=cfg.get('execution_policy','INTENT_LIFETIME_V1')
+    if execution_policy=='INTENT_LIFETIME_V1':
+        valid_lifetime=cfg['intent_lifetime_seconds']==3 and not cfg.get('compare_intent_lifetime_seconds')
+    elif execution_policy=='INTENT_LIFETIME_V2':
+        valid_lifetime=(cfg['intent_lifetime_seconds']==10 and
+                        cfg.get('compare_intent_lifetime_seconds')==3 and
+                        cfg.get('quote_policy')=='SIDE_CONFIRMATION_V2' and
+                        not cfg.get('compare_raw_policy'))
+    else:
+        valid_lifetime=False
+    if cfg['window_seconds']!=15 or cfg['latency_seconds']!=1 or not valid_lifetime:
         raise ValueError('Unreviewed execution parameters')
     cutoff=datetime.fromisoformat(cfg['cutoff_utc'])
     if cutoff.tzinfo is None:
@@ -57,6 +67,13 @@ def validate(cfg, *, live=True):
 
 
 def control_engine(cfg):
+    if cfg.get('compare_intent_lifetime_seconds'):
+        validate(cfg,live=False)
+        control=deepcopy(cfg)
+        control.update(execution_policy='INTENT_LIFETIME_V1',intent_lifetime_seconds=3,
+                       compare_intent_lifetime_seconds=None,
+                       experiment_id=cfg['experiment_id']+'-lifetime3-control')
+        return Engine(control)
     if not cfg.get('compare_raw_policy'):
         return None
     control=deepcopy(cfg)

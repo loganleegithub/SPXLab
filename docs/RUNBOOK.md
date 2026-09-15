@@ -2,7 +2,7 @@
 
 2026-09-15 · 实现 0.1.0 · 只读行情与五账本假设执行。
 
-最新运行是 `var/2026-09-15/diagnostic-003`。用户要求重试后，加入SIDE_CONFIRMATION_V2和同流RAW_FIELD_V1控制；23项测试通过。002已停止重复采集，原结果及最终回放保留。以下002路径仍可用于原轮回放，当前健康/进程检查使用003。
+最新运行是 `var/2026-09-15/diagnostic-004`：U12授权今天修复后继续。纽约13:00窗口，SIDE_CONFIRMATION_V2保持原值，10秒意图寿命主五账本对照同流3秒控制；32项测试通过。002/003为历史独立运行，结果不改写。当前健康/进程检查使用004，具体规则见[等待策略V2](governance/INTENT_LIFETIME_V2.md)。
 
 ## 安装与验证
 
@@ -15,7 +15,7 @@ python3 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-运行时依赖已锁定。当前28项测试包含最初15项核心验证、8项报价确认验证和5项监控验证：覆盖现金兑付、费用、报价时效与数量、断线与重连、冻结与包边界、选价、事件链和回放，以及监控中断与收盘边界。夹具测试不属于交易效果证据。
+运行时依赖已锁定。当前32项测试包含15项核心验证、8项报价确认验证、5项监控验证和4项等待策略验证：覆盖现金兑付、费用、报价时效与数量、断线与重连、冻结与包边界、选价、事件链和回放，以及监控中断与收盘边界。夹具测试不属于交易效果证据。
 
 ## 今日档案
 
@@ -23,7 +23,8 @@ python3 -m venv .venv
 - `var/2026-09-15/forecast-archive-001`：图、配文、来源审查和结构化预测；实际可用时间 15:33:11 UTC。
 - `var/2026-09-15/diagnostic-002`：原始盘中诊断，11:40:00–11:40:15 纽约时间。
 - `var/2026-09-15/diagnostic-003`：用户要求修复后另行预先固定的重试，11:55:00–11:55:15 纽约时间，含同流 V1 控制。
-- `plan.json` 和 `implementation/`：冻结参数、全部运行代码及依赖版本快照。`TESTS.txt` 是开窗前验证。
+- `var/2026-09-15/diagnostic-004`：13:00:00–13:00:15纽约时间，同流10秒/3秒等待对照。
+- `plan.json` 和 `implementation/`：冻结参数、全部运行代码及依赖版本快照。`TESTS.txt`或004的`test-results.log`是开窗前验证。
 - `events.sqlite`：SQLite WAL，原始字段和计时器、截止、派生决策均追加，逐条 SHA-256 链。存在单独的接收时间、单调时钟、连接世代及序号。
 - `decision.json` / `decision-trace.json` / `decision-digest.json` / `REPORT.md`：可重建决策及报告。
 - `health.json` / `process.json` / `process.log`：当前状态与进程信息。进程计划采集至 20:10 UTC（纽约16:10，北京次日04:10）。
@@ -44,7 +45,7 @@ python3 -m venv .venv
 
 回放验证全部可见事件的哈希链，并逐项比较决策结果和派生轨迹。采集期间是一个一致性读取快照；进程结束后再做最终全量回放。若后续代码变更，可用该运行 `implementation/src` 设置 `PYTHONPATH` 执行原版本。不得覆盖原决策修正研究结果。
 
-003新增 `control-decision.json`、`control-trace.json` 和 `CONTROL_REPORT.md`；同一个replay命令对003同时验证两引擎。控制账本是报价规则诊断，不能合并进主五账本。`execution-quality-review.json`仅解释执行区间观察，没有重选交易。
+003新增 `control-decision.json`、`control-trace.json` 和 `CONTROL_REPORT.md`；同一个replay命令对003同时验证两引擎。004同样保存控制文件并同时回放，两组区别是等待时间。控制账本是独立规则诊断，不能合并进主五账本。`execution-quality-review.json`仅解释执行区间观察，没有重选交易。
 
 ## 停止
 

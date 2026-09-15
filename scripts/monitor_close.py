@@ -114,7 +114,7 @@ def render(status,books,cfg):
             '- 纽约16:00（北京时间09-16 04:00）：保存最后观测，不当作正式结算。',
             '- 取得官方SPXW PM值后：分别核对预测中位数误差、终值区间命中与账本状态；不能用无成交日证明策略收益。',
             '',f"行情监控每{cfg['poll_seconds']}秒更新；任务每分钟检查告警，关键通知可能有调度延迟。",'',
-            '原始价格与决策：[重试结果](../diagnostic-003/COMPARISON.md)。']
+            f"原始价格与决策：[当前运行]({Path(cfg['run_directory'])/'REPORT.md'})。"]
     ref=status.get('last_observation')
     if ref:
         lines+=['',f"最后观测：{ref['value']}，时间{ref['utc']}；非正式结算值。"]
