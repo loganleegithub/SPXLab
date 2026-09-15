@@ -164,7 +164,8 @@ class Collector:
     def subscribe(self, contract):
         t = self.ib.reqMktData(contract, "", False, False)
         self.tickers.append(t)
-        self.emit("SUBSCRIBED", {"con_id": contract.conId})
+        req_id=self.ib.wrapper.ticker2ReqId['mktData'][t]
+        self.emit("SUBSCRIBED", {"con_id": contract.conId,'req_id':req_id})
 
     async def prepare(self, expiry, median):
         from ib_async import Index, Option

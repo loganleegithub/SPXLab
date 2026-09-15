@@ -201,7 +201,8 @@ class EvidenceTests(unittest.TestCase):
 
     def test_cutoff_freezes_before_new_field_and_exact_replay(self):
         with tempfile.TemporaryDirectory() as d:
-            cfg=config();c=type('MockCollector',(),{})();c.run_id='test';c.generation=1
+            cfg=config();cfg.update(quote_policy='SIDE_CONFIRMATION_V2',compare_raw_policy=True)
+            c=type('MockCollector',(),{})();c.run_id='test';c.generation=1
             c.store=EventStore(Path(d)/'events.sqlite');c.state=MarketState()
             coord=Coordinator(cfg,d,T);coord.collector=c
             atomic_json(Path(d)/'plan.json',cfg)
@@ -224,6 +225,7 @@ class EvidenceTests(unittest.TestCase):
             c.store.close()
             out=replay(d)
             self.assertTrue(out['trace_match']);self.assertTrue(out['result_match'])
+            self.assertTrue(out['control_trace_match']);self.assertTrue(out['control_result_match'])
 
 
 if __name__=='__main__':unittest.main()

@@ -72,6 +72,22 @@ def spot_quote(state, now):
     return None, 'NO_SPX_CONTRACT'
 
 
+def confirmed_side(state,cid,side,now,max_age):
+    if not state.connected:
+        return None,'DISCONNECTED'
+    if state.types.get(str(cid))!=1:
+        return None,'NOT_CONFIRMED_REALTIME'
+    q=state.quote_sides.get(str(cid),{}).get(side)
+    if not q or q['price'] is None or q['confirmation'] is None:
+        return None,'UNCONFIRMED_'+side
+    if any(q[k]['generation']!=state.generation for k in ('price','size','confirmation')):
+        return None,'OLD_GENERATION'
+    age=(now-q['confirmation']['mono'])/1e9
+    if age<0 or age>max_age:
+        return None,'STALE_SIDE_'+side
+    return q,None
+
+
 def combo_quote(state, center, cfg, now):
     width = cfg['width']
     cids=[]
@@ -87,19 +103,32 @@ def combo_quote(state, center, cfg, now):
     refs, prices, marks = [], [], []
     for cid, side, quantity in zip(cids, ('ask','bid','ask'), (1,2,1)):
         fields={}
-        for field in ('bid','ask', side+'_size'):
-            f, reason=fresh(state,cid,field,now,1 if field.endswith('_size') else 2)
-            if f is None:
-                return None, reason
-            fields[field]=f
+        confirmations={}
+        if cfg.get('quote_policy','RAW_FIELD_V1')=='SIDE_CONFIRMATION_V2':
+            for s in ('bid','ask'):
+                q,reason=confirmed_side(state,cid,s,now,1 if s==side else 2)
+                if q is None:
+                    return None,reason
+                fields[s]=q['price']
+                confirmations[s]=q['confirmation']
+                if s==side:
+                    fields[side+'_size']=q['size']
+        else:
+            for field in ('bid','ask', side+'_size'):
+                f, reason=fresh(state,cid,field,now,1 if field.endswith('_size') else 2)
+                if f is None:
+                    return None, reason
+                fields[field]=f
         bid, ask = D(fields['bid']['value']), D(fields['ask']['value'])
         if bid < 0 or ask <= 0 or ask < bid:
             return None, 'INVALID_OR_CROSSED_BOOK'
         if D(fields[side+'_size']['value']) < quantity:
             return None, 'INSUFFICIENT_SIZE'
         refs.append({'con_id':cid,'fields':deepcopy(fields)})
+        if confirmations:
+            refs[-1]['side_confirmation_refs']=deepcopy(confirmations)
         prices.append(fields[side]['value'])
-        marks.append(fields[side]['mono'])
+        marks.append(confirmations[side]['mono'] if confirmations else fields[side]['mono'])
     if max(marks)-min(marks)>1_000_000_000:
         return None, 'CROSS_LEG_TIME_SKEW'
     debit=D(prices[0])-2*D(prices[1])+D(prices[2])
@@ -262,12 +291,15 @@ class Engine:
         self.record('WINDOW_COMPLETE',reason=reason)
 
     def result(self):
-        return {'experiment_id':self.cfg['experiment_id'],'mode':self.cfg['mode'],
+        result={'experiment_id':self.cfg['experiment_id'],'mode':self.cfg['mode'],
                 'cutoff_utc':self.cfg['cutoff_utc'],'target_date':self.cfg['target_date'],
                 'done':self.done,'frozen_inputs':self.frozen,'books':deepcopy(self.books),
                 'settlement_status':'PENDING_OFFICIAL_PM_SETTLEMENT',
                 'fee_status':'UNCONFIRMED_ACCOUNT_SCENARIO',
                 'fixed_costs_status':self.cfg.get('fixed_costs',{'status':'UNKNOWN'})}
+        if 'quote_policy' in self.cfg:
+            result['quote_policy']=self.cfg['quote_policy']
+        return result
 
 
 def settle(result, evidence):

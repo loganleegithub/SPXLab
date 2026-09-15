@@ -2,6 +2,8 @@
 
 2026-09-15 · 实现 0.1.0 · 只读行情与五账本假设执行。
 
+最新运行是 `var/2026-09-15/diagnostic-003`。用户要求重试后，加入SIDE_CONFIRMATION_V2和同流RAW_FIELD_V1控制；23项测试通过。002已停止重复采集，原结果及最终回放保留。以下002路径仍可用于原轮回放，当前健康/进程检查使用003。
+
 ## 安装与验证
 
 在 `/Users/logan/SPXLab` 执行：
@@ -40,6 +42,8 @@ python3 -m venv .venv
 ```
 
 回放验证全部可见事件的哈希链，并逐项比较决策结果和派生轨迹。采集期间是一个一致性读取快照；进程结束后再做最终全量回放。若后续代码变更，可用该运行 `implementation/src` 设置 `PYTHONPATH` 执行原版本。不得覆盖原决策修正研究结果。
+
+003新增 `control-decision.json`、`control-trace.json` 和 `CONTROL_REPORT.md`；同一个replay命令对003同时验证两引擎。控制账本是报价规则诊断，不能合并进主五账本。`execution-quality-review.json`仅解释执行区间观察，没有重选交易。
 
 ## 停止
 

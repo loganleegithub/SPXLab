@@ -8,9 +8,11 @@ SPX 概率预测与自动交易研究项目。最终路线：持续采集 → �
 
 ## 今日运行
 
+- **最新重试：[结果与原因](var/2026-09-15/diagnostic-003/COMPARISON.md)**。已修复报价时间误判，23项测试及新旧规则同流回放通过；没有已确认的假设成交。
+
 - [施工与验收状态](docs/STATUS.md)：今天得到什么、数据契约问题、哪些已实现及仍未验收。
 - [运行报告](var/2026-09-15/diagnostic-002/REPORT.md)：纽约 11:40（北京时间 23:40）15 秒诊断，3个规则拒绝、2个数据条件未确定，没有假设成交。
-- [事前冻结参数](var/2026-09-15/diagnostic-002/plan.json)、[实现基线](docs/governance/IMPLEMENTATION_BASELINE.md)。
+- [最新事前参数](var/2026-09-15/diagnostic-003/plan.json)、[报价修复契约](docs/governance/QUOTE_CONFIRMATION_V2.md)、[实现基线](docs/governance/IMPLEMENTATION_BASELINE.md)。
 - [运行手册](docs/RUNBOOK.md)：命令、证据、停止与结算流程。
 
 当天 10:05 窗口已错过。盘中诊断单列，作者目标日期仍带解释假设；费用尚为公开费率场景，不能宣称正式策略验证或实际净收益。

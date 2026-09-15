@@ -8,6 +8,7 @@ import signal
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from copy import deepcopy
 
 from .engine import Engine
 from .events import atomic_json, canonical, read_events, utc_now
@@ -26,6 +27,10 @@ def source_manifest(root):
 
 
 def validate(cfg, *, live=True):
+    if cfg.get('quote_policy','RAW_FIELD_V1') not in ('RAW_FIELD_V1','SIDE_CONFIRMATION_V2'):
+        raise ValueError('Unknown quote policy')
+    if cfg.get('compare_raw_policy') and cfg.get('quote_policy')!='SIDE_CONFIRMATION_V2':
+        raise ValueError('Raw-policy comparison requires SIDE_CONFIRMATION_V2')
     if cfg['mode']!='INTRADAY_DIAGNOSTIC':
         raise ValueError('Only the diagnostic shadow mode is implemented')
     if cfg['width']!=25 or cfg['max_all_in_points']!='6.25':
@@ -51,11 +56,21 @@ def validate(cfg, *, live=True):
     return cutoff
 
 
+def control_engine(cfg):
+    if not cfg.get('compare_raw_policy'):
+        return None
+    control=deepcopy(cfg)
+    control.update(quote_policy='RAW_FIELD_V1',compare_raw_policy=False,
+                   experiment_id=cfg['experiment_id']+'-raw-control')
+    return Engine(control)
+
+
 class Coordinator:
     def __init__(self,cfg,directory,cutoff_mono):
         self.cfg=cfg
         self.directory=Path(directory)
         self.engine=Engine(cfg)
+        self.control=control_engine(cfg)
         self.cutoff_mono=cutoff_mono
         self.cutoff_sent=False
         self.persisted=False
@@ -75,13 +90,22 @@ class Coordinator:
 
     def observe(self,e,state):
         derived=self.engine.on_event(e,state)
+        control_derived=self.control.on_event(e,state) if self.control else []
         for item in derived:
             self.collector.store.append('DERIVED',item,run_id=self.collector.run_id,
                                          generation=state.generation,
                                          mono=e['monotonic_ns'],utc=e['recorded_at'])
+        for item in control_derived:
+            self.collector.store.append('DERIVED_CONTROL',item,run_id=self.collector.run_id,
+                                        generation=state.generation,
+                                        mono=e['monotonic_ns'],utc=e['recorded_at'])
         if self.engine.done and not self.persisted:
             self.persisted=True
             save_result(self.directory,self.engine.result(),self.engine.trace)
+            if self.control:
+                atomic_json(self.directory/'control-decision.json',self.control.result())
+                atomic_json(self.directory/'control-trace.json',self.control.trace)
+                (self.directory/'CONTROL_REPORT.md').write_text(render(self.control.result()))
 
     async def timer(self):
         while not self.collector.stopping:
@@ -143,7 +167,8 @@ async def run_plan(cfg,directory,duration,client_id):
 def replay(directory):
     directory=Path(directory)
     cfg=json.loads((directory/'plan.json').read_text())
-    engine=Engine(cfg); state=MarketState(); logged=[]; count=0; last_hash=None
+    engine=Engine(cfg);control=control_engine(cfg)
+    state=MarketState(); logged=[];control_logged=[]; count=0; last_hash=None
     for e in read_events(directory/'events.sqlite'):
         count+=1;last_hash=e['hash']
         if e['event_type']=='PLAN' and (e['payload']['config']!=cfg or e['payload']['sha256']!=digest(cfg)):
@@ -151,14 +176,23 @@ def replay(directory):
         if e['event_type']=='DERIVED':
             logged.append(e['payload'])
             continue
+        if e['event_type']=='DERIVED_CONTROL':
+            control_logged.append(e['payload'])
+            continue
         state.apply(e)
         engine.on_event(e,state)
+        if control:
+            control.on_event(e,state)
     expected=json.loads((directory/'decision.json').read_text())
     out={'verified_at':utc_now(),'events_verified':count,'last_hash':last_hash,
          'result_match':engine.result()==expected,'trace_match':engine.trace==logged,
          'result_sha256':digest(engine.result()),'trace_sha256':digest(engine.trace),
          'scope':'All available events in a consistent SQLite read snapshot; collection may continue'}
+    if control:
+        expected_control=json.loads((directory/'control-decision.json').read_text())
+        out['control_result_match']=control.result()==expected_control
+        out['control_trace_match']=control.trace==control_logged
     atomic_json(directory/'replay.json',out)
-    if not out['result_match'] or not out['trace_match']:
+    if not all(out[k] for k in ('result_match','trace_match','control_result_match','control_trace_match') if k in out):
         raise ValueError('Replay differs from recorded decision')
     return out

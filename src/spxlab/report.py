@@ -25,6 +25,10 @@ def render(result):
             '- G0 只接受 LONG GAMMA；P0 从预测中心及其上下 5 点候选中选择成本最低者。两者是自有简化规则。',
             '- 缺失观察为 INDETERMINATE，不能当作没有机会、亏损为零或策略无效。',
             '- 五账本是并列反事实，不能把收益相加当作一个账户。']
+    if result.get('quote_policy'):
+        lines+=['',f"报价有效性版本：`{result['quote_policy']}`。"]
+        if result['quote_policy']=='SIDE_CONFIRMATION_V2':
+            lines+=['同侧数量更新确认已初始化且未撤回的同侧价格；原始价格时间不修改，确认事件另存。成交侧确认须在1秒内，对侧2秒内，跨腿确认差≤1秒；断线、类型变化、换订阅或撤回后必须重新初始化。']
     frozen=result.get('frozen_inputs') or {}
     if frozen:
         spot=frozen.get('spot') or {}
