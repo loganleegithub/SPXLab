@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "spxlab"
 version = "0.1.0"
-description = "Point-in-time SPXW shadow research with five counterfactual books"
+description = "Real-market SPXW exploratory models, causal paper decisions and frozen research"
 requires-python = ">=3.12"
 dependencies = ["ib_async==2.1.0"]
 

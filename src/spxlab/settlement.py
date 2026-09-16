@@ -56,7 +56,7 @@ def settle_all(directory, evidence):
     root = Path(__file__).resolve().parents[2]
     require(all(sha(root/p) == h for p,h in manifest['source_manifest'].items()),
             'Current implementation differs; invoke the frozen settle worker/version')
-    replay_research(directory)
+    _,engine = replay_research(directory)
     result = json.loads((directory/'decision.json').read_text())
     require(result['entry_window_closed'], 'Cannot settle an unfinished entry window')
     validate_evidence(evidence, result['session'], synthetic=result['mode'] == 'SYNTHETIC_REPLAY_V1')
@@ -85,5 +85,17 @@ def settle_all(directory, evidence):
     lines = ['# 第二轮统一结算', '', '各账本为独立反事实；金额含声明的估计直接费用，固定成本另列。', '', '| 账本 | 状态 | 影子净额美元 |', '|---|---|---|']
     lines.extend(f"| {k} | {b['status']} | {b.get('net_pnl_estimated_fees_usd')} |" for k,b in latest['result']['books'].items())
     (directory/'SETTLED_REPORT.md').write_text('\n'.join(lines)+'\n')
+    if engine.field:
+        from .field import terminal_scores,write_page
+        evaluation = terminal_scores(engine,latest['result'])
+        atomic_json(directory/f'settlement-field-{latest["revision_id"]}.json',evaluation)
+        lines += ['', '## FIELD 原始预测评分', '',
+            f'终值预测 {len(evaluation["terminal_predictions"])} 次；80%模型区间失配 {evaluation["error_categories"]["state_distribution"]["terminal_interval_misses"]} 次。',
+            f'LOOKAHEAD 减 FIRST_POSITIVE 当日影子净额差：{evaluation["paired_net_difference_usd"]} 美元。',
+            '择时比较按同一天配对，允许不同入场时点；单日不证明盈利优势。',
+            '状态/分布、选价、等待、执行/费用四类记录及所有原始预测的评分见 settlement-field JSON。']
+        (directory/'SETTLED_REPORT.md').write_text('\n'.join(lines)+'\n')
+        health=json.loads((directory/'health.json').read_text()) if (directory/'health.json').exists() else None
+        write_page(directory,engine,health=health,settled=latest['result'])
     return {'revision_id': revision_id, 'idempotent': match is not None,
             'latest_revision_id': latest['revision_id'], 'result': settled}

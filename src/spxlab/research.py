@@ -21,6 +21,8 @@ from .shadow import shadow_step
 from .valuation import value_candidates
 
 DERIVED = {'VALUATION', 'DECISION', 'INTENT', 'EXECUTION', 'BOOK_CLOSED', 'SOURCE_IGNORED_FOR_INTENT'}
+from .field import DERIVED_FIELD
+DERIVED |= DERIVED_FIELD
 
 
 class ResearchEngine:
@@ -36,6 +38,10 @@ class ResearchEngine:
         self.last_epoch = None
         self.last_clock = None
         self.closed = False
+        self.field = None
+        if self.plan['mode'] == 'FIELD_PAPER_V1':
+            from .field import FieldTracker
+            self.field = FieldTracker(self.plan)
 
     def source(self, as_of):
         product = self.plan.get('source_product_id')
@@ -46,16 +52,21 @@ class ResearchEngine:
 
     def distribution(self, as_of):
         available = [r for r in self.distributions if stamp(r['available_at']) <= stamp(as_of)]
+        if self.field:
+            available = [r for r in available if
+                0 <= (stamp(as_of)-stamp(r['conditioning_as_of'])).total_seconds() <= 1 and
+                self.field.diagnostic.get('status') == 'READY']
         return available[-1] if available else None
 
     def batch(self, clock, source):
         spot, _ = spot_quote(self.market, clock.mono_ns)
         usable_source = source if not eligibility(source, clock.utc, self.plan['schedule']['close_utc']) else None
         universe = candidate_universe(spot['value'] if spot else None,
-                                      usable_source['median'] if usable_source else None)
+                                      usable_source['median'] if usable_source else None,
+                                      market_neighbors=self.field is not None)
         batch = quote_universe(self.market, universe, clock, self.plan,
                                synthetic=self.plan['mode'] == 'SYNTHETIC_REPLAY_V1')
-        batch['universe_issues'] = ([] if spot else ['SPOT_CENTER_MISSING']) + ([] if usable_source else ['FORECAST_CENTER_MISSING'])
+        batch['universe_issues'] = ([] if spot else ['SPOT_CENTER_MISSING']) + ([] if usable_source or self.field else ['FORECAST_CENTER_MISSING'])
         return batch
 
     def close_events(self, reason):
@@ -70,11 +81,15 @@ class ResearchEngine:
     def on_event(self, event):
         kind, p = event['event_type'], event['payload']
         if kind in DERIVED:
-            if kind == 'VALUATION':
+            if kind in DERIVED_FIELD:
+                require(self.field is not None, 'FIELD event in legacy mode')
+                self.field.apply(kind,p)
+            elif kind == 'VALUATION':
                 self.latest_valuation = deepcopy(p)
                 self.valuation_count += 1
             else:
                 apply_book_event(self.books[p['strategy_id']], kind, p)
+                if self.field and kind == 'DECISION': self.field.apply(kind,p)
             return []
         epoch = p.get('_clock_epoch', self.last_epoch or 'UNSET')
         clock = Clock(event['seq'], event['monotonic_ns'], event['recorded_at'], epoch)
@@ -86,6 +101,8 @@ class ResearchEngine:
         if epoch_change:
             self.market.fields, self.market.quote_sides = {}, {}
         self.market.apply(event)
+        if self.field:
+            self.field.market_event(event,self.market,clock,epoch_change)
         if kind == 'FORECAST':
             record = normalize_forecast(p['record'])
             if self.plan['mode'] != 'SYNTHETIC_REPLAY_V1':
@@ -119,7 +136,9 @@ class ResearchEngine:
                 execution = shadow_step(b, None, clock, interruption=interruption)
                 if execution:
                     proposals.append(('EXECUTION', execution))
-            if kind in {'RESTART', 'RUN_STOPPED'} or epoch_change:
+            # FIELD may continue observing after recovery; committed intent
+            # count still prevents another attempt. Old modes retain closure.
+            if kind == 'RUN_STOPPED' or (kind == 'RESTART' or epoch_change) and not self.field:
                 proposals.extend(self.close_events(interruption))
         if kind in {'MARKET_BARRIER', 'TIMER', 'HEARTBEAT', 'SYNTHETIC_FRAME'} and not interruption:
             for book in self.books.values():
@@ -159,10 +178,23 @@ class ResearchEngine:
                 value['timing_issues'].append('POST_DEADLINE_PACKET_INPUT')
                 value['selected'], value['state'] = None, 'UNKNOWN'
             value['source_issues'] = eligibility(source, clock.utc, self.plan['schedule']['close_utc'])
+            if self.field:
+                from .timing import lookahead
+                value['scheduled_at'] = scheduled
+                value['model_diagnostic'] = deepcopy(self.field.diagnostic)
+                value['timing'] = lookahead(distribution,value,self.plan)
+                if value['timing_issues']:
+                    value['timing'].update(status='INPUT_UNAVAILABLE',action='WAIT')
+                prediction = self.field.prediction(distribution,value,clock)
+                if prediction:
+                    proposals.append(('FIELD_PREDICTION',prediction))
+                proposals.extend(self.field.mature(self.market,clock,value))
             proposals.append(('VALUATION', value))
             for strategy in self.plan['strategies']:
                 proposals.extend(decide(strategy, self.books[strategy['id']], value, source,
                                         self.plan, clock, scheduled))
+        elif self.field and kind == 'TIMER':
+            proposals.extend(self.field.mature(self.market,clock))
         if stamp(clock.utc) >= stamp(self.plan['schedule']['entry_end_utc']):
             proposals.extend(self.close_events('ENTRY_WINDOW_CLOSED'))
             self.closed = True
@@ -177,11 +209,14 @@ class ResearchEngine:
         return unique
 
     def result(self):
-        return {'schema_version': 2, 'run_id': self.plan['run_id'], 'mode': self.plan['mode'],
+        result = {'schema_version': 2, 'run_id': self.plan['run_id'], 'mode': self.plan['mode'],
                 'session': self.plan['session'], 'target_at': self.plan['schedule']['close_utc'],
                 'plan_hash': digest(self.plan), 'books': deepcopy(self.books), 'entry_window_closed': self.closed,
                 'valuation_count': self.valuation_count, 'settlement_status': 'PENDING_OFFICIAL_PM_SETTLEMENT',
                 'fixed_costs': deepcopy(self.plan['fixed_costs']), 'fee_status': 'UNCONFIRMED_ACCOUNT_SCENARIO'}
+        if self.field:
+            result['field'] = self.field.summary()
+        return result
 
 
 class ResearchJournal:

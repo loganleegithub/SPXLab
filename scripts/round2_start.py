@@ -18,7 +18,7 @@ from spxlab.frozen import verify_snapshot
 
 def start(directory):
     directory=Path(directory).resolve();plan=verify_snapshot(directory)
-    require(plan['mode']=='OBSERVE_ONLY_V1','Only the authorized observer can be launched')
+    require(plan['mode'] in {'OBSERVE_ONLY_V1','FIELD_PAPER_V1'},'Unsupported frozen launcher mode')
     require(datetime.now(timezone.utc)<stamp(plan['schedule']['capture_end_utc']),'Capture ended; do not restart')
     import fcntl
     with (directory/'observer.lock').open('a') as lock:
@@ -27,7 +27,7 @@ def start(directory):
     with (directory/'observer.log').open('ab') as log:
         code="import sys; sys.path.insert(0, sys.argv.pop(1)); from spxlab.cli import main; main()"
         proc=subprocess.Popen([sys.executable,'-I','-B','-c',code,str(directory/'implementation/src'),
-            'observe','--plan',str(directory/'plan.json'),'--directory',str(directory)],
+            'field-shadow' if plan['mode']=='FIELD_PAPER_V1' else 'observe','--plan',str(directory/'plan.json'),'--directory',str(directory)],
             cwd=directory,stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
     # Keep this machine awake only while this particular capture process exists.
     awake=subprocess.Popen(['/usr/bin/caffeinate','-i','-w',str(proc.pid)],

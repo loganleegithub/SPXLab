@@ -26,7 +26,7 @@ def check(directory):
         issue='MARKET_DISCONNECTED'
     elif not before and not after and health.get('spot_issue'):
         issue='SPOT_NOT_QUALIFIED'
-    return {'checked_at':now.isoformat(),'run_id':plan['run_id'],'phase':phase,'health_age_seconds':age,
+    result = {'checked_at':now.isoformat(),'run_id':plan['run_id'],'phase':phase,'health_age_seconds':age,
             'process_alive':alive,'issue':issue,'mode':plan['mode'],'books':health.get('books'),
             'current_spx':health.get('current_spx'),'spot_observed_at':health.get('spot_observed_at'),'spot_issue':health.get('spot_issue'),
             'coverage':health.get('coverage'),'source_issues':health.get('source_issues'),
@@ -34,6 +34,12 @@ def check(directory):
             'sealed':(directory/'capture-seal.json').exists(),
             'settled':(directory/'latest-settlement.json').exists(),
             'broker_orders_permitted':False}
+    if plan['mode'] == 'FIELD_PAPER_V1':
+        field=json.loads((directory/'field-status.json').read_text()) if (directory/'field-status.json').exists() else {}
+        result['field']={k:field.get(k) for k in ('completed_bars','gaps','predictions','short_hits','short_misses','short_unknown','wait_observed','wait_scores')}
+        result['model']={k:field.get('model',{}).get(k) for k in ('state','status','anchor_mode','n_increments','q','kappa_raw','kappa_shrunk')}
+        result['timing']={k:field.get('timing',{}).get(k) for k in ('status','H_points','C_points','action','reasons')}
+    return result
 
 
 if __name__=='__main__':

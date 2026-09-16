@@ -24,15 +24,15 @@ def register(sub):
     for name, options in {
         'evaluate':['bundle','output'], 'dataset-check':['manifest'], 'validate-plan':['plan'],
         'freeze':['plan','directory'], 'observe':['plan','directory'], 'shadow':['plan','directory','events'],
-        'value-shadow':['plan','directory'],
+        'value-shadow':['plan','directory'], 'field-shadow':['plan','directory'],
         'replay-frozen':['run','output'], 'settle-all':['run','evidence'],
         'compare':['study','output'], 'build-distribution':['manifest','context','output'],
         'attribute':['bundle','output']}.items():
         parser = sub.add_parser(name)
         for option in options:
             parser.add_argument('--'+option, required=True)
-        if name in {'observe', 'value-shadow'}:
-            parser.add_argument('--client-id',type=int,default=27216 if name == 'observe' else 27217)
+        if name in {'observe', 'value-shadow', 'field-shadow'}:
+            parser.add_argument('--client-id',type=int,default={'observe':27216,'value-shadow':27217,'field-shadow':27218}[name])
             parser.add_argument('--port',type=int,default=4001)
 
 
@@ -98,6 +98,10 @@ def execute(args):
         from .observer import run_value_shadow
         asyncio.run(run_value_shadow(load(args.plan),args.directory,ROOT,client_id=args.client_id,port=args.port))
         result={'directory':args.directory,'status':'VALUE_SHADOW_STOPPED','broker_orders_permitted':False}
+    elif args.command == 'field-shadow':
+        from .observer import run_field_shadow
+        asyncio.run(run_field_shadow(load(args.plan),args.directory,ROOT,client_id=args.client_id,port=args.port))
+        result={'directory':args.directory,'status':'FIELD_STOPPED','broker_orders_permitted':False}
     elif args.command == 'replay-frozen':
         from .frozen import replay_frozen
         result=replay_frozen(args.run,args.output)

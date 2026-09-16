@@ -36,6 +36,9 @@ class Observer(Collector):
         self.generation = self.state.generation
         self.epoch = str(uuid.uuid4())
         self.grid = decision_times(plan['schedule'])
+        if engine.field:
+            # Continue forecasts and diagnostics after entry closes, until PM.
+            self.grid = decision_times({**plan['schedule'],'entry_end_utc':plan['schedule']['close_utc']})
         self.grid_index = sum(stamp(t) <= stamp(engine.last_evaluation) for t in self.grid) if engine.last_evaluation else 0
         self.last_wall, self.last_mono = None, None
         self.in_timer = False
@@ -45,6 +48,16 @@ class Observer(Collector):
         self.count = self.store.db.execute('SELECT COUNT(*) FROM events').fetchone()[0]
         self.emit('RESTART' if existing else 'RESEARCH_PLAN',
                   {'plan_hash': digest(engine.plan), 'pid':os.getpid(), 'source_intake':'MANUAL_REVIEWED_ASSETS_ONLY'})
+        if engine.field and not existing and plan.get('history_reference'):
+            reference = plan['history_reference']
+            path = Path(reference['path'])
+            require(file_hash(path) == reference['sha256'], 'Historical reference changed before intake')
+            record = json.loads(path.read_text())
+            require(stamp(record['acquired_at']) <= stamp(utc_now()) and
+                    all(day < plan['session'] for day in record['actual_sessions']), 'Historical reference contains future sessions')
+            archive = self.directory/'history-reference.json'
+            archive.write_bytes(path.read_bytes())
+            self.emit('HISTORY_REFERENCE',{'sha256':reference['sha256'],'record':record})
 
     def _hooks(self):
         super()._hooks()
@@ -80,6 +93,11 @@ class Observer(Collector):
                 self.evaluate_due(mono, utc)
             finally:
                 self.in_timer = False
+            if self.journal.engine.field:
+                # Model production has a real duration; the next raw event
+                # must not retain the timestamp sampled before inference.
+                mono,utc = time.monotonic_ns(),utc_now()
+                self.last_wall,self.last_mono = utc,mono
         if kind == 'DISTRIBUTION':
             from .distribution import validate_distribution
             payload = deepcopy(payload)
@@ -97,9 +115,38 @@ class Observer(Collector):
         while self.grid_index < len(self.grid) and stamp(self.grid[self.grid_index]) <= stamp(utc):
             scheduled = self.grid[self.grid_index]
             self.grid_index += 1
+            if self.journal.engine.field:
+                self.publish_field_model(mono,utc,scheduled)
+                mono,utc = time.monotonic_ns(),utc_now()
             _, derived = self.journal.append('EVALUATE', {'scheduled_at':scheduled},
                          clock_epoch=self.epoch, mono=mono, utc=utc, generation=self.generation)
             self.count += 1+len(derived)
+
+    def publish_field_model(self, mono, utc, scheduled):
+        from .field_model import build_model
+        engine = self.journal.engine
+        # Never condition a missed historical grid using current information.
+        if not 0 <= (stamp(utc)-stamp(scheduled)).total_seconds()*1000 <= float(engine.plan['deadline_tolerance_ms']):
+            return
+        if any(stamp(ref['utc']) > stamp(scheduled) for fields in self.state.fields.values() for ref in fields.values()):
+            return
+        spot,_ = spot_quote(self.state,mono)
+        source = engine.source(utc)
+        if eligibility(source,utc,engine.plan['schedule']['close_utc']): source = None
+        record,diagnostic = build_model(engine.field.tape,spot,utc,engine.plan['schedule']['close_utc'],source,
+            computed_at=utc,algorithm_hash=digest({'model_version':engine.plan['model_version'],'plan':digest(engine.plan)}),
+            previous_pin=engine.field.last_pin)
+        if engine.field.history_reference:
+            from .calendar import NY
+            key = stamp(utc).astimezone(NY).strftime('%H:%M')
+            diagnostic['historical_same_minute_reference'] = engine.field.history_reference['record']['reference_q_by_minute'].get(key)
+            if record: record['diagnostic'] = diagnostic
+        done = utc_now()
+        if record is not None:
+            record['computed_at'] = record['available_at'] = done
+            self.emit('DISTRIBUTION',{'record':record,'automatic_producer':True})
+        else:
+            self.emit('FIELD_MODEL_STATUS',{'diagnostic':diagnostic,'computed_at':done})
 
     async def prepare(self, expiry, median=None):
         from ib_async import Index
@@ -125,7 +172,8 @@ class Observer(Collector):
         source = self.journal.engine.source(now)
         if eligibility(source, now, self.journal.engine.plan['schedule']['close_utc']):
             source = None
-        universe = candidate_universe(spot['value'] if spot else None, source['median'] if source else None)
+        universe = candidate_universe(spot['value'] if spot else None, source['median'] if source else None,
+                                     market_neighbors=self.journal.engine.plan['mode']=='FIELD_PAPER_V1')
         # Keep the locked structure observable until its pending intent terminates.
         pending = [b['intent'] for b in self.journal.engine.books.values()
                    if b['status'] == 'INTENT_PERSISTED']
@@ -187,6 +235,8 @@ class Observer(Collector):
 
     def intake_distributions(self):
         """Consume completed local model artifacts, with real receipt clocks."""
+        if self.journal.engine.field:
+            return # The frozen FIELD algorithm is its own producer, no daily inbox editing.
         from .distribution import validate_distribution
         for path in sorted((self.directory/'model-inbox').glob('*.json')):
             key = file_hash(path)
@@ -233,6 +283,9 @@ class Observer(Collector):
             'books':{k:{'status':b['status'],'intents':b['intent_count']} for k,b in result['books'].items()},
             'metrics':self.journal.metrics(),'broker_orders_permitted':False,
             'stop_requested':self.stopping,'schedule':self.journal.engine.plan['schedule']})
+        if self.journal.engine.field:
+            from .field import write_page
+            write_page(self.directory,self.journal.engine,health=json.loads((self.directory/'health.json').read_text()))
 
     async def observe(self):
         schedule = self.journal.engine.plan['schedule']
@@ -291,6 +344,11 @@ async def run_value_shadow(plan, directory, root, *, client_id=27217, port=4001)
     require(plan['mode'] == 'VALUE_RESEARCH_SHADOW_V1', 'Real shadow requires its own frozen research plan')
     require(all(s['timing'] == 'FIXED' for s in plan['strategies']), 'Initial real shadow driver is fixed-time only')
     await _run_readonly(plan, directory, root, client_id=client_id, port=port)
+
+
+async def run_field_shadow(plan, directory, root, *, client_id=27218, port=4001):
+    require(plan['mode'] == 'FIELD_PAPER_V1', 'FIELD requires its own plan and directory')
+    await _run_readonly(plan,directory,root,client_id=client_id,port=port)
 
 
 async def _run_readonly(plan, directory, root, *, client_id, port):

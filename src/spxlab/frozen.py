@@ -131,7 +131,7 @@ def worker(directory, settlement_evidence=None):
             _, mode, flags = args
             if (isinstance(mode, str) and any(c in mode for c in 'wax+')) or (flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC)):
                 path = Path(args[0]).resolve() if isinstance(args[0], (str, bytes, os.PathLike)) else None
-                if settlement_evidence is None or path is None or path.parent != directory or not (path.name.startswith('settlement-') or path.name.startswith('latest-settlement.') or path.name == 'SETTLED_REPORT.md'):
+                if settlement_evidence is None or path is None or path.parent != directory or not (path.name.startswith('settlement-') or path.name.startswith('latest-settlement.') or path.name in {'SETTLED_REPORT.md','FIELD.html','FIELD.html.tmp','FIELD_REPORT.md','field-status.json','field-status.json.tmp'}):
                     raise PermissionError('Frozen worker forbids this write')
     sys.addaudithook(guard)
     if settlement_evidence is not None:

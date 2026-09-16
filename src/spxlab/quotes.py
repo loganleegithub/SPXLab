@@ -29,10 +29,13 @@ class ResearchMarketState(MarketState):
                 'subscriptions': deepcopy(self.subscriptions)}
 
 
-def candidate_universe(spot, median=None, width=25):
+def candidate_universe(spot, median=None, width=25, *, market_neighbors=False):
     tags = {}
     if spot is not None:
         tags.setdefault(nearest_center(spot), []).append('SPOT')
+        if median is None and market_neighbors:
+            for k in (nearest_center(spot)-5,nearest_center(spot)+5):
+                tags.setdefault(k,[]).append('SPOT_NEIGHBOR')
     if median is not None:
         fc = nearest_center(median)
         for k in (fc-5, fc, fc+5):

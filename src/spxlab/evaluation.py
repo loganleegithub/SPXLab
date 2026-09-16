@@ -75,7 +75,7 @@ def compare_rows(study, rows):
     versioned(study)
     fields(study, ('study_id', 'planned_sessions', 'strategies', 'primary_comparison',
                    'training_sessions', 'purpose', 'inference'))
-    require(study.get('classification') in {'SYNTHETIC_FIXTURE','SHADOW_RESEARCH','OBSERVATION_ONLY'}, 'Explicit study evidence class required')
+    require(study.get('classification') in {'SYNTHETIC_FIXTURE','SHADOW_RESEARCH','OBSERVATION_ONLY','FIELD_PAPER'}, 'Explicit study evidence class required')
     require(study['purpose'] in {'DESCRIPTIVE', 'FROZEN_EVALUATION'}, 'Unknown evaluation purpose')
     require(len(set(study['strategies'])) == len(study['strategies']), 'Duplicate strategy')
     planned = study['planned_sessions']
@@ -145,7 +145,7 @@ def compare_rows(study, rows):
 
 def compare_study(study):
     rows = []
-    expected_modes={'SYNTHETIC_FIXTURE':'SYNTHETIC_REPLAY_V1','SHADOW_RESEARCH':'VALUE_RESEARCH_SHADOW_V1','OBSERVATION_ONLY':'OBSERVE_ONLY_V1'}
+    expected_modes={'SYNTHETIC_FIXTURE':'SYNTHETIC_REPLAY_V1','SHADOW_RESEARCH':'VALUE_RESEARCH_SHADOW_V1','OBSERVATION_ONLY':'OBSERVE_ONLY_V1','FIELD_PAPER':'FIELD_PAPER_V1'}
     for source in study['runs']:
         directory = Path(source['directory'])
         target = directory/source['settlement_file']

@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 SCHEMA = 2
-MODES = {'SYNTHETIC_REPLAY_V1', 'OBSERVE_ONLY_V1', 'VALUE_RESEARCH_SHADOW_V1'}
+MODES = {'SYNTHETIC_REPLAY_V1', 'OBSERVE_ONLY_V1', 'VALUE_RESEARCH_SHADOW_V1', 'FIELD_PAPER_V1'}
 UNCERTAINTY = {'POINT_ONLY', 'IDENTIFICATION_BOUND', 'MODEL_ENVELOPE', 'STATISTICAL_INTERVAL'}
 
 
@@ -96,7 +96,8 @@ def validate_plan(plan):
     ids = []
     for strategy in plan['strategies']:
         fields(strategy, ('id', 'selector', 'timing', 'gate'))
-        require(strategy['selector'] in {'DV1', 'CHEAP_U', 'SPOT', 'FORECAST'}, 'Unknown selector')
+        selectors = {'FIELD'} if plan['mode'] == 'FIELD_PAPER_V1' else {'DV1', 'CHEAP_U', 'SPOT', 'FORECAST'}
+        require(strategy['selector'] in selectors, 'Unknown selector')
         require(strategy['timing'] in {'FIXED', 'FIRST_TRIGGER'}, 'Unknown timing')
         require(strategy['gate'] in {'NONE', 'G0'}, 'Unknown gate')
         ids.append(strategy['id'])
@@ -117,7 +118,16 @@ def validate_plan(plan):
     require(number(v['min_edge_points']) >= 0, 'Nonnegative edge threshold required')
     require(set(v['allowed_uncertainty']) <= UNCERTAINTY and v['allowed_uncertainty'], 'Unknown uncertainty type')
     require(number(v['max_conditioning_age_seconds']) >= 0, 'Nonnegative conditioning age required')
-    require('POINT_ONLY' not in v['allowed_uncertainty'], 'DV1 needs an explicit value bound')
+    if plan['mode'] == 'FIELD_PAPER_V1':
+        require(v['allowed_uncertainty'] == ['POINT_ONLY'] and number(v['min_edge_points']) == Decimal('.25'),
+                'FIELD V1 uses point estimates and a 0.25 point reserve')
+        require(plan['strategies'] == [
+            {'id':'LOOKAHEAD','selector':'FIELD','timing':'FIRST_TRIGGER','gate':'NONE'},
+            {'id':'FIRST_POSITIVE','selector':'FIELD','timing':'FIRST_TRIGGER','gate':'NONE'}],
+            'FIELD V1 has exactly two declared counterfactual books')
+        require(plan.get('model_version') == 'FIELD_LOCAL_MIXTURE_V1', 'Unknown FIELD algorithm')
+    else:
+        require('POINT_ONLY' not in v['allowed_uncertainty'], 'DV1 needs an explicit value bound')
     require(plan['fees'].get('version'), 'Fee version required')
     require(plan['fixed_costs'].get('status') in {'KNOWN', 'UNKNOWN'}, 'Explicit fixed cost status required')
     if plan['fixed_costs']['status'] == 'KNOWN':

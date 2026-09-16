@@ -7,6 +7,13 @@ from .contracts import digest, number, stamp
 def select_candidate(strategy, valuation, forecast, mode):
     if mode == 'OBSERVE_ONLY_V1':
         return None, 'UNKNOWN', ['OBSERVATION_ONLY']
+    if mode == 'FIELD_PAPER_V1':
+        selected = next((r for r in valuation['rows'] if r['candidate_id'] == valuation['selected']),None)
+        timing = valuation.get('timing',{})
+        if strategy['id'] == 'LOOKAHEAD' and selected and timing.get('action') == 'WAIT':
+            return None,'WAIT',['EXPECTED_WAIT_VALUE_HIGHER']
+        return selected,valuation['state'],([] if selected else sorted({
+            reason for r in valuation['rows'] for reason in r['reasons']}))
     if strategy['gate'] == 'G0':
         from .forecast import eligibility
         source_issues = eligibility(forecast, valuation['as_of'], valuation['target_at'])
@@ -35,6 +42,12 @@ def select_candidate(strategy, valuation, forecast, mode):
 def decide(strategy, state, valuation, forecast, plan, clock, scheduled_at):
     """Return proposals. State changes only when the journal commits events."""
     if state['status'] != 'OBSERVING':
+        if plan['mode'] == 'FIELD_PAPER_V1':
+            return [('DECISION',{'strategy_id':strategy['id'],'scheduled_at':scheduled_at,'processed_at':clock.utc,
+                'snapshot_seq':valuation['snapshot_seq'],'valuation_hash':digest(valuation),
+                'classification':'MONITOR_ONLY','state':state['status'],'reasons':['DAILY_INTENT_ALREADY_USED_OR_WINDOW_CLOSED'],
+                'terminal':False,'selected':None,'timing':deepcopy(valuation.get('timing')),
+                'selection_scope':valuation.get('selection_scope'),'model_state':valuation.get('model_diagnostic',{}).get('state')})]
         return []
     schedule = plan['schedule']
     t = stamp(scheduled_at)
@@ -55,6 +68,9 @@ def decide(strategy, state, valuation, forecast, plan, clock, scheduled_at):
                 'snapshot_seq': valuation['snapshot_seq'], 'valuation_hash': digest(valuation),
                 'classification': classification, 'state': display, 'reasons': reasons,
                 'terminal': terminal, 'selected': selected['candidate_id'] if selected else None}
+    if plan['mode'] == 'FIELD_PAPER_V1':
+        decision.update(timing=deepcopy(valuation.get('timing')),selection_scope=valuation.get('selection_scope'),
+                        model_state=valuation.get('model_diagnostic',{}).get('state'))
     events = [('DECISION', decision)]
     if selected is not None:
         q = selected['quote']

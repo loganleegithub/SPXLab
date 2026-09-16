@@ -9,7 +9,8 @@ from .distribution import distribution_issues, expected_payoff
 def value_candidates(distribution, batch, spec, mode):
     versioned(batch)
     fields(batch, ('universe', 'rows', 'as_of', 'target_at', 'snapshot_seq', 'classification'))
-    require(mode in {'SYNTHETIC_REPLAY_V1', 'OBSERVE_ONLY_V1', 'VALUE_RESEARCH_SHADOW_V1'}, 'Unknown mode')
+    from .contracts import MODES
+    require(mode in MODES, 'Unknown mode')
     require(mode == 'SYNTHETIC_REPLAY_V1' or batch['classification'] == 'MARKET_OBSERVATION',
             'Synthetic quotes cannot enter real market research')
     planned = [c['candidate_id'] for c in batch['universe']]
@@ -73,9 +74,9 @@ def value_candidates(distribution, batch, spec, mode):
                                      number(r['center']), r['candidate_id']))
     known_rejections = {'COST_CAP', 'DOMINATED_COST', 'VALUE_NOT_ABOVE_THRESHOLD'}
     unknown = (not complete or any(set(r['reasons'])-known_rejections for r in rows))
-    selected = eligible[0]['candidate_id'] if complete and eligible else None
+    selected = eligible[0]['candidate_id'] if eligible and (complete or mode == 'FIELD_PAPER_V1') else None
     state = 'CANDIDATE' if selected else ('UNKNOWN' if unknown else 'ABSTAIN')
-    return {'schema_version': 2, 'as_of': batch['as_of'], 'target_at': batch['target_at'],
+    result = {'schema_version': 2, 'as_of': batch['as_of'], 'target_at': batch['target_at'],
             'snapshot_seq': batch['snapshot_seq'], 'universe_hash': digest(batch['universe']),
             'distribution_hash': digest(distribution) if distribution else None, 'batch_hash': digest(batch),
             'rows': rows, 'selected': selected, 'state': state, 'cash_value_points': '0',
@@ -83,6 +84,24 @@ def value_candidates(distribution, batch, spec, mode):
             'coverage': {'planned': len(planned), 'qualified': len(quote_qualified), 'complete': complete},
             'limitations': ['Natural leg prices imply a shadow assumption, not a guaranteed combination fill',
                             'Value estimates are conditional on their declared information and model class']}
+    if mode == 'FIELD_PAPER_V1':
+        from .field_model import make_process, marginal, payoff
+        result['selection_scope'] = 'FULL_PLANNED_SET' if complete else 'BEST_OBSERVED_VALID_SUBSET'
+        for row in rows:
+            edge = float(row['edge_lower']) if row['edge_lower'] is not None else None
+            row.update(point_edge=edge,actionable_edge=edge-float(threshold) if edge is not None else None)
+            unknown_reasons = set(row['reasons'])-known_rejections
+            row['economic_state'] = ('INPUT_UNAVAILABLE' if unknown_reasons or edge is None else
+                                     'POSITIVE_MODEL_EDGE' if edge > 0 else 'NO_MODEL_EDGE')
+            row['risk_state'] = 'RISK_BUDGET_REJECT' if 'COST_CAP' in row['reasons'] else ('WITHIN_BUDGET' if row['cost_points'] else 'UNKNOWN')
+            if edge is not None and distribution and distribution.get('parameters'):
+                cost = float(row['cost_points']); process = distribution['process']
+                row['sensitivity'] = {'extra_cost_025':edge-.25,'extra_cost_050':edge-.5}
+                for label,shift,scale in [('pin_minus_5',-5,1),('pin_plus_5',5,1),('noise_variance_x150',0,1.5)]:
+                    row['sensitivity'][label] = (None if shift and distribution['parameters']['anchor'] is None else
+                        payoff(marginal(make_process(distribution['parameters'],process['spot'],process['minutes'],
+                            anchor_shift=shift,noise_scale=scale)),row['center'],row['width'])-cost)
+    return result
 
 
 def render_valuation(result):

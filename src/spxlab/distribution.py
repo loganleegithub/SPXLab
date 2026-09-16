@@ -32,6 +32,12 @@ def validate_distribution(record):
             require(number(row['weight']) >= 0, 'Negative weight')
         require(sum(number(row['weight']) for row in record['samples']) == ONE,
                 'Weights must sum exactly to one; no silent renormalization')
+    elif kind == 'NORMAL_MIXTURE':
+        require(record.get('components'), 'Normal mixture components required')
+        require(abs(sum(number(c['weight']) for c in record['components'])-ONE) < Decimal('1e-12'), 'Mixture mass must equal one')
+        for c in record['components']:
+            number(c['mean'])
+            require(number(c['weight']) > 0 and number(c['sd']) >= 0, 'Invalid normal component')
     elif kind == 'PARTITION_MASS_BOUNDS':
         bins = record.get('bins', [])
         require(bins and bins[0]['lo'] is None and bins[-1]['hi'] is None, 'Both unbounded tails required')
@@ -64,6 +70,10 @@ def expected_payoff(record, center, width):
     center, width = number(center), number(width)
     require(width > 0, 'Positive width required')
     kind = record['representation']
+    if kind == 'NORMAL_MIXTURE':
+        from .field_model import payoff
+        value = Decimal(str(payoff(record['components'],center,width)))
+        return {'point':value,'lower':value,'upper':value,'kind':'POINT_ONLY'}
     if kind == 'WEIGHTED_SAMPLES':
         value = weighted_payoff(record['samples'], center, width)
         return {'point': value, 'lower': value, 'upper': value, 'kind': 'POINT_ONLY'}
@@ -109,8 +119,13 @@ def distribution_issues(record, as_of, target_at, spec, mode):
     if mode != 'SYNTHETIC_REPLAY_V1':
         if record['measure'] != 'P_ESTIMATE':
             issues.append('NOT_REAL_WORLD_ESTIMATE')
-        if record['calibration_status'] != 'FROZEN_VALIDATED':
+        accepted = {'FROZEN_VALIDATED','EXPLORATORY'} if mode == 'FIELD_PAPER_V1' else {'FROZEN_VALIDATED'}
+        if record['calibration_status'] not in accepted:
             issues.append('MODEL_NOT_READY')
+    if mode == 'FIELD_PAPER_V1' and (record['representation'] != 'NORMAL_MIXTURE' or
+            record['model_version'] != 'FIELD_LOCAL_MIXTURE_V1' or
+            record['provenance'].get('classification') != 'MARKET_OBSERVATION'):
+        issues.append('FIELD_MODEL_IDENTITY_MISMATCH')
     if mode == 'VALUE_RESEARCH_SHADOW_V1' and record['provenance'].get('model_artifact_hash') not in spec.get('accepted_model_hashes', []):
         issues.append('UNREGISTERED_MODEL')
     return issues
