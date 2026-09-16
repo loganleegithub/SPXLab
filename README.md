@@ -8,6 +8,7 @@ SPX 概率预测与自动交易研究项目。最终路线：持续采集 → �
 
 ## 今日运行
 
+- **[今日系统复盘与作者新帖分析](docs/2026-09-15-RETROSPECTIVE.md)**：完整操作时间线、入场限制、定价差距及收盘后评论；[下一轮方案](docs/governance/NEXT_SHADOW_PLAN.md)处于 IN_REVIEW，尚未启动。
 - **[收盘结算与五账本总结](docs/2026-09-15-CLOSEOUT.md)**：预测误差 18.27 点、终值区间命中，分别保留各运行和控制账本；未知成交仍为未知。
 - [入场是否过严](docs/governance/ENTRY_CONSTRAINT_REVIEW.md)：作者旧帖复核、成本上限与意图寿命的证据；原冻结账本不变。
 - [监控最后状态](var/2026-09-15/monitor-close/LIVE.md)、[监控规则与结束记录](docs/MONITORING.md)：采集及监控已按计划结束。
@@ -25,7 +26,7 @@ SPX 概率预测与自动交易研究项目。最终路线：持续采集 → �
 | 文档 | 回答的问题 |
 |---|---|
 | [Balder 策略重建与复现方案](docs/governance/BALDER_STRATEGY_RECONSTRUCTION.md) | 独立蝶式怎样筛选、定价，哪些能借鉴，哪些仍未公开？ |
-| [X 来源与阅读覆盖](docs/governance/BALDER_SOURCE_INDEX.md) | 72 个详情、40 个日内预测以及评论的实际读取范围？ |
+| [X 来源与阅读覆盖](docs/governance/BALDER_SOURCE_INDEX.md) | 初轮 72 个详情、40 个日内预测，及收盘后 11 个详情复查的实际范围与重叠？ |
 | [交接审查](docs/governance/HANDOFF_REVIEW.md) | 原方案哪些可以保留，哪些缺口会改变实现或研究结论？ |
 | [首轮及后续方案](docs/governance/DEVELOPMENT_PLAN.md) | 第一轮具体交付什么，如何验收，后续怎样推进？ |
 | [决策记录](docs/governance/DECISIONS.md) | 人类已经决定什么，还需要讨论什么？ |
