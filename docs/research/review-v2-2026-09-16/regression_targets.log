@@ -1,0 +1,27 @@
+test_quote_as_of_matches_batch (regression_targets.QuoteBindingRegressions.test_quote_as_of_matches_batch) ... FAIL
+test_quote_geometry_matches_candidate (regression_targets.QuoteBindingRegressions.test_quote_geometry_matches_candidate) ... FAIL
+
+======================================================================
+FAIL: test_quote_as_of_matches_batch (regression_targets.QuoteBindingRegressions.test_quote_as_of_matches_batch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/logan/SPXLab/var/review-v2-2026-09-16/external/SPXLab_review_cd71a0b/regression_targets.py", line 23, in test_quote_as_of_matches_batch
+    self.check_rejected({'as_of':'2026-09-16T13:05:00+00:00'})
+  File "/Users/logan/SPXLab/var/review-v2-2026-09-16/external/SPXLab_review_cd71a0b/regression_targets.py", line 16, in check_rejected
+    self.assertIsNone(result['selected'], 'Inconsistent quote must not produce an executable candidate')
+AssertionError: 'C7600_W25' is not None : Inconsistent quote must not produce an executable candidate
+
+======================================================================
+FAIL: test_quote_geometry_matches_candidate (regression_targets.QuoteBindingRegressions.test_quote_geometry_matches_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/logan/SPXLab/var/review-v2-2026-09-16/external/SPXLab_review_cd71a0b/regression_targets.py", line 20, in test_quote_geometry_matches_candidate
+    self.check_rejected({'center':7700,'width':50})
+  File "/Users/logan/SPXLab/var/review-v2-2026-09-16/external/SPXLab_review_cd71a0b/regression_targets.py", line 16, in check_rejected
+    self.assertIsNone(result['selected'], 'Inconsistent quote must not produce an executable candidate')
+AssertionError: 'C7600_W25' is not None : Inconsistent quote must not produce an executable candidate
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)

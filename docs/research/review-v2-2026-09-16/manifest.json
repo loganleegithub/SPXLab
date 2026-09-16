@@ -1,0 +1,98 @@
+{
+  "checked_at": "2026-09-16T09:40:21.577013+00:00",
+  "commit": "cd71a0b10778cdd7598a07631161b4422f05e859",
+  "python": "3.12.13",
+  "inputs": [
+    {
+      "path": "/Users/logan/Downloads/SPXLab_ChatGPT-v2.md",
+      "bytes": 20630,
+      "sha256": "649671ee602a0a1b71b03272b2fcd2fe7042eab35a1e3e7ae058f287ebdcd0f2"
+    },
+    {
+      "path": "/Users/logan/Downloads/SPXLab_cd71a0b_architecture_audit.md",
+      "bytes": 16213,
+      "sha256": "684afc209e372821ec9e72a083339ad39caaa7dda055ea50ce34835fa3db1da9"
+    },
+    {
+      "path": "/Users/logan/Downloads/SPXLab_cd71a0b_review_evidence.zip",
+      "bytes": 31242,
+      "sha256": "f0f0f52df78edb87d546506e0fca33c29819c604926be41bc247cb5d0a30cb06"
+    },
+    {
+      "path": "docs/governance/ROUND2_CONSTRUCTION_PLAN.md",
+      "bytes": 42927,
+      "sha256": "453c7513079f47c49e350da82415a583a16c0857b749eaf5386be1d60b96fe98"
+    },
+    {
+      "path": "var/2026-09-15/entry-review-001/cost-comparison.json",
+      "bytes": 964,
+      "sha256": "478b7699862304af5bf4dc0a9504526a55bb62b9f8df78946be904fc5b6f146f"
+    },
+    {
+      "path": "var/2026-09-15/settlement-attempt-008/verified-settlement.json",
+      "bytes": 564,
+      "sha256": "ad54def7a0e66104f163fcbf6741f51cf1c03ec43f9c9a2ae2770e93071648ad"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "docs/research/REVIEW_V2_PRACTICAL_PLAN.md",
+      "bytes": 17086,
+      "sha256": "d0a06b5a325b10dc11e4085cfc5f05306b9b5e7df45567dee76f4a7d9285715b"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/README.md",
+      "bytes": 2467,
+      "sha256": "eeb4b6bc5582ffdecc63e3d3dceaaa8b6990475ec486a00dfb5310cc22463b94"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/boundary-probes.json",
+      "bytes": 821,
+      "sha256": "c9a90aac1bb3db2f3e2e7db9b7da3da54d56c7be20ef9f9b031c5bc39862095c"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/data-inventory.json",
+      "bytes": 1406,
+      "sha256": "64485a8fed9dda81481403f3b12e3d97ef4edc40c20d0345a202db612697d0ba"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/identity.json",
+      "bytes": 748,
+      "sha256": "a2d240695af2f616c9737cfef91c16310f71b5d9eaceb3d79a977a395e36fccc"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/practical-probes.json",
+      "bytes": 3108,
+      "sha256": "77a1d6f44f2241dee4f94f3410ef63de47257d96104ac64a2ffe5aa3705c5b3d"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/regression_targets.log",
+      "bytes": 2065,
+      "sha256": "3e402dc3970fe9b409008e6feb06df9e64d380570f1bd4c25de0a2de0756663f"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/repository-tests.log",
+      "bytes": 8415,
+      "sha256": "d82755c95732090e87e31985e0a7179e6bd402c08ea34c5ee93ba96ea0604db7"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/review_checks.log",
+      "bytes": 1969,
+      "sha256": "61380c1a9a3050d9143af2c8c945f9c84427e7c723947f76be2cac3490f94396"
+    },
+    {
+      "path": "docs/research/review-v2-2026-09-16/verify_practical_gaps.py",
+      "bytes": 5522,
+      "sha256": "5704d5d02a639ea7d67d76e7eeba5152c813a01f4765352aee649306be32968c"
+    }
+  ],
+  "source_changed": false,
+  "test_counts": {
+    "repository_passed": 60,
+    "external_core_passed": 16,
+    "external_regressions_expected_failed": 2
+  },
+  "settlement_asset_hash_verified": true,
+  "original_market_replays_rerun": false,
+  "new_market_run_started": false
+}

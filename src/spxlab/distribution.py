@@ -65,7 +65,7 @@ def expected_payoff(record, center, width):
     require(width > 0, 'Positive width required')
     kind = record['representation']
     if kind == 'WEIGHTED_SAMPLES':
-        value = sum(number(s['weight'])*butterfly(s['value'], center, width) for s in record['samples'])
+        value = weighted_payoff(record['samples'], center, width)
         return {'point': value, 'lower': value, 'upper': value, 'kind': 'POINT_ONLY'}
     if kind == 'SCENARIO_SET':
         values = [expected_payoff(s, center, width) for s in record['scenarios']]
@@ -85,6 +85,13 @@ def expected_payoff(record, center, width):
         upper += number(cell['mass'])*butterfly(nearest, center, width)
     require(ZERO <= lower <= upper <= width, 'Payoff bounds violate support')
     return {'point': None, 'lower': lower, 'upper': upper, 'kind': 'IDENTIFICATION_BOUND'}
+
+
+def weighted_payoff(samples, center, width):
+    """Arithmetic shared by live snapshots and explicitly retrospective diagnostics."""
+    require(samples and sum(number(s['weight']) for s in samples) == ONE, 'Weights must sum exactly to one')
+    require(all(number(s['weight']) >= ZERO for s in samples), 'Negative weight')
+    return sum(number(s['weight'])*butterfly(s['value'], center, width) for s in samples)
 
 
 def distribution_issues(record, as_of, target_at, spec, mode):

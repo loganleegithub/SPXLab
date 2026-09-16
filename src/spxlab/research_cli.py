@@ -24,14 +24,15 @@ def register(sub):
     for name, options in {
         'evaluate':['bundle','output'], 'dataset-check':['manifest'], 'validate-plan':['plan'],
         'freeze':['plan','directory'], 'observe':['plan','directory'], 'shadow':['plan','directory','events'],
+        'value-shadow':['plan','directory'],
         'replay-frozen':['run','output'], 'settle-all':['run','evidence'],
         'compare':['study','output'], 'build-distribution':['manifest','context','output'],
         'attribute':['bundle','output']}.items():
         parser = sub.add_parser(name)
         for option in options:
             parser.add_argument('--'+option, required=True)
-        if name == 'observe':
-            parser.add_argument('--client-id',type=int,default=27216)
+        if name in {'observe', 'value-shadow'}:
+            parser.add_argument('--client-id',type=int,default=27216 if name == 'observe' else 27217)
             parser.add_argument('--port',type=int,default=4001)
 
 
@@ -48,8 +49,25 @@ def execute(args):
         result=dataset_check(load(args.manifest))
     elif args.command == 'build-distribution':
         from .dataset import build_residual_distribution
-        result=build_residual_distribution(load(args.manifest),load(args.context))
-        out=fresh_output(args.output);atomic_json(out/'distribution.json',result)
+        from .distribution import validate_distribution
+        from .contracts import file_hash, stamp
+        from .events import utc_now
+        manifest,context=load(args.manifest),load(args.context)
+        real=any(r['classification'] != 'SYNTHETIC_FIXTURE' for r in manifest['rows'])
+        if real:
+            require(stamp(context['available_at']) <= stamp(utc_now()), 'Future model completion cannot be asserted')
+            context['available_at']=utc_now()
+        result=build_residual_distribution(manifest,context)
+        out=fresh_output(args.output)
+        artifact=out/'model-artifact.json'
+        atomic_json(artifact,{'model_version':result['model_version'],'manifest':manifest,
+                             'anchor_kind':context['anchor_kind'],'time_bucket':context['time_bucket'],
+                             'current_scale':context['scale']})
+        result['provenance'].update(model_artifact_path=str(artifact.resolve()),model_artifact_hash=file_hash(artifact))
+        if real:
+            result['computed_at']=result['available_at']=utc_now()
+        result=validate_distribution(result)
+        atomic_json(out/'distribution.json',result)
     elif args.command == 'validate-plan':
         result=validate_plan(load(args.plan))
     elif args.command == 'freeze':
@@ -76,6 +94,10 @@ def execute(args):
             result=j.save(args.directory)
         finally:
             j.store.close()
+    elif args.command == 'value-shadow':
+        from .observer import run_value_shadow
+        asyncio.run(run_value_shadow(load(args.plan),args.directory,ROOT,client_id=args.client_id,port=args.port))
+        result={'directory':args.directory,'status':'VALUE_SHADOW_STOPPED','broker_orders_permitted':False}
     elif args.command == 'replay-frozen':
         from .frozen import replay_frozen
         result=replay_frozen(args.run,args.output)

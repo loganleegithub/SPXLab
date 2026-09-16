@@ -1,0 +1,21 @@
+test_01_payoff_matches_legs (review_checks.IndependentChecks.test_01_payoff_matches_legs) ... ok
+test_02_gaussian_common_samples_vs_closed_integral (review_checks.IndependentChecks.test_02_gaussian_common_samples_vs_closed_integral) ... ok
+test_03_value_optimum_not_cheapest_or_nearest (review_checks.IndependentChecks.test_03_value_optimum_not_cheapest_or_nearest) ... ok
+test_04_cash_negative_value (review_checks.IndependentChecks.test_04_cash_negative_value) ... ok
+test_05_missing_candidate_unknown (review_checks.IndependentChecks.test_05_missing_candidate_unknown) ... ok
+test_06_missing_model_unknown (review_checks.IndependentChecks.test_06_missing_model_unknown) ... ok
+test_07_mass_bounds (review_checks.IndependentChecks.test_07_mass_bounds) ... ok
+test_08_bad_weights_rejected (review_checks.IndependentChecks.test_08_bad_weights_rejected) ... ok
+test_09_bound_requires_unbounded_tails (review_checks.IndependentChecks.test_09_bound_requires_unbounded_tails) ... ok
+test_10_no_stale_or_future_model (review_checks.IndependentChecks.test_10_no_stale_or_future_model) ... ok
+test_11_day_weights_not_tick_count (review_checks.IndependentChecks.test_11_day_weights_not_tick_count) ... ok
+test_12_training_evaluation_overlap_and_immature (review_checks.IndependentChecks.test_12_training_evaluation_overlap_and_immature) ... ok
+test_13_residual_point_model_has_no_DV1_bound_route (review_checks.IndependentChecks.test_13_residual_point_model_has_no_DV1_bound_route) ... ok
+test_14_assumed_scenario_cannot_enter_real_research (review_checks.IndependentChecks.test_14_assumed_scenario_cannot_enter_real_research) ... ok
+test_15_bounded_P_contract_can_produce_candidate (review_checks.IndependentChecks.test_15_bounded_P_contract_can_produce_candidate) ... ok
+test_16_calendar_scope_and_grid (review_checks.IndependentChecks.test_16_calendar_scope_and_grid) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.129s
+
+OK

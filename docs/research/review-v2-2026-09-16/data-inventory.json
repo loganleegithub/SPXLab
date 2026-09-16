@@ -1,0 +1,54 @@
+{
+  "legacy_public_ledger": {
+    "path": "/Users/logan/Codex/2026-09-15/yan/outputs/spx-project-handoff/evidence/raw/spx-ledger.json",
+    "sha256": "90c480330f931d57cffb4dfaccffb4f703ec459d1b7112a4d4127f97df99abaf",
+    "rows": 37,
+    "unique_dates": 37,
+    "date_range": [
+      "2026-07-23",
+      "2026-09-14"
+    ],
+    "columns": [
+      "center",
+      "close",
+      "date",
+      "error",
+      "expected_move",
+      "hi68",
+      "hi95",
+      "lo68",
+      "lo95",
+      "result"
+    ],
+    "center_is_68_interval_midpoint_count": 37,
+    "decision_at_present": 0,
+    "actual_median_present": 0,
+    "concurrent_option_quotes_present": 0,
+    "interpretation": "Interval-score ledger; not author median dataset or trade backtest"
+  },
+  "forecast_post_index": {
+    "posts": 40,
+    "unique_dates": 39,
+    "posts_before_or_at_1405_utc": 38,
+    "unique_dates_before_or_at_1405_utc": 38,
+    "late_posts": [
+      {
+        "date": "2026-08-25",
+        "utc": "17:32:12"
+      },
+      {
+        "date": "2026-07-17",
+        "utc": "14:25:07"
+      }
+    ],
+    "not_full_normalized_or_as_received_dataset": true
+  },
+  "local_sep15_forecast": {
+    "published_at": "2026-09-15T13:50:44+00:00",
+    "available_at": "2026-09-15T15:33:11.512143+00:00",
+    "status": "DIAGNOSTIC_DATE_ASSUMED",
+    "median": 7604,
+    "target_date": "2026-09-15"
+  },
+  "formal_ready_days_in_delivery": 0
+}

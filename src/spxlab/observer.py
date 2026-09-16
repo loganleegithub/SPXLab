@@ -5,6 +5,7 @@ visible; no quote is backfilled into an earlier decision. Every restart has a
 new monotonic epoch and ends any previous pending shadow intention.
 """
 import asyncio
+from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import json
 import os
@@ -79,6 +80,14 @@ class Observer(Collector):
                 self.evaluate_due(mono, utc)
             finally:
                 self.in_timer = False
+        if kind == 'DISTRIBUTION':
+            from .distribution import validate_distribution
+            payload = deepcopy(payload)
+            record = validate_distribution(payload['record'])
+            require(stamp(record['available_at']) <= stamp(utc), 'Model not yet available')
+            payload['producer_available_at'] = record['available_at']
+            record['available_at'] = utc
+            payload['record'] = validate_distribution(record)
         event, derived = self.journal.append(kind, payload, clock_epoch=self.epoch,
                        mono=mono, utc=utc, generation=self.generation)
         self.count += 1+len(derived)
@@ -117,7 +126,11 @@ class Observer(Collector):
         if eligibility(source, now, self.journal.engine.plan['schedule']['close_utc']):
             source = None
         universe = candidate_universe(spot['value'] if spot else None, source['median'] if source else None)
-        strikes = sorted({k for c in universe for k in (c['center']-25,c['center'],c['center']+25)})
+        # Keep the locked structure observable until its pending intent terminates.
+        pending = [b['intent'] for b in self.journal.engine.books.values()
+                   if b['status'] == 'INTENT_PERSISTED']
+        strikes = sorted({k for c in universe + pending
+                          for k in (c['center']-c['width'], c['center'], c['center']+c['width'])})
         require(len(strikes) <= self.journal.engine.plan['max_option_subscriptions'], 'Subscription budget exceeded')
         if set(strikes) == set(self.active_options):
             return
@@ -142,6 +155,7 @@ class Observer(Collector):
                 self.active_options[k] = c
 
     def intake(self):
+        self.intake_distributions()
         inbox = self.directory/'source-inbox'
         if not inbox.exists():
             return
@@ -170,6 +184,40 @@ class Observer(Collector):
                 if self.journal.failed:
                     raise
                 self.emit('SOURCE_INTAKE_REJECTED', {'file_sha256':key,'reason':str(ex)})
+
+    def intake_distributions(self):
+        """Consume completed local model artifacts, with real receipt clocks."""
+        from .distribution import validate_distribution
+        for path in sorted((self.directory/'model-inbox').glob('*.json')):
+            key = file_hash(path)
+            if key in self.seen_inbox:
+                continue
+            self.seen_inbox.add(key)
+            if any(r.get('intake_sha256') == key for r in self.journal.engine.distributions):
+                continue
+            try:
+                record = validate_distribution(json.loads(path.read_text()))
+                provenance = record['provenance']
+                artifact = Path(provenance['model_artifact_path'])
+                artifact_hash = file_hash(artifact)
+                require(artifact_hash == provenance['model_artifact_hash'], 'Model artifact hash mismatch')
+                if self.journal.engine.plan['mode'] == 'VALUE_RESEARCH_SHADOW_V1':
+                    require(artifact_hash in self.journal.engine.plan['preregistration']['accepted_model_hashes'],
+                            'Unregistered model artifact')
+                require(stamp(record['target_at']) == stamp(self.journal.engine.plan['schedule']['close_utc']),
+                        'Model target differs from session')
+                archive = self.directory/'model-assets'/artifact_hash
+                archive.parent.mkdir(parents=True, exist_ok=True)
+                if not archive.exists():
+                    archive.write_bytes(artifact.read_bytes())
+                require(file_hash(archive) == artifact_hash, 'Archived model artifact hash mismatch')
+                provenance['model_artifact_path'] = str(archive.resolve())
+                record['intake_sha256'] = key
+                self.emit('DISTRIBUTION', {'record':record, 'intake_file_sha256':key})
+            except (ValueError, KeyError, OSError) as ex:
+                if self.journal.failed:
+                    raise
+                self.emit('MODEL_INTAKE_REJECTED', {'file_sha256':key,'reason':str(ex)})
 
     def write_health(self):
         result = self.journal.save(self.directory)
@@ -236,6 +284,16 @@ class Observer(Collector):
 
 async def run_observer(plan, directory, root, *, client_id=27216, port=4001):
     require(plan['mode'] == 'OBSERVE_ONLY_V1', 'This runtime is authorized and implemented for observation only')
+    await _run_readonly(plan, directory, root, client_id=client_id, port=port)
+
+
+async def run_value_shadow(plan, directory, root, *, client_id=27217, port=4001):
+    require(plan['mode'] == 'VALUE_RESEARCH_SHADOW_V1', 'Real shadow requires its own frozen research plan')
+    require(all(s['timing'] == 'FIXED' for s in plan['strategies']), 'Initial real shadow driver is fixed-time only')
+    await _run_readonly(plan, directory, root, client_id=client_id, port=port)
+
+
+async def _run_readonly(plan, directory, root, *, client_id, port):
     directory = Path(directory)
     if not directory.exists():
         plan = freeze_run(plan,directory,root)

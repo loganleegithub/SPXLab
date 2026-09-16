@@ -1,0 +1,7 @@
+test_quote_as_of_matches_batch (regression_targets.QuoteBindingRegressions.test_quote_as_of_matches_batch) ... ok
+test_quote_geometry_matches_candidate (regression_targets.QuoteBindingRegressions.test_quote_geometry_matches_candidate) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK

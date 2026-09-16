@@ -1,0 +1,117 @@
+{
+  "classification": "OFFLINE_REVIEW_NOT_MARKET_RUN",
+  "distribution_delivery_probe": {
+    "accepted": false,
+    "reason": "Live distribution availability cannot be backdated",
+    "declared_available_at": "2026-09-16T14:05:00+00:00",
+    "event_at": "2026-09-16T14:05:00.001000+00:00",
+    "consequence": "A live intake adapter must stamp durable availability; do not backdate the model"
+  },
+  "subscription_probe": {
+    "pending_intent_center": 7600,
+    "new_spot": 7605,
+    "old_required_strikes": [
+      7575,
+      7600,
+      7625
+    ],
+    "cancelled": [
+      7575,
+      7600,
+      7625
+    ],
+    "new_active_strikes": [
+      7580,
+      7605,
+      7630
+    ],
+    "intent_legs_retained": false,
+    "scope": "Future reuse for shadow: current OBSERVE_ONLY never creates this pending intent"
+  },
+  "point_output_probe": {
+    "state": "UNKNOWN",
+    "selected": null,
+    "rows": [
+      {
+        "candidate_id": "C7595_W25",
+        "payoff_point": "16",
+        "cost_points": "1",
+        "edge_lower": "15",
+        "reasons": [
+          "MODEL_NOT_READY",
+          "UNCERTAINTY_NOT_ELIGIBLE"
+        ]
+      },
+      {
+        "candidate_id": "C7600_W25",
+        "payoff_point": "21",
+        "cost_points": "2",
+        "edge_lower": "19",
+        "reasons": [
+          "MODEL_NOT_READY",
+          "UNCERTAINTY_NOT_ELIGIBLE"
+        ]
+      },
+      {
+        "candidate_id": "C7605_W25",
+        "payoff_point": "24",
+        "cost_points": "6",
+        "edge_lower": "18",
+        "reasons": [
+          "MODEL_NOT_READY",
+          "UNCERTAINTY_NOT_ELIGIBLE"
+        ]
+      },
+      {
+        "candidate_id": "C7610_W25",
+        "payoff_point": "19",
+        "cost_points": "5",
+        "edge_lower": "14",
+        "reasons": [
+          "MODEL_NOT_READY",
+          "UNCERTAINTY_NOT_ELIGIBLE"
+        ]
+      }
+    ],
+    "meaning": "Point valuation already exists even while formal strategy eligibility is rejected"
+  },
+  "historical_arithmetic": {
+    "rows": [
+      {
+        "book": "S",
+        "center": 7585,
+        "cost_points": "11.6607",
+        "payoff_points": "24.27",
+        "payoff_minus_quoted_cost_usd": "1260.9300",
+        "break_even_low": "7571.6607",
+        "break_even_high": "7598.3393",
+        "loss_at_zero_payoff_usd": "1166.0700"
+      },
+      {
+        "book": "F",
+        "center": 7605,
+        "cost_points": "7.0595",
+        "payoff_points": "5.73",
+        "payoff_minus_quoted_cost_usd": "-132.9500",
+        "break_even_low": "7587.0595",
+        "break_even_high": "7622.9405",
+        "loss_at_zero_payoff_usd": "705.9500"
+      },
+      {
+        "book": "FP",
+        "center": 7610,
+        "cost_points": "5.4095",
+        "payoff_points": "0.73",
+        "payoff_minus_quoted_cost_usd": "-467.9500",
+        "break_even_low": "7590.4095",
+        "break_even_high": "7629.5905",
+        "loss_at_zero_payoff_usd": "540.9500"
+      }
+    ],
+    "not_fills": true,
+    "not_simultaneous_across_books": true,
+    "not_strategy_pnl": true,
+    "settlement_value": "7585.73"
+  },
+  "production_source_changed": false
+}

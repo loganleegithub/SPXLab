@@ -23,7 +23,7 @@ def dataset_check(manifest):
                      'target_at', 'outcome_available_at', 'source_hash'))
         require(row['row_id'] not in ids, 'Duplicate row identity')
         ids.add(row['row_id'])
-        reasons = []
+        reasons = list(row.get('source_issues', []))
         if stamp(row['target_at']) != stamp(session_schedule(row['session'])['close_utc']) or stamp(row['decision_at']).astimezone(NY).date().isoformat() != row['session']:
             reasons.append('SESSION_LABEL_CONFLICT')
         if stamp(row['decision_at']).astimezone(NY).strftime('%H:%M') != row['time_bucket']:
@@ -78,10 +78,29 @@ def build_residual_distribution(manifest, context):
     require(stamp(context['as_of']).astimezone(NY).strftime('%H:%M') == context['time_bucket'], 'Current clock does not match conditioning bucket')
     anchor, scale = number(context['anchor']), number(context['scale'])
     require(scale > 0, 'Positive scale required')
+    samples = residual_samples([r for r in manifest['rows'] if r['row_id'] in report['eligible_row_ids']], anchor, scale)
+    synthetic = any(r['classification'] == 'SYNTHETIC_FIXTURE' for r in manifest['rows']
+                    if r['row_id'] in report['eligible_row_ids'])
+    record = {'schema_version': 2, 'model_version': 'DAY_BALANCED_RESIDUAL_V1',
+              'measure': 'ASSUMED' if synthetic else 'P_ESTIMATE', 'representation': 'WEIGHTED_SAMPLES',
+              'target_at': context['target_at'], 'information_cutoff': context['as_of'],
+              'conditioning_as_of': context['as_of'], 'computed_at': context['available_at'],
+              'available_at': context['available_at'], 'training_cutoff': manifest['training_cutoff'],
+              'calibration_status': 'SYNTHETIC' if synthetic else 'EXPLORATORY',
+              'provenance': {'dataset_hash': report['manifest_hash'], 'eligible_row_ids': report['eligible_row_ids'],
+                             'independent_days': report['independent_days'], 'weighting': 'EQUAL_DAYS_EQUAL_ROWS_WITHIN_DAY'},
+              'samples': samples}
+    from .distribution import validate_distribution
+    return validate_distribution(record)
+
+
+def residual_samples(rows, anchor, scale=1):
+    """Day-balanced arithmetic; the caller owns availability/eligibility checks."""
+    anchor, scale = number(anchor), number(scale)
+    require(rows and scale > 0, "Nonempty rows and positive scale required")
     by_day = defaultdict(list)
-    for row in manifest['rows']:
-        if row['row_id'] in report['eligible_row_ids']:
-            by_day[row['session']].append(row)
+    for row in rows:
+        by_day[row['session']].append(row)
     # Repeating decimals get a deterministic residual allocation at each level.
     # This is explicit day-balanced weighting, never tail truncation/renormalization.
     samples, allocated_days = [], Decimal(0)
@@ -96,16 +115,4 @@ def build_residual_distribution(manifest, context):
             allocated_rows += weight
             z = (number(row['outcome'])-number(row['anchor']))/number(row['scale'])
             samples.append({'value': str(anchor+scale*z), 'weight': str(weight), 'row_id': row['row_id']})
-    synthetic = any(r['classification'] == 'SYNTHETIC_FIXTURE' for r in manifest['rows']
-                    if r['row_id'] in report['eligible_row_ids'])
-    record = {'schema_version': 2, 'model_version': 'DAY_BALANCED_RESIDUAL_V1',
-              'measure': 'ASSUMED' if synthetic else 'P_ESTIMATE', 'representation': 'WEIGHTED_SAMPLES',
-              'target_at': context['target_at'], 'information_cutoff': context['as_of'],
-              'conditioning_as_of': context['as_of'], 'computed_at': context['available_at'],
-              'available_at': context['available_at'], 'training_cutoff': manifest['training_cutoff'],
-              'calibration_status': 'SYNTHETIC' if synthetic else 'EXPLORATORY',
-              'provenance': {'dataset_hash': report['manifest_hash'], 'eligible_row_ids': report['eligible_row_ids'],
-                             'independent_days': report['independent_days'], 'weighting': 'EQUAL_DAYS_EQUAL_ROWS_WITHIN_DAY'},
-              'samples': samples}
-    from .distribution import validate_distribution
-    return validate_distribution(record)
+    return samples

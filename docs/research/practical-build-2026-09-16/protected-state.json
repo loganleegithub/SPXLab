@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-09-16T10:14:04.564035+00:00",
+  "protected_files": 43,
+  "changed_files": [],
+  "observe_run": "observe-2026-09-16-r2-003",
+  "health_updated_at": "2026-09-16T10:13:57.191806+00:00",
+  "pid": 33865,
+  "mode": "OBSERVE_ONLY_V1",
+  "intents": 0,
+  "stage": "PREOPEN_WAITING",
+  "frozen_snapshot_verified": true
+}

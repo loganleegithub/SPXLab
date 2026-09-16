@@ -1,0 +1,25 @@
+{
+  "checked_files": [
+    "ARCHITECTURE_AUDIT.md",
+    "README.md",
+    "independent_tests.log",
+    "regression_targets.log",
+    "regression_targets.py",
+    "review_checks.py",
+    "review_results.json",
+    "source_identity.json",
+    "spxlab/calendar.py",
+    "spxlab/contracts.py",
+    "spxlab/dataset.py",
+    "spxlab/distribution.py",
+    "spxlab/valuation.py",
+    "verify_sources.py"
+  ],
+  "local_blob_match": {
+    "contracts.py": "c7024cd4155c2a89f5042932cc277a0759743086",
+    "distribution.py": "8bc8500cc43d7242720fb90f438f9a185dc7f428",
+    "valuation.py": "fa406eb302867e9bad6b9e5c6c6241d77bdaf211",
+    "calendar.py": "2814c3c439050b95acb9d2bab4c41e4e2797d09e",
+    "dataset.py": "e7542db66d8f9bd62000ac8b328c08b67ee7eb16"
+  }
+}

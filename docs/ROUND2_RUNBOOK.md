@@ -20,6 +20,8 @@
 
 `compare`的内联行只允许标记为合成夹具；真实研究必须引用有hash的独立运行及结算文件。混合合成、观察、正式影子模式会失败。一次声明一个主比较、全部计划日和训练日，缺失保持null，不将反事实账本相加。
 
+U21新增：`scripts/prepare_reviewed_dataset.py`整理经核对的真实来源/结算，并可生成单截面事后价值表；`value-shadow --plan --directory`为独立预注册的固定时点真实影子入口。模型通过新run的`model-inbox/`接入，核验artifact hash并保留实际接收时间。详细输入、命令及未完成的真实业务验收见[实战施工交付](research/PRACTICAL_BUILD_DELIVERY.md)。本节新增能力未部署到下面已经冻结的9月16日观察运行。
+
 ## 9月16日观察运行
 
 冻结目录：[observe-r2-003](../var/2026-09-16/observe-r2-003/plan.json)。源码、运维脚本、依赖和环境记录在该目录`implementation/`与`run-manifest.json`；启动器自动使用它们，即使当前工作区后来有改动，也不静默切换实现。当前有效版本为PACKET_AND_SOURCE_V3，包含研究报告分类校验、完整行情包截止检查及含糊来源的G0资格检查。旧observe-r2-001及002已在开盘前停止并保留记录，不恢复它。

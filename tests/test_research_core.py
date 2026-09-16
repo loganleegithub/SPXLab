@@ -75,6 +75,13 @@ def forecast(fid='f1'):
 
 
 class ValueTests(unittest.TestCase):
+    def test_quote_structure_and_evaluation_time_are_bound(self):
+        for changes in ({'center':7700,'width':50}, {'as_of':'2026-09-16T13:05:00+00:00'}):
+            b=batch();b['rows'][1].update(changes)
+            with self.assertRaises(ContractError):value_candidates(model(),b,spec(),'SYNTHETIC_REPLAY_V1')
+        b=batch();b['rows'][1].update(center='7600.0',width='25.00',as_of='2026-09-16T10:05:00-04:00')
+        self.assertEqual(value_candidates(model(),b,spec(),'SYNTHETIC_REPLAY_V1')['selected'],'C7600_W25')
+
     def test_A01_value_choice_not_cheapest_or_nearest(self):
         v=value_candidates(model(),batch(),spec(),'SYNTHETIC_REPLAY_V1')
         self.assertEqual(v['selected'],'C7600_W25')
@@ -122,6 +129,7 @@ class ValueTests(unittest.TestCase):
         v=value_candidates(model(),b,spec(),'OBSERVE_ONLY_V1')
         self.assertIn('NOT_REAL_WORLD_ESTIMATE',v['rows'][0]['reasons'])
         b=batch();b['as_of']='2026-09-16T15:05:00+00:00'
+        for q in b['rows']:q['as_of']=b['as_of']
         v=value_candidates(model(),b,spec(),'SYNTHETIC_REPLAY_V1')
         self.assertIn('STALE_INFORMATION_VALUATION',v['rows'][0]['reasons'])
 

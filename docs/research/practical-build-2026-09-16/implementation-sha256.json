@@ -1,0 +1,11 @@
+{
+  "src/spxlab/dataset.py": "dc990cf974bb7b57d03d76d0d4283f3dbe36c2c2cb03cd27e63a0048542fa24e",
+  "src/spxlab/distribution.py": "296a4a2eff807bc50ebd653c768a6c06753081653c6c826aa65605243da046a8",
+  "src/spxlab/observer.py": "83eeb5c4ad961ca55aba93e588732eaa0b653acccdeb6c483e17561e0fe05dac",
+  "src/spxlab/research_cli.py": "f5891393986ccd8828ba11c20249b4c257bdb2448265b2315064410e589fc3d1",
+  "src/spxlab/valuation.py": "52d18c5a7d629eb6c11f76b5b6da8410a83e13870d06fd952fa9b6225c8373ab",
+  "src/spxlab/practical.py": "aa3dedde51e031d3b4532d8302ff81d10a399eb30c51bb9f5d826dee4dd9897c",
+  "scripts/prepare_reviewed_dataset.py": "4feda3c94e2d57b309f85c74c69020234f3972e3d1a7a5aa06c5e8a9c4b97641",
+  "tests/test_research_core.py": "49de2f3b9756f21200de3bcda5de5c3730c4bdf1fb0655ca72259a336a825e7e",
+  "tests/test_practical_build.py": "567b61d4b92c6724d90248f7e67384721398d7e1fabc8e0365ca2dc7591a6f31"
+}

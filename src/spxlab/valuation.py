@@ -32,6 +32,10 @@ def value_candidates(distribution, batch, spec, mode):
         if q is None:
             row['reasons'].append('CANDIDATE_QUOTE_MISSING')
         else:
+            fields(q, ('center', 'width', 'as_of', 'snapshot_seq'))
+            require(number(q['center']) == number(candidate['center']) and number(q['width']) == width,
+                    'Quote structure differs from candidate')
+            require(stamp(q['as_of']) == stamp(batch['as_of']), 'Quote evaluation time differs from batch')
             row['reasons'].extend(q.get('reasons', []))
             require(q['snapshot_seq'] == batch['snapshot_seq'], 'Mixed quote snapshots')
             if q.get('debit_points') is not None and q.get('fees_usd') is not None:
@@ -84,11 +88,14 @@ def value_candidates(distribution, batch, spec, mode):
 def render_valuation(result):
     lines = ['# 蝶式价值计算', '', f"状态：**{result['state']}**；选中：{result['selected'] or '现金/未知'}。",
              f"信息时点：{result['as_of']}；同期报价序号：{result['snapshot_seq']}。", '',
-             '| 候选 | 中心/翼宽 | 期望兑付界限(点) | 含费成本(点) | EV界限(点) | 最大损失(美元) | 原因 |',
+             '| 候选 | 中心/翼宽 | 期望兑付(点) | 含费成本(点) | EV(点) | 最大损失(美元) | 原因 |',
              '|---|---|---|---|---|---|---|']
     for r in result['rows']:
-        lines.append(f"| {r['candidate_id']} | {r['center']}/{r['width']} | {r['payoff_lower']} … {r['payoff_upper']} | "
-                     f"{r['cost_points']} | {r['edge_lower']} … {r['edge_upper']} | {r['max_loss_usd']} | "
+        point_only = r['uncertainty_kind'] == 'POINT_ONLY'
+        payoff = f"点估值 {r['payoff_point']}" if point_only else f"{r['payoff_lower']} … {r['payoff_upper']}"
+        edge = f"点估值 {r['edge_lower']}" if point_only else f"{r['edge_lower']} … {r['edge_upper']}"
+        lines.append(f"| {r['candidate_id']} | {r['center']}/{r['width']} | {payoff} | "
+                     f"{r['cost_points']} | {edge} | {r['max_loss_usd']} | "
                      f"{', '.join(r['reasons']) or '合格'} |")
     lines += ['', '现金价值为0；null表示未知。模型界限不是自动校准的统计置信区间。',
               '每行最大损失只适用于完整结构和声明的常数费用；本表不是券商成交或收益验证。', '']

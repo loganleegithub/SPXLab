@@ -1,0 +1,28 @@
+{
+  "classification": "SYNTHETIC_BOUNDARY_PROBES_NOT_OBSERVED_MARKET_INCIDENT",
+  "baseline_selected": "C7600_W25",
+  "probes": [
+    {
+      "case": "wrong_quote_structure",
+      "mutations": {
+        "center": 7700,
+        "width": 50
+      },
+      "state": "CANDIDATE",
+      "selected": "C7600_W25",
+      "selected_reasons": [],
+      "expected_guard": "reject inconsistent quote/candidate or timestamp"
+    },
+    {
+      "case": "wrong_quote_as_of",
+      "mutations": {
+        "as_of": "2026-09-16T13:05:00+00:00"
+      },
+      "state": "CANDIDATE",
+      "selected": "C7600_W25",
+      "selected_reasons": [],
+      "expected_guard": "reject inconsistent quote/candidate or timestamp"
+    }
+  ],
+  "scope": "value_candidates / public evaluate bundle path; internal quote_universe generates coherent rows"
+}

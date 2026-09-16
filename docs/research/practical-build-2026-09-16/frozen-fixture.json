@@ -1,0 +1,21 @@
+{
+  "classification": "SYNTHETIC_ENGINE_ACCEPTANCE_NOT_LIVE_DRIVER_RUN",
+  "trace_match": true,
+  "events_verified": 12,
+  "books": {
+    "DV1": {
+      "status": "ASSUMED_FILLED",
+      "intents": 1
+    },
+    "CHEAP": {
+      "status": "ASSUMED_FILLED",
+      "intents": 1
+    },
+    "SOURCE_GATE": {
+      "status": "CLOSED_UNKNOWN",
+      "intents": 0
+    }
+  },
+  "settlement_revision": "dce72970c9c03808de9c07c9c6c111d42f77434bb8f122b79d3c90caf0e6a6b7",
+  "source_manifest_hash": "49f12d2f7c9ee3ddcf6f5c201edabb49c5624bbdbc797d9b891090873688ff7d"
+}
