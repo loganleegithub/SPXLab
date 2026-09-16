@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "manifest_hash": "bf8315c878fcaa5ea2fea90a3405011078c828001bce274a81060cc5acfaabc4",
+  "training_cutoff": "2026-09-16T05:00:00+00:00",
+  "status": "DATA_NOT_READY",
+  "formal_calibration_status": "NOT_ESTABLISHED",
+  "prospective_inputs_only": false,
+  "independent_days": 0,
+  "effective_day_count": 0,
+  "maximum_day_weight": null,
+  "sessions": [],
+  "eligible_row_ids": [],
+  "excluded_rows": [],
+  "excluded_count": 0,
+  "warning": "Estimator readiness is not calibration, execution evidence, or profitability"
+}

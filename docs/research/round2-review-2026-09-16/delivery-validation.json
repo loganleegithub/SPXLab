@@ -1,0 +1,18 @@
+{
+  "verified_at": "2026-09-16T05:33:21.034011+00:00",
+  "local_link_targets_checked": 106,
+  "missing_links": [],
+  "syntax_checked": [
+    "audit_frozen.py",
+    "verify_inputs.py",
+    "verify_review.py"
+  ],
+  "modified_checker_reproduced_prior_outputs": true,
+  "protected_project_code_tests_scripts_dependencies_unchanged": true,
+  "events_verified": 3707491,
+  "book_status_counts": {
+    "NO_TRADE": 20,
+    "INDETERMINATE": 5
+  },
+  "scope": "Link existence, Python syntax, updated verification CLI, scope and aggregate consistency; not model profitability"
+}

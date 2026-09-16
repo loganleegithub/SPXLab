@@ -1,0 +1,111 @@
+{
+  "verified_at": "2026-09-16T05:18:05.053963+00:00",
+  "runs": [
+    {
+      "directory": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-002",
+      "events_verified": 349553,
+      "last_hash": "44623b895b30df2ceed3dc37670640ea809220a3a6ae414a59980299f14a7e2f",
+      "loaded_engine": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-002/implementation/src/spxlab/engine.py",
+      "checks": {
+        "result_match": true,
+        "trace_match": true,
+        "protected_files_unchanged": true
+      },
+      "book_status_counts": {
+        "NO_TRADE": 3,
+        "INDETERMINATE": 2
+      },
+      "protected_sha256": {
+        "quality-review.json": "7e80080aba5d7f3d0e92a719f2528508d25b8c3774334c2520584a71c3fd7a50",
+        "events.sqlite": "ebfa1d4b2343675bb97d67c7c127eae2eb377626241d302d38ba3c0c83c4eaed",
+        "replay-initial-154040.json": "14d8c841b88f4aaeea9535bdcb3524e78b9fb57b25c62bf58c808c8782f14d72",
+        "plan.json": "e013467dda5ebc1d775d1c586171427d84932369d18237718d0af6a746d0f7d8",
+        "final-replay.json": "8659f180397b649683de6c29b65888888c7ee94f95930f39da49b2049708758b",
+        "health.json": "6b79b4ca9ee6ad0ee9eeccf853df4bce9029d9c0b4ed0de4501a01504d91eceb",
+        "settlement-afd179e6fb3671ed.json": "ed9bf62bcca26900def91bc36ecdd04987e743a07936d1ef1d26734d8f3b1cb0",
+        "replay.json": "05439e6d8abf0ccb48bcc3bb596fce8828053c24ab2b36e128f30fdb60235006",
+        "decision-trace.json": "0bba88b701f4d0c5773270a4bf968b868e466761eb29a018a162bcc23dace558",
+        "closeout-verification.json": "417986477f816f72a398f8fa038b667ab9e72433aa63b56184446f2a3e3b8956",
+        "decision.json": "e92a3a919e01ab871400e0bf4642d6538c89af358ee8464e7b22e78a70546ae5",
+        "latest-settlement.json": "ebf96d6cb99a30a1d922dd43de221b408e839ba194b39b1e604d23bad9abb84b",
+        "process.json": "11bed5c5d2d32eefcfc5152530beaa587b0040df2c8046878b12c525da7e38f3",
+        "decision-digest.json": "ef6de92ae5d2450f4a03c25c69274a7725d5e0e9dc054c46ed8511de029fefa1"
+      },
+      "scope": "Full event hash chain and frozen decision/trace replay; no settlement reapplication"
+    },
+    {
+      "directory": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-003",
+      "events_verified": 1145342,
+      "last_hash": "655cae465adf962c88b57688a4f09e4d8cb7ef509bfbb60600e570b5f180f376",
+      "loaded_engine": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-003/implementation/src/spxlab/engine.py",
+      "checks": {
+        "result_match": true,
+        "trace_match": true,
+        "control_result_match": true,
+        "control_trace_match": true,
+        "protected_files_unchanged": true
+      },
+      "book_status_counts": {
+        "NO_TRADE": 7,
+        "INDETERMINATE": 3
+      },
+      "protected_sha256": {
+        "events.sqlite": "e82b03ca85f2ee0f824f737d143d90b3c135e1b6ddfe1f9c37d5d95318642283",
+        "control-settlement-afd179e6fb3671ed.json": "6a76a3a94d3614fa50c1c74878c1c81c0126ad4221e846a81230be895409c167",
+        "latest-control-settlement.json": "65c1c8738be15144da0c0ac27975a443282c8dffb220b616eedb718e44340dfb",
+        "control-trace.json": "8979621a3ef2254d4a3f1019c4958c62c5495f625950e2cdc7d7294bc45e6065",
+        "plan.json": "4359849118cb4961558dcb8fff2c4127d2104092651d797db96b1946f2d54a95",
+        "final-replay.json": "2f017cf5675c64fe8221f899b88325c652953eb2a2d8ca418d1a0b5da3eea4ba",
+        "stop-request.json": "ea1c596ccd65fc729bd13188f88b9d63305e2bd4bfcd923bcf2fdb9ef3e6e1d5",
+        "health.json": "07f45d2d063af571562b01feae336304d1230263bb2af736af8ccb4f709e256f",
+        "settlement-afd179e6fb3671ed.json": "adad492573227a0f2df3478fd30212a113f279ffa9aa0c4e560322f38c4ccd1a",
+        "replay.json": "d88bc0d60f8e29ebf4aece1df63514e87d94997243ed40bc9c86a8cd9a940071",
+        "execution-quality-review.json": "8505ffbd4fdbca2f137cc347c1b3a82e8b56280b95c3b8202f06482d8735bc5f",
+        "decision-trace.json": "a49d662a455d93552a5bbbd8b9415c7fca0e1c424d709b363f99cab50bcdeee1",
+        "closeout-verification.json": "0d387a404e745b043178a97844d68141f0aaef921dfe636adb023847e57c66f7",
+        "decision.json": "8fdbfc34b92df0e75cbc87bceff52efd5905a001e977cdf4e322a44f4b66096e",
+        "latest-settlement.json": "ff647000077d0305fd9af8b3f37fac48bd2f29f2d0ac82f98dfdab0fae3a18c4",
+        "process.json": "592572adeab0cf6eabb75bd8a9bf8f156b05523ff7dda641eb743d17e0011d5b",
+        "control-decision.json": "8ed94b1f282d899a0e54a1fa84515748b47602c703b1050689b525f6f6b8835d",
+        "decision-digest.json": "ac28e4708a2d19483fe207806ce6128728e9c062b68973096b58acead2ad8b94"
+      },
+      "scope": "Full event hash chain and frozen decision/trace replay; no settlement reapplication"
+    },
+    {
+      "directory": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-004",
+      "events_verified": 2212596,
+      "last_hash": "99a673bb6c2db12654906273c27c1346c118399abf1b1b6c230fc77d72022a2d",
+      "loaded_engine": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-004/implementation/src/spxlab/engine.py",
+      "checks": {
+        "result_match": true,
+        "trace_match": true,
+        "control_result_match": true,
+        "control_trace_match": true,
+        "protected_files_unchanged": true
+      },
+      "book_status_counts": {
+        "NO_TRADE": 10
+      },
+      "protected_sha256": {
+        "events.sqlite": "e2a35868f6ba586a5bc3e50d111c0b2bc8527bd4203552b6f84680acdad0df41",
+        "control-settlement-afd179e6fb3671ed.json": "45fdcfcee8d5bc599e4e923040986aec84af7e728750bf06290dbad5e078fb12",
+        "latest-control-settlement.json": "5ed586e1878ed5db95395d260fbc56502c7040ab487b669ccead960ad860668a",
+        "control-trace.json": "f7f76f0903ec06085cbfac620526196c4c84e310addc3cda42fdbd8cec53f27d",
+        "plan.json": "592346d0a49310200d06069929c09b79f81f936359b01cb491d264de1d5e6d1e",
+        "final-replay.json": "3d5a05328966f15f17384ea241e65c546d60a5747ec8f87cad2540ea07d2e908",
+        "health.json": "97dcbf6b82d30fb9e49f96355ffaa54cf4cad9ec00c846d73686fe902e8921d9",
+        "settlement-afd179e6fb3671ed.json": "91c48b46fe77d9dbb582b0329eff0b8e2c4dedf8182b72744de71834daa0230b",
+        "replay.json": "07511b81911c203c2317717349df5323557bd1d5555b23da376083fab702ba3b",
+        "comparison.json": "88f2e56cf6567aedb3264f996bff3d385c60862313645c9449e5df49c9831d3d",
+        "decision-trace.json": "f7f76f0903ec06085cbfac620526196c4c84e310addc3cda42fdbd8cec53f27d",
+        "closeout-verification.json": "2674c7d5afbd36d0f83606d95e27ea3327b2df53bb359e8495a5d0931b097b97",
+        "decision.json": "c897c434919614f9de87edf2c0cc9c134a0acbb47a21e1fff4281f459cedff34",
+        "latest-settlement.json": "b7956d5d91b23dfe5f709e98f032f36c593d34fbf6dc125af45034221800c768",
+        "process.json": "0cf2c7aa5b070407cbc2e7cfac5ec6351001a8205ea9303eb924f841f45bfe0d",
+        "control-decision.json": "45d07baf37a46267116ee65478815559cc58c9b6b0ec47998b211d18b7e68729",
+        "decision-digest.json": "5e5275ec1d8a1960deb3d004c26c4e05c53aa92e7a63585eff32cf01c44f0a14"
+      },
+      "scope": "Full event hash chain and frozen decision/trace replay; no settlement reapplication"
+    }
+  ]
+}

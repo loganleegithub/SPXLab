@@ -52,7 +52,11 @@ def main():
     r.add_argument('--duration',type=float,default=300);r.add_argument('--client-id',type=int,default=27152)
     r=sub.add_parser('replay');r.add_argument('--directory',required=True)
     r=sub.add_parser('settle');r.add_argument('--directory',required=True);r.add_argument('--evidence',required=True)
+    from .research_cli import register, execute
+    register(sub)
     args=p.parse_args()
+    if execute(args):
+        return
     if args.command=='run':
         asyncio.run(run_plan(json.loads(Path(args.config).read_text()),args.directory,args.duration,args.client_id))
     elif args.command=='replay':

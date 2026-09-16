@@ -1,0 +1,316 @@
+{
+  "schema_version": 2,
+  "as_of": "2026-09-16T14:05:00+00:00",
+  "target_at": "2026-09-16T20:00:00+00:00",
+  "snapshot_seq": 10,
+  "universe_hash": "fdbe73fbe223cbd4caddf4a8ec78cb845786d7d419ca16ea445c030a97d5a67b",
+  "distribution_hash": "acaebaeab989ba8440c5867389447a169419dc1d5ee9ce1b9d83768b85f4acfb",
+  "batch_hash": "0b79191b8665ee1906a4298b02bc06b1ec138295bd217921635f2b94bd4b3772",
+  "rows": [
+    {
+      "candidate_id": "C7595_W25",
+      "center": 7595,
+      "width": 25,
+      "roles": [
+        "FORECAST_NEIGHBOR"
+      ],
+      "quote": {
+        "candidate_id": "C7595_W25",
+        "center": 7595,
+        "width": 25,
+        "roles": [
+          "FORECAST_NEIGHBOR"
+        ],
+        "snapshot_seq": 10,
+        "generation": 1,
+        "clock_epoch": "epoch1",
+        "as_of": "2026-09-16T14:05:00+00:00",
+        "con_ids": [
+          "7570",
+          "7595",
+          "7620"
+        ],
+        "reasons": [],
+        "debit_points": "1",
+        "fees_usd": "0",
+        "fee_version": "FEE_FIXTURE",
+        "quote_refs": [
+          {
+            "con_id": "7570",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7595",
+            "side_confirmation_refs": {
+              "bid": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7620",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          }
+        ]
+      },
+      "reasons": [
+        "VALUE_UNIDENTIFIED"
+      ],
+      "payoff_point": null,
+      "payoff_lower": "0.00",
+      "payoff_upper": "13.75",
+      "edge_lower": "-1.00",
+      "edge_upper": "12.75",
+      "cost_points": "1",
+      "max_loss_usd": "100",
+      "uncertainty_kind": "IDENTIFICATION_BOUND",
+      "eligible": false
+    },
+    {
+      "candidate_id": "C7600_W25",
+      "center": 7600,
+      "width": 25,
+      "roles": [
+        "SPOT"
+      ],
+      "quote": {
+        "candidate_id": "C7600_W25",
+        "center": 7600,
+        "width": 25,
+        "roles": [
+          "SPOT"
+        ],
+        "snapshot_seq": 10,
+        "generation": 1,
+        "clock_epoch": "epoch1",
+        "as_of": "2026-09-16T14:05:00+00:00",
+        "con_ids": [
+          "7575",
+          "7600",
+          "7625"
+        ],
+        "reasons": [],
+        "debit_points": "2",
+        "fees_usd": "0",
+        "fee_version": "FEE_FIXTURE",
+        "quote_refs": [
+          {
+            "con_id": "7575",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7600",
+            "side_confirmation_refs": {
+              "bid": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7625",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          }
+        ]
+      },
+      "reasons": [
+        "VALUE_UNIDENTIFIED"
+      ],
+      "payoff_point": null,
+      "payoff_lower": "0.00",
+      "payoff_upper": "12.50",
+      "edge_lower": "-2.00",
+      "edge_upper": "10.50",
+      "cost_points": "2",
+      "max_loss_usd": "200",
+      "uncertainty_kind": "IDENTIFICATION_BOUND",
+      "eligible": false
+    },
+    {
+      "candidate_id": "C7605_W25",
+      "center": 7605,
+      "width": 25,
+      "roles": [
+        "FORECAST"
+      ],
+      "quote": {
+        "candidate_id": "C7605_W25",
+        "center": 7605,
+        "width": 25,
+        "roles": [
+          "FORECAST"
+        ],
+        "snapshot_seq": 10,
+        "generation": 1,
+        "clock_epoch": "epoch1",
+        "as_of": "2026-09-16T14:05:00+00:00",
+        "con_ids": [
+          "7580",
+          "7605",
+          "7630"
+        ],
+        "reasons": [],
+        "debit_points": "6",
+        "fees_usd": "0",
+        "fee_version": "FEE_FIXTURE",
+        "quote_refs": [
+          {
+            "con_id": "7580",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7605",
+            "side_confirmation_refs": {
+              "bid": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7630",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          }
+        ]
+      },
+      "reasons": [
+        "VALUE_UNIDENTIFIED"
+      ],
+      "payoff_point": null,
+      "payoff_lower": "0.00",
+      "payoff_upper": "12.50",
+      "edge_lower": "-6.00",
+      "edge_upper": "6.50",
+      "cost_points": "6",
+      "max_loss_usd": "600",
+      "uncertainty_kind": "IDENTIFICATION_BOUND",
+      "eligible": false
+    },
+    {
+      "candidate_id": "C7610_W25",
+      "center": 7610,
+      "width": 25,
+      "roles": [
+        "FORECAST_NEIGHBOR"
+      ],
+      "quote": {
+        "candidate_id": "C7610_W25",
+        "center": 7610,
+        "width": 25,
+        "roles": [
+          "FORECAST_NEIGHBOR"
+        ],
+        "snapshot_seq": 10,
+        "generation": 1,
+        "clock_epoch": "epoch1",
+        "as_of": "2026-09-16T14:05:00+00:00",
+        "con_ids": [
+          "7585",
+          "7610",
+          "7635"
+        ],
+        "reasons": [],
+        "debit_points": "5",
+        "fees_usd": "0",
+        "fee_version": "FEE_FIXTURE",
+        "quote_refs": [
+          {
+            "con_id": "7585",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7610",
+            "side_confirmation_refs": {
+              "bid": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7635",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 10,
+                "mono": 10000000000,
+                "generation": 1
+              }
+            }
+          }
+        ]
+      },
+      "reasons": [
+        "VALUE_UNIDENTIFIED"
+      ],
+      "payoff_point": null,
+      "payoff_lower": "0.00",
+      "payoff_upper": "13.00",
+      "edge_lower": "-5.00",
+      "edge_upper": "8.00",
+      "cost_points": "5",
+      "max_loss_usd": "500",
+      "uncertainty_kind": "IDENTIFICATION_BOUND",
+      "eligible": false
+    }
+  ],
+  "selected": null,
+  "state": "UNKNOWN",
+  "cash_value_points": "0",
+  "universe_issues": [],
+  "coverage": {
+    "planned": 4,
+    "qualified": 4,
+    "complete": true
+  },
+  "limitations": [
+    "Natural leg prices imply a shadow assumption, not a guaranteed combination fill",
+    "Value estimates are conditional on their declared information and model class"
+  ]
+}

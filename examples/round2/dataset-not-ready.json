@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "training_cutoff": "2026-09-16T05:00:00+00:00",
+  "evaluation_sessions": [
+    "2026-09-16"
+  ],
+  "anchor_kind": "SPOT",
+  "time_bucket": "10:05",
+  "min_independent_days": 2,
+  "allowed_classifications": [
+    "PROSPECTIVE_CAPTURE"
+  ],
+  "rows": [],
+  "note": "2 is only a demonstrative estimator input minimum, not a calibrated research sample size; no eligible standardized mature rows imported"
+}

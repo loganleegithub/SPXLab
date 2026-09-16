@@ -1,0 +1,62 @@
+{
+  "reference_manifest": [
+    {
+      "file": "SPXLab_architecture_blueprint.md",
+      "bytes": 18005,
+      "sha256": "d9f7155b94d1a732b5bc8756785e7ac64f9974a67209e070e64f258a69444baa",
+      "actual_sha256": "d9f7155b94d1a732b5bc8756785e7ac64f9974a67209e070e64f258a69444baa",
+      "verified": true
+    },
+    {
+      "file": "SPXLab_density_optimizer_demo.py",
+      "bytes": 19138,
+      "sha256": "f84d774464b3797b5a5c4c99dfbf1c9f9805a3f30767f965195ffce8add2758d",
+      "actual_sha256": "f84d774464b3797b5a5c4c99dfbf1c9f9805a3f30767f965195ffce8add2758d",
+      "verified": true
+    },
+    {
+      "file": "SPXLab_math_verification.json",
+      "bytes": 30342,
+      "sha256": "205080570980989c08a4b314b0b6ccbc7db97e1002fb8c190a30cbe7223451b5",
+      "actual_sha256": "205080570980989c08a4b314b0b6ccbc7db97e1002fb8c190a30cbe7223451b5",
+      "verified": true
+    },
+    {
+      "file": "SPXLab_math_test_log.txt",
+      "bytes": 1618,
+      "sha256": "7a44112610c6ffb2c6eb54a6f88133aa5c15179a7030e447c526f4d9000c8912",
+      "actual_sha256": "7a44112610c6ffb2c6eb54a6f88133aa5c15179a7030e447c526f4d9000c8912",
+      "verified": true
+    }
+  ],
+  "attachments": [
+    {
+      "path": "/Users/logan/Downloads/SPXLab_ChatGPT-v1.md",
+      "sha256": "6b1364f11c1752fbeaa619a5f0960317834450b4f5842ce8d2efc49a37f011d9"
+    },
+    {
+      "path": "/Users/logan/Downloads/SPXLab_architecture_blueprint.md",
+      "sha256": "d9f7155b94d1a732b5bc8756785e7ac64f9974a67209e070e64f258a69444baa"
+    }
+  ],
+  "standalone_blueprint_matches_package": true,
+  "numeric_reproduction": {
+    "absolute_tolerance": 1e-10,
+    "passed": true,
+    "changed_float_fields": 97,
+    "max_absolute_error": 2.2737367544323206e-13
+  },
+  "runtime": {
+    "original": {
+      "python": "3.13.5",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0"
+    },
+    "rerun": {
+      "python": "3.12.13",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0"
+    }
+  },
+  "repo_commit": "5c3626dafe3b855fd368d2b0e1a892c217360457"
+}

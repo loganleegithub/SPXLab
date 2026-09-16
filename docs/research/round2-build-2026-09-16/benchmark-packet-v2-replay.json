@@ -1,0 +1,12 @@
+{
+  "events_verified": 10862,
+  "last_hash": "516d4d272cd03ae79d3c268f5c53526048a8ea2607f18af9bf687103e0c46c31",
+  "result_match": true,
+  "trace_match": true,
+  "result_sha256": "850382d14f35d36d401251156ba958b9f9dba62c8dc7428da6c7f86fe88bbcf4",
+  "scope": "Read-only full research event replay",
+  "loaded_engine": "/Users/logan/SPXLab/var/round2-tests/peak-004/implementation/src/spxlab/engine.py",
+  "read_only_worker": true,
+  "verified_at": "2026-09-16T06:27:41.358010+00:00",
+  "directory": "/Users/logan/SPXLab/var/round2-tests/peak-004"
+}

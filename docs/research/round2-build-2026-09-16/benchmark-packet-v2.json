@@ -1,0 +1,33 @@
+{
+  "classification": "SYNTHETIC_PROJECTION_USING_HISTORICAL_EVENT_SHAPE",
+  "source": "var/2026-09-15/diagnostic-004",
+  "run_manifest": "var/round2-tests/peak-004/run-manifest.json",
+  "historical_peak_fields_rolling_second": 1081,
+  "projection_option_contract_count": 12,
+  "evaluated_candidate_count": 4,
+  "full_universe_evaluation_ms": 1.099583,
+  "repetitions": 10,
+  "field_events_written": 10810,
+  "events_verified": 10862,
+  "elapsed_write_seconds": 0.7440635419916362,
+  "sustained_fields_per_second": 14528.32908741215,
+  "throughput_above_observed_peak": true,
+  "silent_drops": 0,
+  "metrics": {
+    "measurement": "journal_begin_to_commit_local_wall_duration",
+    "sample_window_count": 5854,
+    "p99_ms": 0.085916,
+    "stage_p99_ms": {
+      "input_write_ms": 0.014459,
+      "reduction_ms": 0.016875,
+      "derived_write_commit_ms": 0.057583
+    },
+    "queue_mode": "synchronous_single_writer",
+    "network_latency_measured": false
+  },
+  "late_decision_reasons": [
+    "MISSED_DECISION_DEADLINE"
+  ],
+  "intents": 0,
+  "limitation": "Historical maximum FIELD burst remapped into declared synthetic 12-leg projection, repeated as fast as possible; not exchange-to-machine latency or guaranteed live scheduling"
+}

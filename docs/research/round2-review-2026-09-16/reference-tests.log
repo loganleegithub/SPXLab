@@ -1,0 +1,21 @@
+test_best_EV_not_cheapest_or_nearest_median (__main__.MathematicsTests.test_best_EV_not_cheapest_or_nearest_median) ... ok
+test_cash_and_budget_options (__main__.MathematicsTests.test_cash_and_budget_options) ... ok
+test_center_and_width_derivatives (__main__.MathematicsTests.test_center_and_width_derivatives) ... ok
+test_finite_support_LP (__main__.MathematicsTests.test_finite_support_LP) ... ok
+test_integral_matches_closed_form (__main__.MathematicsTests.test_integral_matches_closed_form) ... ok
+test_interval_mass_bounds (__main__.MathematicsTests.test_interval_mass_bounds) ... ok
+test_invalid_inputs (__main__.MathematicsTests.test_invalid_inputs) ... ok
+test_layer_cake_identity (__main__.MathematicsTests.test_layer_cake_identity) ... ok
+test_mixture_gate_zero_crossing (__main__.MathematicsTests.test_mixture_gate_zero_crossing) ... ok
+test_monte_carlo_cross_check (__main__.MathematicsTests.test_monte_carlo_cross_check) ... ok
+test_narrow_fly_density_limit (__main__.MathematicsTests.test_narrow_fly_density_limit) ... ok
+test_optimal_waiting_and_immediate_entry (__main__.MathematicsTests.test_optimal_waiting_and_immediate_entry) ... ok
+test_scenario_envelope_not_point_estimate (__main__.MathematicsTests.test_scenario_envelope_not_point_estimate) ... ok
+test_stopping_cash_and_invalid_transitions (__main__.MathematicsTests.test_stopping_cash_and_invalid_transitions) ... ok
+test_three_leg_payoff (__main__.MathematicsTests.test_three_leg_payoff) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.011s
+
+OK
+Wrote docs/research/round2-review-2026-09-16/reference-rerun.json

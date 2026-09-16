@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "run_id": "observe-2026-09-16-r2-003",
+  "mode": "OBSERVE_ONLY_V1",
+  "session": "2026-09-16",
+  "calendar_version": "CBOE_SPXW_PM_2026_20260916",
+  "strategies": [
+    {
+      "id": "S_STAR",
+      "selector": "SPOT",
+      "timing": "FIXED",
+      "gate": "NONE"
+    },
+    {
+      "id": "F_STAR",
+      "selector": "FORECAST",
+      "timing": "FIXED",
+      "gate": "NONE"
+    },
+    {
+      "id": "SG_STAR",
+      "selector": "SPOT",
+      "timing": "FIXED",
+      "gate": "G0"
+    },
+    {
+      "id": "FG_STAR",
+      "selector": "FORECAST",
+      "timing": "FIXED",
+      "gate": "G0"
+    },
+    {
+      "id": "CHEAP_U",
+      "selector": "CHEAP_U",
+      "timing": "FIRST_TRIGGER",
+      "gate": "NONE"
+    },
+    {
+      "id": "DV1_FIXED",
+      "selector": "DV1",
+      "timing": "FIXED",
+      "gate": "NONE"
+    },
+    {
+      "id": "DV1_FIRST_TRIGGER",
+      "selector": "DV1",
+      "timing": "FIRST_TRIGGER",
+      "gate": "NONE"
+    }
+  ],
+  "execution": {
+    "version": "FIXED_LIMIT_SHADOW_V1",
+    "quantity": 1,
+    "width": 25,
+    "budget_points": "6.25",
+    "latency_seconds": 1,
+    "ttl_seconds": 10
+  },
+  "valuation": {
+    "min_edge_points": "0",
+    "allowed_uncertainty": [
+      "MODEL_ENVELOPE",
+      "IDENTIFICATION_BOUND"
+    ],
+    "max_conditioning_age_seconds": 30
+  },
+  "decision_grid_seconds": 30,
+  "deadline_tolerance_ms": 250,
+  "max_option_subscriptions": 40,
+  "fees": {
+    "kind": "IBKR_PUBLIC_CUSTOMER_SCENARIO",
+    "version": "IBKR_PUBLIC_SCENARIO_20260915_UNCONFIRMED",
+    "regulatory_reserve_per_contract_usd": ".05"
+  },
+  "fixed_costs": {
+    "status": "UNKNOWN"
+  },
+  "source_product_id": "BALDER_SPX_PM_MEDIAN",
+  "authorization": "U18: New York 2026-09-16 OBSERVE_ONLY after engineering checks; no broker orders",
+  "research_status": "NO_VALIDATED_P_MODEL; no formal economic-effect preregistration",
+  "supersedes_preopen_run": "observe-2026-09-16-r2-002",
+  "engineering_revision": "PACKET_AND_SOURCE_V3",
+  "schedule": {
+    "session": "2026-09-16",
+    "series": "SPXW_PM",
+    "calendar_version": "CBOE_SPXW_PM_2026_20260916",
+    "timezone": "America/New_York",
+    "half_day": false,
+    "open_utc": "2026-09-16T13:30:00+00:00",
+    "fixed_utc": "2026-09-16T14:05:00+00:00",
+    "entry_end_utc": "2026-09-16T19:30:00+00:00",
+    "close_utc": "2026-09-16T20:00:00+00:00",
+    "capture_end_utc": "2026-09-16T20:10:00+00:00"
+  }
+}

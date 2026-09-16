@@ -1,0 +1,12 @@
+{
+  "target_session": "2026-09-16",
+  "series": "SPXW_PM",
+  "value": "7604",
+  "status": "SYNTHETIC_FIXTURE",
+  "source_url": "https://example.test/fixture",
+  "asset_path": "/Users/logan/SPXLab/docs/research/round2-build-2026-09-16/synthetic-settlement-source.txt",
+  "asset_sha256": "6dc71a5dde965e3610dcc20304817c54d40c0e68cf66a238e20b16a4d36c207e",
+  "retrieved_at": "2026-09-16T20:01:00+00:00",
+  "reviewed_by": "Synthetic fixture",
+  "supersedes": null
+}

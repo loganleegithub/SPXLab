@@ -1,0 +1,9 @@
+{
+  "classification": "SYNTHETIC_CURRENT_CODE_COUNTEREXAMPLE",
+  "initial_debit": "4.40",
+  "later_fill_debit": "4.90",
+  "later_all_in": "4.9644",
+  "budget": "6.25",
+  "status": "ASSUMED_FILLED",
+  "meaning": "Legacy model limits total budget, not initial quote price; preserve its original interpretation"
+}

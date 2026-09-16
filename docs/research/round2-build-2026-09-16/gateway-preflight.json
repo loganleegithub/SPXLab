@@ -1,0 +1,13 @@
+{
+  "mode": "READ_ONLY_CONNECT_AND_CONTRACT_DETAILS",
+  "orders_permitted": false,
+  "connected": true,
+  "index_con_id": 416904,
+  "option_con_id": 917864404,
+  "session_match": true,
+  "contract_hours": {
+    "time_zone": "US/Central",
+    "liquid_hours": "20260916:0830-20260916:1500",
+    "trading_hours": "20260915:1915-20260916:0825;20260916:0830-20260916:1500"
+  }
+}

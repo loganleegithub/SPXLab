@@ -1,0 +1,17 @@
+test_actual_band_geometry_without_density_assumption (__main__.IndependentChecks.test_actual_band_geometry_without_density_assumption) ... ok
+test_discrete_atoms_require_one_sided_derivatives (__main__.IndependentChecks.test_discrete_atoms_require_one_sided_derivatives) ... ok
+test_empty_universe_is_abstain_in_reference (__main__.IndependentChecks.test_empty_universe_is_abstain_in_reference) ... ok
+test_expectation_only_does_not_identify_profit_probability (__main__.IndependentChecks.test_expectation_only_does_not_identify_profit_probability) ... ok
+test_finite_support_grid_can_hide_uncertainty (__main__.IndependentChecks.test_finite_support_grid_can_hide_uncertainty) ... ok
+test_model_envelope_not_statistical_confidence (__main__.IndependentChecks.test_model_envelope_not_statistical_confidence) ... ok
+test_naive_fill_probability_can_reverse_sign (__main__.IndependentChecks.test_naive_fill_probability_can_reverse_sign) ... ok
+test_new_york_schedule_varies_in_utc (__main__.IndependentChecks.test_new_york_schedule_varies_in_utc) ... ok
+test_randomized_integrals_and_derivatives (__main__.IndependentChecks.test_randomized_integrals_and_derivatives) ... ok
+test_reusing_old_density_ignores_new_information (__main__.IndependentChecks.test_reusing_old_density_ignores_new_information) ... ok
+test_same_median_and_band_opposite_economics (__main__.IndependentChecks.test_same_median_and_band_opposite_economics) ... ok
+test_waiting_ties_and_reversed_mixture (__main__.IndependentChecks.test_waiting_ties_and_reversed_mixture) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.018s
+
+OK

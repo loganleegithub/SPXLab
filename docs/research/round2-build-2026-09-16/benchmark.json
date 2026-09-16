@@ -1,0 +1,29 @@
+{
+  "classification": "RETROSPECTIVE_ENGINEERING",
+  "source": "var/2026-09-15/diagnostic-004",
+  "historical_peak_fields_rolling_second": 1081,
+  "repetitions": 10,
+  "field_events_written": 10810,
+  "events_verified": 10820,
+  "elapsed_write_seconds": 0.6188193750567734,
+  "sustained_fields_per_second": 17468.748451853564,
+  "throughput_above_observed_peak": true,
+  "silent_drops": 0,
+  "metrics": {
+    "measurement": "journal_begin_to_commit_local_wall_duration",
+    "sample_window_count": 5812,
+    "p99_ms": 0.069375,
+    "stage_p99_ms": {
+      "input_write_ms": 0.013875,
+      "reduction_ms": 0.003541,
+      "derived_write_commit_ms": 0.053875
+    },
+    "queue_mode": "synchronous_single_writer",
+    "network_latency_measured": false
+  },
+  "late_decision_reasons": [
+    "MISSED_DECISION_DEADLINE"
+  ],
+  "intents": 0,
+  "limitation": "Maximum recorded FIELD second, repeated as fast as possible; not exchange-to-machine latency or guaranteed live scheduling"
+}

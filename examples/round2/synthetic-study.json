@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "study_id": "synthetic-missingness-demonstration",
+  "classification": "SYNTHETIC_FIXTURE",
+  "planned_sessions": [
+    "2026-09-15",
+    "2026-09-16"
+  ],
+  "strategies": [
+    "DV",
+    "BASE"
+  ],
+  "training_sessions": [],
+  "purpose": "DESCRIPTIVE",
+  "primary_comparison": {
+    "candidate": "DV",
+    "baseline": "BASE",
+    "require_matched_valuation": true
+  },
+  "inference": {
+    "min_independent_days": 20,
+    "block_length": 2,
+    "bootstrap_repeats": 1000,
+    "seed": 1,
+    "economic_delta_usd": null,
+    "precision_usd": null
+  },
+  "rows": [
+    {
+      "session": "2026-09-15",
+      "strategy_id": "DV",
+      "net_pnl_usd": "-10",
+      "valuation_hash": "same"
+    },
+    {
+      "session": "2026-09-15",
+      "strategy_id": "BASE",
+      "net_pnl_usd": "5",
+      "valuation_hash": "same"
+    }
+  ]
+}

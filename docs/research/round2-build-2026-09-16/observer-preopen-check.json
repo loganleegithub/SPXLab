@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-09-16T06:22:41.287851+00:00",
+  "run_id": "observe-2026-09-16-r2-001",
+  "phase": "PREOPEN",
+  "health_age_seconds": 14.046841,
+  "process_alive": true,
+  "issue": null,
+  "mode": "OBSERVE_ONLY_V1",
+  "books": {
+    "S_STAR": {
+      "status": "OBSERVING",
+      "intents": 0
+    },
+    "F_STAR": {
+      "status": "OBSERVING",
+      "intents": 0
+    },
+    "SG_STAR": {
+      "status": "OBSERVING",
+      "intents": 0
+    },
+    "FG_STAR": {
+      "status": "OBSERVING",
+      "intents": 0
+    },
+    "CHEAP_U": {
+      "status": "OBSERVING",
+      "intents": 0
+    },
+    "DV1_FIXED": {
+      "status": "OBSERVING",
+      "intents": 0
+    },
+    "DV1_FIRST_TRIGGER": {
+      "status": "OBSERVING",
+      "intents": 0
+    }
+  },
+  "current_spx": null,
+  "spot_observed_at": null,
+  "spot_issue": "NO_SPX_CONTRACT",
+  "coverage": null,
+  "source_issues": [
+    "NOT_EVALUATED"
+  ],
+  "distribution_status": "DATA_NOT_READY",
+  "metrics": {
+    "measurement": "journal_begin_to_commit_local_wall_duration",
+    "sample_window_count": 1,
+    "p99_ms": 0.111042,
+    "stage_p99_ms": {
+      "input_write_ms": 0.025292,
+      "reduction_ms": 0.025166,
+      "derived_write_commit_ms": 0.060584
+    },
+    "queue_mode": "synchronous_single_writer",
+    "network_latency_measured": false
+  },
+  "sealed": false,
+  "settled": false,
+  "broker_orders_permitted": false
+}

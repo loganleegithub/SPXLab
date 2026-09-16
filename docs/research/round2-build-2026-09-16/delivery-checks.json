@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-09-16T06:30:37.892521+00:00",
+  "tests_passed": 60,
+  "legacy_tests": 35,
+  "new_tests": 25,
+  "local_links_checked": 143,
+  "missing_links": [],
+  "compileall": "PASS",
+  "git_diff_check": "PASS",
+  "current_code_matches_active_snapshot": true,
+  "active_run": "/Users/logan/SPXLab/var/2026-09-16/observe-r2-003",
+  "active_plan_hash": "74ccbda60600ea5386dbdda67e3d2a42f9e5569fcfa68730007b25a8671d4936",
+  "mode": "OBSERVE_ONLY_V1",
+  "phase": "PREOPEN",
+  "automation_id": "spx-9-16",
+  "T6_complete": false,
+  "old_preopen_runs_excluded": [
+    "observe-r2-001",
+    "observe-r2-002"
+  ],
+  "original_history_unchanged": true,
+  "no_broker_orders": true
+}

@@ -1,0 +1,97 @@
+{
+  "classification": "REVIEW_CALCULATIONS_NOT_MARKET_OR_PROFIT_EVIDENCE",
+  "verified_at": "2026-09-16T05:20:13.986498+00:00",
+  "runtime": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "reference_sha256": "f84d774464b3797b5a5c4c99dfbf1c9f9805a3f30767f965195ffce8add2758d",
+  "checks": {
+    "run": 12,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "results": {
+    "public_band_geometry": {
+      "K": 7605,
+      "w": 25,
+      "median": 7604,
+      "band": [
+        7575,
+        7633
+      ],
+      "assumed_mass": 0.5,
+      "payoff_bounds": [
+        0.0,
+        12.5
+      ],
+      "edge_at_illustrative_cost_6_25": [
+        -6.25,
+        6.25
+      ],
+      "warning": "Conditional bounds, not calibrated confidence bounds or a historical trade"
+    },
+    "atom_center_derivatives": {
+      "left": 0.9999999999621422,
+      "right": -0.9999999999621422,
+      "conclusion": "No ordinary derivative at a mass atom"
+    },
+    "empty_universe_reference_behavior": "ABSTAIN; production must distinguish missing coverage",
+    "mean_only": {
+      "expected_payoff": 10,
+      "profit_probabilities": [
+        1,
+        0.5
+      ]
+    },
+    "grid_counterexample": {
+      "grid_bounds": [
+        12.5,
+        12.5
+      ],
+      "allowed_off_grid_value": 0.00025000000000030553,
+      "continuous_infimum_supremum": [
+        0,
+        12.5
+      ]
+    },
+    "model_set_dependence": {
+      "assumed_edge": 10.811237135553913,
+      "omitted_edge": -2.1534456540261147
+    },
+    "fill_selection": {
+      "unconditional_EV": 2.0,
+      "P_fill": 0.5,
+      "naive_product": 1.0,
+      "fill_conditioned_EV": -3.0
+    },
+    "NY_1005_UTC": [
+      "2026-03-06T15:05:00+00:00",
+      "2026-03-09T14:05:00+00:00",
+      "2026-10-30T14:05:00+00:00",
+      "2026-11-02T15:05:00+00:00"
+    ],
+    "randomized_math": {
+      "cases": 150,
+      "max_value_error": 2.4868995751603507e-14
+    },
+    "conditioning_counterexample": {
+      "morning_value": 12.5,
+      "updated_value": 25,
+      "new_information": "terminal branch revealed in toy world"
+    },
+    "identical_public_summary": {
+      "near_value": 12.01,
+      "far_value": 0.25,
+      "cost": 6.25,
+      "near_edge": 5.76,
+      "far_edge": -6.0
+    },
+    "reversed_mixture": {
+      "threshold": 0.8269230769230769,
+      "positive_EV_requires": "pi below threshold"
+    }
+  }
+}

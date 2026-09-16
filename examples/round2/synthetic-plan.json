@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "run_id": "synthetic-round2",
+  "mode": "SYNTHETIC_REPLAY_V1",
+  "session": "2026-09-16",
+  "calendar_version": "CBOE_SPXW_PM_2026_20260916",
+  "strategies": [
+    {
+      "id": "DV1",
+      "selector": "DV1",
+      "timing": "FIRST_TRIGGER",
+      "gate": "NONE"
+    },
+    {
+      "id": "CHEAP",
+      "selector": "CHEAP_U",
+      "timing": "FIRST_TRIGGER",
+      "gate": "NONE"
+    },
+    {
+      "id": "SOURCE_GATE",
+      "selector": "FORECAST",
+      "timing": "FIXED",
+      "gate": "G0"
+    }
+  ],
+  "execution": {
+    "version": "FIXED_LIMIT_SHADOW_V1",
+    "quantity": 1,
+    "width": 25,
+    "budget_points": "6.25",
+    "latency_seconds": 1,
+    "ttl_seconds": 10
+  },
+  "valuation": {
+    "min_edge_points": "0",
+    "allowed_uncertainty": [
+      "MODEL_ENVELOPE",
+      "IDENTIFICATION_BOUND"
+    ],
+    "max_conditioning_age_seconds": 30
+  },
+  "decision_grid_seconds": 30,
+  "deadline_tolerance_ms": 250,
+  "max_option_subscriptions": 40,
+  "fees": {
+    "kind": "IBKR_PUBLIC_CUSTOMER_SCENARIO",
+    "version": "FEE_FIXTURE",
+    "regulatory_reserve_per_contract_usd": ".05"
+  },
+  "fixed_costs": {
+    "status": "UNKNOWN"
+  }
+}

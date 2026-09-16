@@ -1,0 +1,40 @@
+test_inspection_preserves_files_and_returns_last_generation (test_capture_recovery.RecoveryGuards.test_inspection_preserves_files_and_returns_last_generation) ... ok
+test_modified_frozen_code_is_rejected (test_capture_recovery.RecoveryGuards.test_modified_frozen_code_is_rejected) ... ok
+test_unfinished_main_or_control_is_rejected (test_capture_recovery.RecoveryGuards.test_unfinished_main_or_control_is_rejected) ... ok
+test_atomic_packet_latency_and_same_input_equivalence (test_core.DecisionTests.test_atomic_packet_latency_and_same_input_equivalence) ... ok
+test_connection_loss_never_reuses_intent (test_core.DecisionTests.test_connection_loss_never_reuses_intent) ... ok
+test_cost_rejection_is_terminal_not_reselected (test_core.DecisionTests.test_cost_rejection_is_terminal_not_reselected) ... ok
+test_end_boundary_and_missing_observation (test_core.DecisionTests.test_end_boundary_and_missing_observation) ... ok
+test_p0_requires_every_candidate_and_can_change_center (test_core.DecisionTests.test_p0_requires_every_candidate_and_can_change_center) ... ok
+test_short_and_unknown_gate (test_core.DecisionTests.test_short_and_unknown_gate) ... ok
+test_combo_conservative_price_and_leg_minimum (test_core.EconomicsTests.test_combo_conservative_price_and_leg_minimum) ... ok
+test_payoff_matches_three_independent_legs (test_core.EconomicsTests.test_payoff_matches_three_independent_legs) ... ok
+test_settlement_cash_math_and_unknown (test_core.EconomicsTests.test_settlement_cash_math_and_unknown) ... ok
+test_cutoff_freezes_before_new_field_and_exact_replay (test_core.EvidenceTests.test_cutoff_freezes_before_new_field_and_exact_replay) ... ok
+test_hash_chain_tamper_detection (test_core.EvidenceTests.test_hash_chain_tamper_detection) ... ok
+test_protocol_allowlist (test_core.EvidenceTests.test_protocol_allowlist) ... ok
+test_cross_leg_skew (test_core.QualityTests.test_cross_leg_skew) ... ok
+test_invalid_forecast_excludes_four_books (test_core.QualityTests.test_invalid_forecast_excludes_four_books) ... ok
+test_missing_stale_size_delayed_generation_and_crossed (test_core.QualityTests.test_missing_stale_size_delayed_generation_and_crossed) ... ok
+test_explicit_version_and_unchanged_constraints (test_intent_lifetime.LifetimeTests.test_explicit_version_and_unchanged_constraints) ... ok
+test_later_expensive_quote_cannot_fill (test_intent_lifetime.LifetimeTests.test_later_expensive_quote_cannot_fill) ... ok
+test_later_valid_quote_fills_only_long_wait_and_exact_replay (test_intent_lifetime.LifetimeTests.test_later_valid_quote_fills_only_long_wait_and_exact_replay) ... ok
+test_ten_second_expiry_and_global_boundary (test_intent_lifetime.LifetimeTests.test_ten_second_expiry_and_global_boundary) ... ok
+test_brief_cross_and_neutral_zone_do_not_trigger (test_monitor.MonitorTests.test_brief_cross_and_neutral_zone_do_not_trigger) ... ok
+test_close_is_not_a_feed_outage_or_official_settlement (test_monitor.MonitorTests.test_close_is_not_a_feed_outage_or_official_settlement) ... ok
+test_data_gap_invalidates_cross_and_alerts_once (test_monitor.MonitorTests.test_data_gap_invalidates_cross_and_alerts_once) ... ok
+test_polling_pause_does_not_fake_continuous_confirmation (test_monitor.MonitorTests.test_polling_pause_does_not_fake_continuous_confirmation) ... ok
+test_transition_requires_sustained_cross_and_no_repeated_alert (test_monitor.MonitorTests.test_transition_requires_sustained_cross_and_no_repeated_alert) ... ok
+test_new_subscription_filters_late_old_request (test_quote_confirmation.ConfirmationTests.test_new_subscription_filters_late_old_request) ... ok
+test_other_side_last_and_greeks_do_not_refresh_ask (test_quote_confirmation.ConfirmationTests.test_other_side_last_and_greeks_do_not_refresh_ask) ... ok
+test_quantity_and_cross_leg_limits_remain_enforced (test_quote_confirmation.ConfirmationTests.test_quantity_and_cross_leg_limits_remain_enforced) ... ok
+test_size_before_price_and_regressing_mono_cannot_confirm (test_quote_confirmation.ConfirmationTests.test_size_before_price_and_regressing_mono_cannot_confirm) ... ok
+test_size_confirms_unchanged_price_without_rewriting_timestamp (test_quote_confirmation.ConfirmationTests.test_size_confirms_unchanged_price_without_rewriting_timestamp) ... ok
+test_type_change_reconnect_and_old_generation (test_quote_confirmation.ConfirmationTests.test_type_change_reconnect_and_old_generation) ... ok
+test_unknown_price_and_invalid_price_are_not_restored_by_size (test_quote_confirmation.ConfirmationTests.test_unknown_price_and_invalid_price_are_not_restored_by_size) ... ok
+test_zero_size_prevents_resurrection (test_quote_confirmation.ConfirmationTests.test_zero_size_prevents_resurrection) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 0.153s
+
+OK

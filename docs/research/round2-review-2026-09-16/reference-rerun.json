@@ -1,0 +1,1015 @@
+{
+  "classification": "SYNTHETIC_MATHEMATICAL_REFERENCE_NOT_MARKET_EVIDENCE",
+  "repo_tests_run": false,
+  "broker_connected": false,
+  "orders_sent": 0,
+  "reviewed_repo_commit": "5c3626dafe3b855fd368d2b0e1a892c217360457",
+  "runtime": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "units": "index points except explicit *_usd fields; no intraday discounting",
+  "synthetic_P": {
+    "mean": 7604,
+    "sigma": 12
+  },
+  "synthetic_Q_pricing_reference": {
+    "mean": 7610,
+    "sigma": 20
+  },
+  "synthetic_cost_loading_points": 0.25,
+  "center_selection": {
+    "decision": "ENTER_ASSUMED",
+    "selected": {
+      "name": "7600",
+      "center": 7600,
+      "width": 25,
+      "all_in_points": 10.284951947687459,
+      "value_lower": 15.123461440979522,
+      "value_upper": 15.123461440979522,
+      "edge_lower": 4.838509493292063,
+      "edge_upper": 4.838509493292063,
+      "max_loss_usd": 1028.495194768746,
+      "within_budget": true
+    },
+    "candidates": [
+      {
+        "name": "7595",
+        "center": 7595,
+        "width": 25,
+        "all_in_points": 9.129068485476584,
+        "value_lower": 13.368897500264008,
+        "value_upper": 13.368897500264008,
+        "edge_lower": 4.239829014787425,
+        "edge_upper": 4.239829014787425,
+        "max_loss_usd": 912.9068485476583,
+        "within_budget": true
+      },
+      {
+        "name": "7600",
+        "center": 7600,
+        "width": 25,
+        "all_in_points": 10.284951947687459,
+        "value_lower": 15.123461440979522,
+        "value_upper": 15.123461440979522,
+        "edge_lower": 4.838509493292063,
+        "edge_upper": 4.838509493292063,
+        "max_loss_usd": 1028.495194768746,
+        "within_budget": true
+      },
+      {
+        "name": "7605",
+        "center": 7605,
+        "width": 25,
+        "all_in_points": 11.048657358062613,
+        "value_lower": 15.558495579307388,
+        "value_upper": 15.558495579307388,
+        "edge_lower": 4.509838221244776,
+        "edge_upper": 4.509838221244776,
+        "max_loss_usd": 1104.8657358062612,
+        "within_budget": true
+      },
+      {
+        "name": "7610",
+        "center": 7610,
+        "width": 25,
+        "all_in_points": 11.315783516160797,
+        "value_lower": 14.561454384609425,
+        "value_upper": 14.561454384609425,
+        "edge_lower": 3.2456708684486273,
+        "edge_upper": 3.2456708684486273,
+        "max_loss_usd": 1131.5783516160798,
+        "within_budget": true
+      },
+      {
+        "name": "7615",
+        "center": 7615,
+        "width": 25,
+        "all_in_points": 11.048657358062613,
+        "value_lower": 12.387549262157984,
+        "value_upper": 12.387549262157984,
+        "edge_lower": 1.3388919040953713,
+        "edge_upper": 1.3388919040953713,
+        "max_loss_usd": 1104.8657358062612,
+        "within_budget": true
+      }
+    ]
+  },
+  "center_width_selection_with_synthetic_7_point_budget": {
+    "decision": "ENTER_ASSUMED",
+    "selected": {
+      "name": "K7600_w20",
+      "center": 7600,
+      "width": 20,
+      "all_in_points": 6.880204727225974,
+      "value_lower": 10.508963068722267,
+      "value_upper": 10.508963068722267,
+      "edge_lower": 3.628758341496293,
+      "edge_upper": 3.628758341496293,
+      "max_loss_usd": 688.0204727225973,
+      "within_budget": true
+    },
+    "candidates": [
+      {
+        "name": "K7580_w10",
+        "center": 7580,
+        "width": 10,
+        "all_in_points": 0.9138517135861299,
+        "value_lower": 0.5249544485011057,
+        "value_upper": 0.5249544485011057,
+        "edge_lower": -0.3888972650850242,
+        "edge_upper": -0.3888972650850242,
+        "max_loss_usd": 91.385171358613,
+        "within_budget": true
+      },
+      {
+        "name": "K7580_w15",
+        "center": 7580,
+        "width": 15,
+        "all_in_points": 1.785758374175213,
+        "value_lower": 1.3720707516962865,
+        "value_upper": 1.3720707516962865,
+        "edge_lower": -0.41368762247892654,
+        "edge_upper": -0.41368762247892654,
+        "max_loss_usd": 178.5758374175213,
+        "within_budget": true
+      },
+      {
+        "name": "K7580_w20",
+        "center": 7580,
+        "width": 20,
+        "all_in_points": 3.0737421411045,
+        "value_lower": 2.847413635445937,
+        "value_upper": 2.847413635445937,
+        "edge_lower": -0.22632850565856266,
+        "edge_upper": -0.22632850565856266,
+        "max_loss_usd": 307.37421411045,
+        "within_budget": true
+      },
+      {
+        "name": "K7580_w25",
+        "center": 7580,
+        "width": 25,
+        "all_in_points": 4.822606486071233,
+        "value_lower": 5.100202558409389,
+        "value_upper": 5.100202558409389,
+        "edge_lower": 0.27759607233815586,
+        "edge_upper": 0.27759607233815586,
+        "max_loss_usd": 482.26064860712336,
+        "within_budget": true
+      },
+      {
+        "name": "K7580_w30",
+        "center": 7580,
+        "width": 30,
+        "all_in_points": 7.064216943865423,
+        "value_lower": 8.169790156556306,
+        "value_upper": 8.169790156556306,
+        "edge_lower": 1.1055732126908833,
+        "edge_upper": 1.1055732126908833,
+        "max_loss_usd": 706.4216943865423,
+        "within_budget": false
+      },
+      {
+        "name": "K7585_w10",
+        "center": 7585,
+        "width": 10,
+        "all_in_points": 1.1733395115215934,
+        "value_lower": 1.0249456831314934,
+        "value_upper": 1.0249456831314934,
+        "edge_lower": -0.14839382839010007,
+        "edge_upper": -0.14839382839010007,
+        "max_loss_usd": 117.33395115215934,
+        "within_budget": true
+      },
+      {
+        "name": "K7585_w15",
+        "center": 7585,
+        "width": 15,
+        "all_in_points": 2.3522704681446065,
+        "value_lower": 2.4788955365728977,
+        "value_upper": 2.4788955365728977,
+        "edge_lower": 0.12662506842829124,
+        "edge_upper": 0.12662506842829124,
+        "max_loss_usd": 235.22704681446066,
+        "within_budget": true
+      },
+      {
+        "name": "K7585_w20",
+        "center": 7585,
+        "width": 20,
+        "all_in_points": 4.0381109994898345,
+        "value_lower": 4.72566496327347,
+        "value_upper": 4.72566496327347,
+        "edge_lower": 0.6875539637836354,
+        "edge_upper": 0.6875539637836354,
+        "max_loss_usd": 403.81109994898344,
+        "within_budget": true
+      },
+      {
+        "name": "K7585_w25",
+        "center": 7585,
+        "width": 25,
+        "all_in_points": 6.245453619393116,
+        "value_lower": 7.793815831763044,
+        "value_upper": 7.793815831763044,
+        "edge_lower": 1.5483622123699279,
+        "edge_upper": 1.5483622123699279,
+        "max_loss_usd": 624.5453619393115,
+        "within_budget": true
+      },
+      {
+        "name": "K7585_w30",
+        "center": 7585,
+        "width": 30,
+        "all_in_points": 8.971403504357315,
+        "value_lower": 11.588761966673939,
+        "value_upper": 11.588761966673939,
+        "edge_lower": 2.6173584623166235,
+        "edge_upper": 2.6173584623166235,
+        "max_loss_usd": 897.1403504357315,
+        "within_budget": false
+      },
+      {
+        "name": "K7590_w10",
+        "center": 7590,
+        "width": 10,
+        "all_in_points": 1.4594481997707618,
+        "value_lower": 1.7115834777760828,
+        "value_upper": 1.7115834777760828,
+        "edge_lower": 0.252135278005321,
+        "edge_upper": 0.252135278005321,
+        "max_loss_usd": 145.94481997707618,
+        "within_budget": true
+      },
+      {
+        "name": "K7590_w15",
+        "center": 7590,
+        "width": 15,
+        "all_in_points": 2.9677510272607854,
+        "value_lower": 3.8938246741172584,
+        "value_upper": 3.8938246741172584,
+        "edge_lower": 0.926073646856473,
+        "edge_upper": 0.926073646856473,
+        "max_loss_usd": 296.77510272607856,
+        "within_budget": true
+      },
+      {
+        "name": "K7590_w20",
+        "center": 7590,
+        "width": 20,
+        "all_in_points": 5.066040836857793,
+        "value_lower": 6.940582512298586,
+        "value_upper": 6.940582512298586,
+        "edge_lower": 1.8745416754407929,
+        "edge_upper": 1.8745416754407929,
+        "max_loss_usd": 506.6040836857793,
+        "within_budget": true
+      },
+      {
+        "name": "K7590_w25",
+        "center": 7590,
+        "width": 25,
+        "all_in_points": 7.728966908200487,
+        "value_lower": 10.729509150946601,
+        "value_upper": 10.729509150946601,
+        "edge_lower": 3.000542242746114,
+        "edge_upper": 3.000542242746114,
+        "max_loss_usd": 772.8966908200487,
+        "within_budget": false
+      },
+      {
+        "name": "K7590_w30",
+        "center": 7590,
+        "width": 30,
+        "all_in_points": 10.913395068101234,
+        "value_lower": 15.067960181944287,
+        "value_upper": 15.067960181944287,
+        "edge_lower": 4.154565113843052,
+        "edge_upper": 4.154565113843052,
+        "max_loss_usd": 1091.3395068101233,
+        "within_budget": false
+      },
+      {
+        "name": "K7595_w10",
+        "center": 7595,
+        "width": 10,
+        "all_in_points": 1.741954615694528,
+        "value_lower": 2.445964309877855,
+        "value_upper": 2.445964309877855,
+        "edge_lower": 0.7040096941833269,
+        "edge_upper": 0.7040096941833269,
+        "max_loss_usd": 174.1954615694528,
+        "within_budget": true
+      },
+      {
+        "name": "K7595_w15",
+        "center": 7595,
+        "width": 15,
+        "all_in_points": 3.5683047683946203,
+        "value_lower": 5.327441091285951,
+        "value_upper": 5.327441091285951,
+        "edge_lower": 1.7591363228913304,
+        "edge_upper": 1.7591363228913304,
+        "max_loss_usd": 356.83047683946205,
+        "within_budget": true
+      },
+      {
+        "name": "K7595_w20",
+        "center": 7595,
+        "width": 20,
+        "all_in_points": 6.05369313588211,
+        "value_lower": 9.05183949957457,
+        "value_upper": 9.05183949957457,
+        "edge_lower": 2.9981463636924595,
+        "edge_upper": 2.9981463636924595,
+        "max_loss_usd": 605.369313588211,
+        "within_budget": true
+      },
+      {
+        "name": "K7595_w25",
+        "center": 7595,
+        "width": 25,
+        "all_in_points": 9.129068485476584,
+        "value_lower": 13.368897500264008,
+        "value_upper": 13.368897500264008,
+        "edge_lower": 4.239829014787425,
+        "edge_upper": 4.239829014787425,
+        "max_loss_usd": 912.9068485476583,
+        "within_budget": false
+      },
+      {
+        "name": "K7595_w30",
+        "center": 7595,
+        "width": 30,
+        "all_in_points": 12.711353409793274,
+        "value_lower": 18.04792410288066,
+        "value_upper": 18.04792410288066,
+        "edge_lower": 5.336570693087387,
+        "edge_upper": 5.336570693087387,
+        "max_loss_usd": 1271.1353409793273,
+        "within_budget": false
+      },
+      {
+        "name": "K7600_w10",
+        "center": 7600,
+        "width": 10,
+        "all_in_points": 1.9832927237301394,
+        "value_lower": 2.9924611082453145,
+        "value_upper": 2.9924611082453145,
+        "edge_lower": 1.009168384515175,
+        "edge_upper": 1.009168384515175,
+        "max_loss_usd": 198.32927237301394,
+        "within_budget": true
+      },
+      {
+        "name": "K7600_w15",
+        "center": 7600,
+        "width": 15,
+        "all_in_points": 4.076769034528414,
+        "value_lower": 6.357186124806059,
+        "value_upper": 6.357186124806059,
+        "edge_lower": 2.280417090277645,
+        "edge_upper": 2.280417090277645,
+        "max_loss_usd": 407.67690345284143,
+        "within_budget": true
+      },
+      {
+        "name": "K7600_w20",
+        "center": 7600,
+        "width": 20,
+        "all_in_points": 6.880204727225974,
+        "value_lower": 10.508963068722267,
+        "value_upper": 10.508963068722267,
+        "edge_lower": 3.628758341496293,
+        "edge_upper": 3.628758341496293,
+        "max_loss_usd": 688.0204727225973,
+        "within_budget": true
+      },
+      {
+        "name": "K7600_w25",
+        "center": 7600,
+        "width": 25,
+        "all_in_points": 10.284951947687459,
+        "value_lower": 15.123461440979522,
+        "value_upper": 15.123461440979522,
+        "edge_lower": 4.838509493292063,
+        "edge_upper": 4.838509493292063,
+        "max_loss_usd": 1028.495194768746,
+        "within_budget": false
+      },
+      {
+        "name": "K7600_w30",
+        "center": 7600,
+        "width": 30,
+        "all_in_points": 14.174261168038075,
+        "value_lower": 19.97094324733081,
+        "value_upper": 19.97094324733081,
+        "edge_lower": 5.796682079292733,
+        "edge_upper": 5.796682079292733,
+        "max_loss_usd": 1417.4261168038076,
+        "within_budget": false
+      },
+      {
+        "name": "K7605_w10",
+        "center": 7605,
+        "width": 10,
+        "all_in_points": 2.1464443929714605,
+        "value_lower": 3.1349651966873657,
+        "value_upper": 3.1349651966873657,
+        "edge_lower": 0.9885208037159052,
+        "edge_upper": 0.9885208037159052,
+        "max_loss_usd": 214.64443929714605,
+        "within_budget": true
+      },
+      {
+        "name": "K7605_w15",
+        "center": 7605,
+        "width": 15,
+        "all_in_points": 4.418452630836641,
+        "value_lower": 6.621469849199955,
+        "value_upper": 6.621469849199955,
+        "edge_lower": 2.203017218363314,
+        "edge_upper": 2.203017218363314,
+        "max_loss_usd": 441.8452630836641,
+        "within_budget": true
+      },
+      {
+        "name": "K7605_w20",
+        "center": 7605,
+        "width": 20,
+        "all_in_points": 7.431287794608911,
+        "value_lower": 10.876294829729336,
+        "value_upper": 10.876294829729336,
+        "edge_lower": 3.4450070351204243,
+        "edge_upper": 3.4450070351204243,
+        "max_loss_usd": 743.1287794608911,
+        "within_budget": false
+      },
+      {
+        "name": "K7605_w25",
+        "center": 7605,
+        "width": 25,
+        "all_in_points": 11.048657358062613,
+        "value_lower": 15.558495579307388,
+        "value_upper": 15.558495579307388,
+        "edge_lower": 4.509838221244776,
+        "edge_upper": 4.509838221244776,
+        "max_loss_usd": 1104.8657358062612,
+        "within_budget": false
+      },
+      {
+        "name": "K7605_w30",
+        "center": 7605,
+        "width": 30,
+        "all_in_points": 15.131425323462482,
+        "value_lower": 20.44172372885778,
+        "value_upper": 20.44172372885778,
+        "edge_lower": 5.310298405395299,
+        "edge_upper": 5.310298405395299,
+        "max_loss_usd": 1513.1425323462481,
+        "within_budget": false
+      },
+      {
+        "name": "K7610_w10",
+        "center": 7610,
+        "width": 10,
+        "all_in_points": 2.204171079994933,
+        "value_lower": 2.8124573744555557,
+        "value_upper": 2.8124573744555557,
+        "edge_lower": 0.6082862944606227,
+        "edge_upper": 0.6082862944606227,
+        "max_loss_usd": 220.4171079994933,
+        "within_budget": true
+      },
+      {
+        "name": "K7610_w15",
+        "center": 7610,
+        "width": 15,
+        "all_in_points": 4.53898549882882,
+        "value_lower": 6.020971168612473,
+        "value_upper": 6.020971168612473,
+        "edge_lower": 1.4819856697836524,
+        "edge_upper": 1.4819856697836524,
+        "max_loss_usd": 453.89854988288204,
+        "within_budget": true
+      },
+      {
+        "name": "K7610_w20",
+        "center": 7610,
+        "width": 20,
+        "all_in_points": 7.624927607450143,
+        "value_lower": 10.037899626786906,
+        "value_upper": 10.037899626786906,
+        "edge_lower": 2.412972019336763,
+        "edge_upper": 2.412972019336763,
+        "max_loss_usd": 762.4927607450143,
+        "within_budget": false
+      },
+      {
+        "name": "K7610_w25",
+        "center": 7610,
+        "width": 25,
+        "all_in_points": 11.315783516160797,
+        "value_lower": 14.561454384609425,
+        "value_upper": 14.561454384609425,
+        "edge_lower": 3.2456708684486273,
+        "edge_upper": 3.2456708684486273,
+        "max_loss_usd": 1131.5783516160798,
+        "within_budget": false
+      },
+      {
+        "name": "K7610_w30",
+        "center": 7610,
+        "width": 30,
+        "all_in_points": 15.464580534446878,
+        "value_lower": 19.359356905575186,
+        "value_upper": 19.359356905575186,
+        "edge_lower": 3.8947763711283088,
+        "edge_upper": 3.8947763711283088,
+        "max_loss_usd": 1546.4580534446877,
+        "within_budget": false
+      },
+      {
+        "name": "K7615_w10",
+        "center": 7615,
+        "width": 10,
+        "all_in_points": 2.1464443929714627,
+        "value_lower": 2.160400126476749,
+        "value_upper": 2.160400126476749,
+        "edge_lower": 0.01395573350528645,
+        "edge_upper": 0.01395573350528645,
+        "max_loss_usd": 214.64443929714628,
+        "within_budget": true
+      },
+      {
+        "name": "K7615_w15",
+        "center": 7615,
+        "width": 15,
+        "all_in_points": 4.41845263083664,
+        "value_lower": 4.777675461145792,
+        "value_upper": 4.777675461145792,
+        "edge_lower": 0.35922283030915203,
+        "edge_upper": 0.35922283030915203,
+        "max_loss_usd": 441.845263083664,
+        "within_budget": true
+      },
+      {
+        "name": "K7615_w20",
+        "center": 7615,
+        "width": 20,
+        "all_in_points": 7.431287794608911,
+        "value_lower": 8.254919032595847,
+        "value_upper": 8.254919032595847,
+        "edge_lower": 0.8236312379869357,
+        "edge_upper": 0.8236312379869357,
+        "max_loss_usd": 743.1287794608911,
+        "within_budget": false
+      },
+      {
+        "name": "K7615_w25",
+        "center": 7615,
+        "width": 25,
+        "all_in_points": 11.048657358062613,
+        "value_lower": 12.387549262157984,
+        "value_upper": 12.387549262157984,
+        "edge_lower": 1.3388919040953713,
+        "edge_upper": 1.3388919040953713,
+        "max_loss_usd": 1104.8657358062612,
+        "within_budget": false
+      },
+      {
+        "name": "K7615_w30",
+        "center": 7615,
+        "width": 30,
+        "all_in_points": 15.131425323462478,
+        "value_lower": 16.95341878513574,
+        "value_upper": 16.95341878513574,
+        "edge_lower": 1.8219934616732605,
+        "edge_upper": 1.8219934616732605,
+        "max_loss_usd": 1513.142532346248,
+        "within_budget": false
+      },
+      {
+        "name": "K7620_w10",
+        "center": 7620,
+        "width": 10,
+        "all_in_points": 1.9832927237301372,
+        "value_lower": 1.4205237696304818,
+        "value_upper": 1.4205237696304818,
+        "edge_lower": -0.5627689540996554,
+        "edge_upper": -0.5627689540996554,
+        "max_loss_usd": 198.3292723730137,
+        "within_budget": true
+      },
+      {
+        "name": "K7620_w15",
+        "center": 7620,
+        "width": 15,
+        "all_in_points": 4.076769034528414,
+        "value_lower": 3.304959356340613,
+        "value_upper": 3.304959356340613,
+        "edge_lower": -0.7718096781878012,
+        "edge_upper": -0.7718096781878012,
+        "max_loss_usd": 407.67690345284143,
+        "within_budget": true
+      },
+      {
+        "name": "K7620_w20",
+        "center": 7620,
+        "width": 20,
+        "all_in_points": 6.880204727225971,
+        "value_lower": 6.037936462397361,
+        "value_upper": 6.037936462397361,
+        "edge_lower": -0.8422682648286104,
+        "edge_upper": -0.8422682648286104,
+        "max_loss_usd": 688.0204727225971,
+        "within_budget": true
+      },
+      {
+        "name": "K7620_w25",
+        "center": 7620,
+        "width": 25,
+        "all_in_points": 10.284951947687453,
+        "value_lower": 9.557494799002649,
+        "value_upper": 9.557494799002649,
+        "edge_lower": -0.7274571486848043,
+        "edge_upper": -0.7274571486848043,
+        "max_loss_usd": 1028.4951947687453,
+        "within_budget": false
+      },
+      {
+        "name": "K7620_w30",
+        "center": 7620,
+        "width": 30,
+        "all_in_points": 14.174261168038075,
+        "value_lower": 13.703263621206094,
+        "value_upper": 13.703263621206094,
+        "edge_lower": -0.47099754683198114,
+        "edge_upper": -0.47099754683198114,
+        "max_loss_usd": 1417.4261168038076,
+        "within_budget": false
+      },
+      {
+        "name": "K7625_w10",
+        "center": 7625,
+        "width": 10,
+        "all_in_points": 1.7419546156945258,
+        "value_lower": 0.7991535829549823,
+        "value_upper": 0.7991535829549823,
+        "edge_lower": -0.9428010327395435,
+        "edge_upper": -0.9428010327395435,
+        "max_loss_usd": 174.1954615694526,
+        "within_budget": true
+      },
+      {
+        "name": "K7625_w15",
+        "center": 7625,
+        "width": 15,
+        "all_in_points": 3.5683047683946154,
+        "value_lower": 1.9899734770642867,
+        "value_upper": 1.9899734770642867,
+        "edge_lower": -1.5783312913303287,
+        "edge_upper": -1.5783312913303287,
+        "max_loss_usd": 356.83047683946154,
+        "within_budget": true
+      },
+      {
+        "name": "K7625_w20",
+        "center": 7625,
+        "width": 20,
+        "all_in_points": 6.053693135882103,
+        "value_lower": 3.916723828929653,
+        "value_upper": 3.916723828929653,
+        "edge_lower": -2.13696930695245,
+        "edge_upper": -2.13696930695245,
+        "max_loss_usd": 605.3693135882103,
+        "within_budget": true
+      },
+      {
+        "name": "K7625_w25",
+        "center": 7625,
+        "width": 25,
+        "all_in_points": 9.129068485476584,
+        "value_lower": 6.662839527627706,
+        "value_upper": 6.662839527627706,
+        "edge_lower": -2.4662289578488776,
+        "edge_upper": -2.4662289578488776,
+        "max_loss_usd": 912.9068485476583,
+        "within_budget": false
+      },
+      {
+        "name": "K7625_w30",
+        "center": 7625,
+        "width": 30,
+        "all_in_points": 12.711353409793269,
+        "value_lower": 10.185859459733853,
+        "value_upper": 10.185859459733853,
+        "edge_lower": -2.525493950059415,
+        "edge_upper": -2.525493950059415,
+        "max_loss_usd": 1271.1353409793269,
+        "within_budget": false
+      },
+      {
+        "name": "K7630_w10",
+        "center": 7630,
+        "width": 10,
+        "all_in_points": 1.4594481997707631,
+        "value_lower": 0.38443154868084173,
+        "value_upper": 0.38443154868084173,
+        "edge_lower": -1.0750166510899213,
+        "edge_upper": -1.0750166510899213,
+        "max_loss_usd": 145.94481997707632,
+        "within_budget": true
+      },
+      {
+        "name": "K7630_w15",
+        "center": 7630,
+        "width": 15,
+        "all_in_points": 2.967751027260784,
+        "value_lower": 1.040881738038095,
+        "value_upper": 1.040881738038095,
+        "edge_lower": -1.926869289222689,
+        "edge_upper": -1.926869289222689,
+        "max_loss_usd": 296.7751027260784,
+        "within_budget": true
+      },
+      {
+        "name": "K7630_w20",
+        "center": 7630,
+        "width": 20,
+        "all_in_points": 5.0660408368577965,
+        "value_lower": 2.2448402247887054,
+        "value_upper": 2.2448402247887054,
+        "edge_lower": -2.821200612069091,
+        "edge_upper": -2.821200612069091,
+        "max_loss_usd": 506.60408368577964,
+        "within_budget": true
+      },
+      {
+        "name": "K7630_w25",
+        "center": 7630,
+        "width": 25,
+        "all_in_points": 7.728966908200489,
+        "value_lower": 4.175052172154929,
+        "value_upper": 4.175052172154929,
+        "edge_lower": -3.5539147360455594,
+        "edge_upper": -3.5539147360455594,
+        "max_loss_usd": 772.8966908200489,
+        "within_budget": false
+      },
+      {
+        "name": "K7630_w30",
+        "center": 7630,
+        "width": 30,
+        "all_in_points": 10.913395068101233,
+        "value_lower": 6.921941325420296,
+        "value_upper": 6.921941325420296,
+        "edge_lower": -3.9914537426809362,
+        "edge_upper": -3.9914537426809362,
+        "max_loss_usd": 1091.3395068101233,
+        "within_budget": false
+      },
+      {
+        "name": "K7635_w10",
+        "center": 7635,
+        "width": 10,
+        "all_in_points": 1.173339511521589,
+        "value_lower": 0.15801653654293904,
+        "value_upper": 0.15801653654293904,
+        "edge_lower": -1.0153229749786499,
+        "edge_upper": -1.0153229749786499,
+        "max_loss_usd": 117.3339511521589,
+        "within_budget": true
+      },
+      {
+        "name": "K7635_w15",
+        "center": 7635,
+        "width": 15,
+        "all_in_points": 2.3522704681446056,
+        "value_lower": 0.47187505932491247,
+        "value_upper": 0.47187505932491247,
+        "edge_lower": -1.8803954088196932,
+        "edge_upper": -1.8803954088196932,
+        "max_loss_usd": 235.22704681446055,
+        "within_budget": true
+      },
+      {
+        "name": "K7635_w20",
+        "center": 7635,
+        "width": 20,
+        "all_in_points": 4.038110999489831,
+        "value_lower": 1.131786844183024,
+        "value_upper": 1.131786844183024,
+        "edge_lower": -2.906324155306807,
+        "edge_upper": -2.906324155306807,
+        "max_loss_usd": 403.8110999489831,
+        "within_budget": true
+      },
+      {
+        "name": "K7635_w25",
+        "center": 7635,
+        "width": 25,
+        "all_in_points": 6.24545361939311,
+        "value_lower": 2.336518785500948,
+        "value_upper": 2.336518785500948,
+        "edge_lower": -3.9089348338921615,
+        "edge_upper": -3.9089348338921615,
+        "max_loss_usd": 624.545361939311,
+        "within_budget": true
+      },
+      {
+        "name": "K7635_w30",
+        "center": 7635,
+        "width": 30,
+        "all_in_points": 8.971403504357315,
+        "value_lower": 4.266877215214466,
+        "value_upper": 4.266877215214466,
+        "edge_lower": -4.70452628914285,
+        "edge_upper": -4.70452628914285,
+        "max_loss_usd": 897.1403504357315,
+        "within_budget": false
+      },
+      {
+        "name": "K7640_w10",
+        "center": 7640,
+        "width": 10,
+        "all_in_points": 0.913851713586133,
+        "value_lower": 0.055453357796540106,
+        "value_upper": 0.055453357796540106,
+        "edge_lower": -0.8583983557895929,
+        "edge_upper": -0.8583983557895929,
+        "max_loss_usd": 91.3851713586133,
+        "within_budget": true
+      },
+      {
+        "name": "K7640_w15",
+        "center": 7640,
+        "width": 15,
+        "all_in_points": 1.785758374175217,
+        "value_lower": 0.18494133699280682,
+        "value_upper": 0.18494133699280682,
+        "edge_lower": -1.6008170371824102,
+        "edge_upper": -1.6008170371824102,
+        "max_loss_usd": 178.5758374175217,
+        "within_budget": true
+      },
+      {
+        "name": "K7640_w20",
+        "center": 7640,
+        "width": 20,
+        "all_in_points": 3.0737421411045,
+        "value_lower": 0.4995733143420942,
+        "value_upper": 0.4995733143420942,
+        "edge_lower": -2.5741688267624054,
+        "edge_upper": -2.5741688267624054,
+        "max_loss_usd": 307.37421411045,
+        "within_budget": true
+      },
+      {
+        "name": "K7640_w25",
+        "center": 7640,
+        "width": 25,
+        "all_in_points": 4.822606486071238,
+        "value_lower": 1.159631581547499,
+        "value_upper": 1.159631581547499,
+        "edge_lower": -3.6629749045237388,
+        "edge_upper": -3.6629749045237388,
+        "max_loss_usd": 482.2606486071238,
+        "within_budget": true
+      },
+      {
+        "name": "K7640_w30",
+        "center": 7640,
+        "width": 30,
+        "all_in_points": 7.064216943865423,
+        "value_lower": 2.36438702426661,
+        "value_upper": 2.36438702426661,
+        "edge_lower": -4.699829919598813,
+        "edge_upper": -4.699829919598813,
+        "max_loss_usd": 706.4216943865423,
+        "within_budget": false
+      }
+    ]
+  },
+  "same_unbiased_center_different_dispersion": [
+    {
+      "sigma": 10,
+      "expected_payoff": 17.061237135553913,
+      "all_in_cost": 6.25,
+      "expected_net": 10.811237135553913
+    },
+    {
+      "sigma": 20,
+      "expected_payoff": 11.065783516160797,
+      "all_in_cost": 6.25,
+      "expected_net": 4.815783516160797
+    },
+    {
+      "sigma": 30,
+      "expected_payoff": 7.861756652350034,
+      "all_in_cost": 6.25,
+      "expected_net": 1.6117566523500342
+    },
+    {
+      "sigma": 60,
+      "expected_payoff": 4.096554345973885,
+      "all_in_cost": 6.25,
+      "expected_net": -2.1534456540261147
+    }
+  ],
+  "gate_thresholds": [
+    {
+      "cost": 6.25,
+      "pi_threshold": 0.1661009134567397
+    },
+    {
+      "cost": 16,
+      "pi_threshold": 0.9181439952848788
+    },
+    {
+      "cost": 18,
+      "pi_threshold": 1.072409242839369
+    }
+  ],
+  "partial_information": {
+    "description": "ONLY exact continuous quartiles -30, 0, 30; fly K0/w25",
+    "payoff_inf_sup": [
+      0.0,
+      12.5
+    ]
+  },
+  "same_current_EV_different_future_opportunity": {
+    "world_A": {
+      "values": [
+        [
+          1.5
+        ],
+        [
+          3.0,
+          0.0
+        ]
+      ],
+      "continuation": [
+        [
+          1.5
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "actions": [
+        [
+          "WAIT"
+        ],
+        [
+          "ENTER",
+          "ABSTAIN"
+        ]
+      ]
+    },
+    "world_B": {
+      "values": [
+        [
+          1.0
+        ],
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "continuation": [
+        [
+          0.5
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "actions": [
+        [
+          "ENTER"
+        ],
+        [
+          "ENTER",
+          "ENTER"
+        ]
+      ]
+    }
+  },
+  "limitations": [
+    "All inputs invented; no inference about Balder performance or SPX profitability.",
+    "No execution calibration, forecasting model fitting, or optimal-time estimation.",
+    "Finite model envelopes and quantile constraints are assumptions, not validated confidence sets.",
+    "The Bellman example assumes supplied true transition laws; this is not available from a terminal density alone."
+  ],
+  "mathematics_self_tests": {
+    "run": 15,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  }
+}

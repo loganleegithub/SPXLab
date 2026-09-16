@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "study_id": "synthetic-missingness-demonstration",
+  "study_hash": "b98710c0a228ba5fbdc4c2d25fb9dbd33777a80cc4a7199f367303d5a7844389",
+  "scope": "SHADOW_RESULTS_WITH_DECLARED_FEE_SCENARIO_NOT_LIVE_EXECUTION",
+  "classification": "SYNTHETIC_FIXTURE",
+  "strategy_summaries": {
+    "DV": {
+      "planned_days": 2,
+      "known_days": 1,
+      "unknown_days": 1,
+      "complete": false,
+      "observed_subset_sum_usd": "-10",
+      "cumulative_usd": null,
+      "maximum_drawdown_usd": null
+    },
+    "BASE": {
+      "planned_days": 2,
+      "known_days": 1,
+      "unknown_days": 1,
+      "complete": false,
+      "observed_subset_sum_usd": "5",
+      "cumulative_usd": null,
+      "maximum_drawdown_usd": null
+    }
+  },
+  "primary_comparison": {
+    "candidate": "DV",
+    "baseline": "BASE",
+    "require_matched_valuation": true
+  },
+  "paired_differences": [
+    {
+      "session": "2026-09-15",
+      "difference_usd": "-15"
+    }
+  ],
+  "missing_pair_days": [
+    "2026-09-16"
+  ],
+  "unmatched_pair_days": [],
+  "mean_paired_difference_usd": -15.0,
+  "paired_day_standard_deviation_usd": null,
+  "interval_95_usd": null,
+  "interval_method": null,
+  "economic_delta_usd": null,
+  "precision_usd": null,
+  "conclusion": "DESCRIPTIVE_ONLY",
+  "trading_edge_established": false,
+  "limitations": [
+    "Unknown days never become zero; paired observable subset is separately identified",
+    "Counterfactual strategies are not added into a portfolio",
+    "Bootstrap precision does not establish a reliable tail with few independent days"
+  ]
+}

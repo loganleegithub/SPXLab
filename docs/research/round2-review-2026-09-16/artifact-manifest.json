@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-09-16T05:34:17.687218+00:00",
+  "classification": "ROUND2_RESEARCH_AND_CONSTRUCTION_PLAN_NOT_IMPLEMENTATION",
+  "files": [
+    {
+      "path": "docs/research/round2-review-2026-09-16/README.md",
+      "bytes": 3396,
+      "sha256": "705f0d5cbbe8030c94c53069a807ef92bbf383f133c53c64933ba1deec40431e"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/audit_frozen.py",
+      "bytes": 4094,
+      "sha256": "819728ae2f53030cb0b105a8e94551bd263bdfda50ec530f2499d41c844f95bc"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/delivery-validation.json",
+      "bytes": 569,
+      "sha256": "efaf85d1c267c1ffe74201e6e9b201edabeab995e0958b50e978c91c87a44ac1"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/frozen-replay.json",
+      "bytes": 7069,
+      "sha256": "a26156a12c1448b7981012c356bea0dcfad19777b9a05900e34c403330e3da2c"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/independent-checks.json",
+      "bytes": 2409,
+      "sha256": "fd6b2df9e463eebd5f52e7b903acbf2b660bd3ecfd9801a45cf909d8ad122488"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/independent-checks.log",
+      "bytes": 1643,
+      "sha256": "71bcf31b6b034d53ca25d7b090a12d27c2b8909d5b08c91e6a56774693d2a94d"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/inputs-verified.json",
+      "bytes": 1993,
+      "sha256": "02dea7b79166bd24b672152d89059b118db94f989b165b4ac17d9d793fd224b0"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/legacy-limit-counterexample.json",
+      "bytes": 311,
+      "sha256": "c4ac4e220e2729d3177736edc8f45f716b170174897d08bdcca9d6a5c70b85a4"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/project-tests.log",
+      "bytes": 4775,
+      "sha256": "c9ddf330eb30dbd0228bb1aad832752d364ca72482c2232de2a8bc6666c21fef"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/reference-rerun.json",
+      "bytes": 30343,
+      "sha256": "c6321f824f52015822c92a18440e0e96d1d43664c22eef908e96802ebac1a143"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/reference-tests.log",
+      "bytes": 1638,
+      "sha256": "a6ea661d9e5b737c6d31705efef8e544006cad2558f8b7042c387e55120abc15"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/verify_inputs.py",
+      "bytes": 3837,
+      "sha256": "e9b4e4f43dd7d76759c69b6f97390e112f871b2f8ddbb085e941133a2e7f7ef5"
+    },
+    {
+      "path": "docs/research/round2-review-2026-09-16/verify_review.py",
+      "bytes": 8715,
+      "sha256": "180e286f6c3386947fd9e6778a6d891b58e088e31e7aa3ddf92b462ccf22cdf4"
+    },
+    {
+      "path": "docs/governance/ROUND2_CONSTRUCTION_PLAN.md",
+      "bytes": 42416,
+      "sha256": "8f911da22c434001a5f29012c0857caa19945873604863e2a0d0a5b3cc27685a"
+    },
+    {
+      "path": "docs/research/ROUND2_REVIEW.md",
+      "bytes": 12783,
+      "sha256": "f3f0724b8f7570199db30fd16518075b7cc52d6607c9638b9ca56f3c0a10793f"
+    }
+  ],
+  "external_sources_manifest": "docs/research/round2-review-2026-09-16/inputs-verified.json",
+  "raw_events_location": "var/2026-09-15/diagnostic-{002,003,004}/events.sqlite",
+  "source_inputs_copied": false
+}

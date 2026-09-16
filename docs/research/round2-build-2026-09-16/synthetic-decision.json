@@ -1,0 +1,379 @@
+{
+  "schema_version": 2,
+  "run_id": "synthetic-round2",
+  "mode": "SYNTHETIC_REPLAY_V1",
+  "session": "2026-09-16",
+  "target_at": "2026-09-16T20:00:00+00:00",
+  "plan_hash": "9415248aae0dcfee759c8bbcc656c6dfbbbc125fc2872e3a851fd59cb85ca5ae",
+  "books": {
+    "DV1": {
+      "strategy_id": "DV1",
+      "status": "ASSUMED_FILLED",
+      "intent": {
+        "run_id": "synthetic-round2",
+        "session": "2026-09-16",
+        "strategy_id": "DV1",
+        "intent_index": 1,
+        "intent_id": "9c0cb2a680dab31e9996cd0dd8ac6aaf45c90637e00a923dc01c4ae125fb216d",
+        "candidate_id": "C7600_W25",
+        "center": 7600,
+        "width": 25,
+        "con_ids": [
+          "7575",
+          "7600",
+          "7625"
+        ],
+        "quantity": 1,
+        "limit_points": "2",
+        "budget_points": "6.25",
+        "fee_version": "FEE_FIXTURE",
+        "fee_reserve_usd": "0",
+        "created_seq": 2,
+        "created_mono_ns": 10000000000,
+        "created_at": "2026-09-16T14:05:00+00:00",
+        "eligible_mono_ns": 11000000000,
+        "expires_mono_ns": 20000000000,
+        "clock_epoch": "epoch1",
+        "generation": 1,
+        "forecast_hash": null,
+        "distribution_hash": "d1739c44dd32932ecd472ab2833d4bd393f9062e3e4438ed612a0b7d4d44e3b8",
+        "valuation_hash": "0a98a597e5e003cd2d6544613577460a08c2f9101b2c11111c6a690019747e35",
+        "execution_version": "FIXED_LIMIT_SHADOW_V1",
+        "broker_limit_validation": "NOT_TESTED"
+      },
+      "fill": {
+        "candidate_id": "C7600_W25",
+        "center": 7600,
+        "width": 25,
+        "roles": [
+          "SPOT"
+        ],
+        "snapshot_seq": 9,
+        "generation": 1,
+        "clock_epoch": "epoch1",
+        "as_of": "2026-09-16T14:05:00+00:00",
+        "con_ids": [
+          "7575",
+          "7600",
+          "7625"
+        ],
+        "reasons": [],
+        "debit_points": "2",
+        "fees_usd": "0",
+        "fee_version": "FEE_FIXTURE",
+        "quote_refs": [
+          {
+            "con_id": "7575",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 9,
+                "mono": 11100000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7600",
+            "side_confirmation_refs": {
+              "bid": {
+                "seq": 9,
+                "mono": 11100000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7625",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 9,
+                "mono": 11100000000,
+                "generation": 1
+              }
+            }
+          }
+        ]
+      },
+      "had_unknown": false,
+      "observation_gap": false,
+      "decisions": 1,
+      "intent_count": 1,
+      "last_decision": {
+        "strategy_id": "DV1",
+        "scheduled_at": "2026-09-16T14:05:00+00:00",
+        "processed_at": "2026-09-16T14:05:00+00:00",
+        "snapshot_seq": 2,
+        "valuation_hash": "0a98a597e5e003cd2d6544613577460a08c2f9101b2c11111c6a690019747e35",
+        "classification": "CANDIDATE",
+        "state": "CANDIDATE",
+        "reasons": [],
+        "terminal": false,
+        "selected": "C7600_W25"
+      },
+      "last_shadow_check_ns": 11100000000,
+      "last_execution": {
+        "strategy_id": "DV1",
+        "intent_id": "9c0cb2a680dab31e9996cd0dd8ac6aaf45c90637e00a923dc01c4ae125fb216d",
+        "as_of": "2026-09-16T14:05:01.1+00:00",
+        "input_seq": 9,
+        "model": "FIXED_LIMIT_SHADOW_V1",
+        "status": "ASSUMED_FILLED",
+        "reason": "POST_INTENT_QUALIFIED_NATURAL_QUOTE",
+        "quote": {
+          "candidate_id": "C7600_W25",
+          "center": 7600,
+          "width": 25,
+          "roles": [
+            "SPOT"
+          ],
+          "snapshot_seq": 9,
+          "generation": 1,
+          "clock_epoch": "epoch1",
+          "as_of": "2026-09-16T14:05:00+00:00",
+          "con_ids": [
+            "7575",
+            "7600",
+            "7625"
+          ],
+          "reasons": [],
+          "debit_points": "2",
+          "fees_usd": "0",
+          "fee_version": "FEE_FIXTURE",
+          "quote_refs": [
+            {
+              "con_id": "7575",
+              "side_confirmation_refs": {
+                "ask": {
+                  "seq": 9,
+                  "mono": 11100000000,
+                  "generation": 1
+                }
+              }
+            },
+            {
+              "con_id": "7600",
+              "side_confirmation_refs": {
+                "bid": {
+                  "seq": 9,
+                  "mono": 11100000000,
+                  "generation": 1
+                }
+              }
+            },
+            {
+              "con_id": "7625",
+              "side_confirmation_refs": {
+                "ask": {
+                  "seq": 9,
+                  "mono": 11100000000,
+                  "generation": 1
+                }
+              }
+            }
+          ]
+        },
+        "not_a_broker_fill": true
+      }
+    },
+    "CHEAP": {
+      "strategy_id": "CHEAP",
+      "status": "ASSUMED_FILLED",
+      "intent": {
+        "run_id": "synthetic-round2",
+        "session": "2026-09-16",
+        "strategy_id": "CHEAP",
+        "intent_index": 1,
+        "intent_id": "027772f8360941e7819793df3165ee7984091283056ba6961e909fcec6ef62c8",
+        "candidate_id": "C7595_W25",
+        "center": 7595,
+        "width": 25,
+        "con_ids": [
+          "7570",
+          "7595",
+          "7620"
+        ],
+        "quantity": 1,
+        "limit_points": "1",
+        "budget_points": "6.25",
+        "fee_version": "FEE_FIXTURE",
+        "fee_reserve_usd": "0",
+        "created_seq": 2,
+        "created_mono_ns": 10000000000,
+        "created_at": "2026-09-16T14:05:00+00:00",
+        "eligible_mono_ns": 11000000000,
+        "expires_mono_ns": 20000000000,
+        "clock_epoch": "epoch1",
+        "generation": 1,
+        "forecast_hash": null,
+        "distribution_hash": "d1739c44dd32932ecd472ab2833d4bd393f9062e3e4438ed612a0b7d4d44e3b8",
+        "valuation_hash": "0a98a597e5e003cd2d6544613577460a08c2f9101b2c11111c6a690019747e35",
+        "execution_version": "FIXED_LIMIT_SHADOW_V1",
+        "broker_limit_validation": "NOT_TESTED"
+      },
+      "fill": {
+        "candidate_id": "C7595_W25",
+        "center": 7595,
+        "width": 25,
+        "roles": [
+          "FORECAST_NEIGHBOR"
+        ],
+        "snapshot_seq": 9,
+        "generation": 1,
+        "clock_epoch": "epoch1",
+        "as_of": "2026-09-16T14:05:00+00:00",
+        "con_ids": [
+          "7570",
+          "7595",
+          "7620"
+        ],
+        "reasons": [],
+        "debit_points": "1",
+        "fees_usd": "0",
+        "fee_version": "FEE_FIXTURE",
+        "quote_refs": [
+          {
+            "con_id": "7570",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 9,
+                "mono": 11100000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7595",
+            "side_confirmation_refs": {
+              "bid": {
+                "seq": 9,
+                "mono": 11100000000,
+                "generation": 1
+              }
+            }
+          },
+          {
+            "con_id": "7620",
+            "side_confirmation_refs": {
+              "ask": {
+                "seq": 9,
+                "mono": 11100000000,
+                "generation": 1
+              }
+            }
+          }
+        ]
+      },
+      "had_unknown": false,
+      "observation_gap": false,
+      "decisions": 1,
+      "intent_count": 1,
+      "last_decision": {
+        "strategy_id": "CHEAP",
+        "scheduled_at": "2026-09-16T14:05:00+00:00",
+        "processed_at": "2026-09-16T14:05:00+00:00",
+        "snapshot_seq": 2,
+        "valuation_hash": "0a98a597e5e003cd2d6544613577460a08c2f9101b2c11111c6a690019747e35",
+        "classification": "CANDIDATE",
+        "state": "CANDIDATE",
+        "reasons": [],
+        "terminal": false,
+        "selected": "C7595_W25"
+      },
+      "last_shadow_check_ns": 11100000000,
+      "last_execution": {
+        "strategy_id": "CHEAP",
+        "intent_id": "027772f8360941e7819793df3165ee7984091283056ba6961e909fcec6ef62c8",
+        "as_of": "2026-09-16T14:05:01.1+00:00",
+        "input_seq": 9,
+        "model": "FIXED_LIMIT_SHADOW_V1",
+        "status": "ASSUMED_FILLED",
+        "reason": "POST_INTENT_QUALIFIED_NATURAL_QUOTE",
+        "quote": {
+          "candidate_id": "C7595_W25",
+          "center": 7595,
+          "width": 25,
+          "roles": [
+            "FORECAST_NEIGHBOR"
+          ],
+          "snapshot_seq": 9,
+          "generation": 1,
+          "clock_epoch": "epoch1",
+          "as_of": "2026-09-16T14:05:00+00:00",
+          "con_ids": [
+            "7570",
+            "7595",
+            "7620"
+          ],
+          "reasons": [],
+          "debit_points": "1",
+          "fees_usd": "0",
+          "fee_version": "FEE_FIXTURE",
+          "quote_refs": [
+            {
+              "con_id": "7570",
+              "side_confirmation_refs": {
+                "ask": {
+                  "seq": 9,
+                  "mono": 11100000000,
+                  "generation": 1
+                }
+              }
+            },
+            {
+              "con_id": "7595",
+              "side_confirmation_refs": {
+                "bid": {
+                  "seq": 9,
+                  "mono": 11100000000,
+                  "generation": 1
+                }
+              }
+            },
+            {
+              "con_id": "7620",
+              "side_confirmation_refs": {
+                "ask": {
+                  "seq": 9,
+                  "mono": 11100000000,
+                  "generation": 1
+                }
+              }
+            }
+          ]
+        },
+        "not_a_broker_fill": true
+      }
+    },
+    "SOURCE_GATE": {
+      "strategy_id": "SOURCE_GATE",
+      "status": "CLOSED_UNKNOWN",
+      "intent": null,
+      "fill": null,
+      "had_unknown": true,
+      "observation_gap": false,
+      "decisions": 1,
+      "intent_count": 0,
+      "last_decision": {
+        "strategy_id": "SOURCE_GATE",
+        "scheduled_at": "2026-09-16T14:05:00+00:00",
+        "processed_at": "2026-09-16T14:05:00+00:00",
+        "snapshot_seq": 2,
+        "valuation_hash": "0a98a597e5e003cd2d6544613577460a08c2f9101b2c11111c6a690019747e35",
+        "classification": "UNKNOWN",
+        "state": "UNKNOWN",
+        "reasons": [
+          "G0_UNKNOWN"
+        ],
+        "terminal": true,
+        "selected": null
+      }
+    }
+  },
+  "entry_window_closed": true,
+  "valuation_count": 1,
+  "settlement_status": "PENDING_OFFICIAL_PM_SETTLEMENT",
+  "fixed_costs": {
+    "status": "UNKNOWN"
+  },
+  "fee_status": "UNCONFIRMED_ACCOUNT_SCENARIO"
+}

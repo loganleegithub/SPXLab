@@ -1,0 +1,11 @@
+{
+  "events_verified": 349553,
+  "last_hash": "44623b895b30df2ceed3dc37670640ea809220a3a6ae414a59980299f14a7e2f",
+  "result_match": true,
+  "trace_match": true,
+  "environment_scope": "Legacy manifest did not record a full runtime; source/decisions verified only",
+  "loaded_engine": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-002/implementation/src/spxlab/engine.py",
+  "read_only_worker": true,
+  "verified_at": "2026-09-16T06:09:21.712390+00:00",
+  "directory": "/Users/logan/SPXLab/var/2026-09-15/diagnostic-002"
+}

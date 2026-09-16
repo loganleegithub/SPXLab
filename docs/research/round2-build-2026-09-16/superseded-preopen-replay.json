@@ -1,0 +1,12 @@
+{
+  "events_verified": 9,
+  "last_hash": "f9f76c57d515e57bbf83748878c2eb48111832fea2c7d4d75ee4dca24272be7a",
+  "result_match": true,
+  "trace_match": true,
+  "result_sha256": "40ccfa1de8f06ce4c71685f0fa9039b22e88a4cb64b8705f2f410dce52a1f57c",
+  "scope": "Read-only full research event replay",
+  "loaded_engine": "/Users/logan/SPXLab/var/2026-09-16/observe-r2-001/implementation/src/spxlab/engine.py",
+  "read_only_worker": true,
+  "verified_at": "2026-09-16T06:27:30.996944+00:00",
+  "directory": "/Users/logan/SPXLab/var/2026-09-16/observe-r2-001"
+}

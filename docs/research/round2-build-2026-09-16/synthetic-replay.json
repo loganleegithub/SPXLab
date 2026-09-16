@@ -1,0 +1,12 @@
+{
+  "events_verified": 12,
+  "last_hash": "c6ca693c46693c54b38b1ceac1c845ed0aa06bbcf8cde822bd194f89471f25b1",
+  "result_match": true,
+  "trace_match": true,
+  "result_sha256": "4bab387411d509350c0f690075f2d7ec92050ecdddf689d539f8344e5697637f",
+  "scope": "Read-only full research event replay",
+  "loaded_engine": "/Users/logan/SPXLab/var/round2-tests/synthetic-complete-001/implementation/src/spxlab/engine.py",
+  "read_only_worker": true,
+  "verified_at": "2026-09-16T06:13:33.217274+00:00",
+  "directory": "/Users/logan/SPXLab/var/round2-tests/synthetic-complete-001"
+}
