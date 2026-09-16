@@ -19,7 +19,7 @@ from .collector import Collector
 from .contracts import digest, require, stamp, file_hash, validate_plan
 from .engine import spot_quote
 from .events import atomic_json, utc_now
-from .forecast import normalize_forecast, eligibility
+from .forecast import normalize_forecast, eligibility, anchor_value
 from .frozen import freeze_run, verify_snapshot, sha
 from .quotes import candidate_universe
 from .research import ResearchEngine, ResearchJournal, replay_research
@@ -136,6 +136,8 @@ class Observer(Collector):
         record,diagnostic = build_model(engine.field.tape,spot,utc,engine.plan['schedule']['close_utc'],source,
             computed_at=utc,algorithm_hash=digest({'model_version':engine.plan['model_version'],'plan':digest(engine.plan)}),
             previous_pin=engine.field.last_pin)
+        from .field import event_risk
+        diagnostic['known_event_risk'] = event_risk(engine.field.known_events,utc,engine.plan['schedule']['close_utc'])
         if engine.field.history_reference:
             from .calendar import NY
             key = stamp(utc).astimezone(NY).strftime('%H:%M')
@@ -172,7 +174,7 @@ class Observer(Collector):
         source = self.journal.engine.source(now)
         if eligibility(source, now, self.journal.engine.plan['schedule']['close_utc']):
             source = None
-        universe = candidate_universe(spot['value'] if spot else None, source['median'] if source else None,
+        universe = candidate_universe(spot['value'] if spot else None, anchor_value(source) if source else None,
                                      market_neighbors=self.journal.engine.plan['mode']=='FIELD_PAPER_V1')
         # Keep the locked structure observable until its pending intent terminates.
         pending = [b['intent'] for b in self.journal.engine.books.values()
@@ -213,14 +215,17 @@ class Observer(Collector):
                 continue
             self.seen_inbox.add(key)
             try:
-                record = normalize_forecast(json.loads(path.read_text()), verify_assets=True)
+                record = normalize_forecast(json.loads(path.read_text()), verify_assets=True,
+                                            allow_field_pin=self.journal.engine.field is not None)
+                if self.journal.engine.field:
+                    require(record['target_session'] == self.journal.engine.plan['session'], 'Pin target differs from FIELD session')
                 old = next((r for r in self.journal.engine.forecasts.records if r['forecast_id']==record['forecast_id']), None)
                 if old:
                     require(old.get('intake_sha256') == key, 'Existing source ID changed; submit an explicit new revision')
                     continue
                 record['available_at'] = max(stamp(record['available_at']), stamp(utc_now())).isoformat()
                 record['intake_sha256'] = key
-                record = normalize_forecast(record)
+                record = normalize_forecast(record,allow_field_pin=self.journal.engine.field is not None)
                 for asset in record['raw_assets']:
                     archive = self.directory/'raw-sources'/asset['sha256']
                     if not archive.exists():

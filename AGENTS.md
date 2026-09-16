@@ -2,6 +2,8 @@
 
 ## 当前授权
 
+2026-09-16 U25：用户要求使用iHarness深入核实外部e9996d9审查并修复。已复现分钟跨包重复与等待评分缺失误记，按[修复记录](docs/FIELD_PREOPEN_REVIEW_FIX.md)补人工Pin路径和已核实事件标记，冻结新FIELD版本接续本日授权；旧运行及原观察不改写，不新增券商委托或跨日权限。
+
 2026-09-16 U23：用户要求按更正后的 `SPXLab_FIELD_V1_TASK.md` 重构为真实行情驱动的交易原型，完成方案、清理、施工验收与影子上线。[最小方案](docs/FIELD_V1_PLAN.md)采用独立FIELD_PAPER_V1，自动探索性模型、真实报价、LOOKAHEAD/FIRST_POSITIVE及结果评分；本模式不以FROZEN_VALIDATED为运行前提。纽约9月16日新目录运行，既有冻结观察和历史账本不改写。无真实/模拟券商委托授权；U24另行授权本轮代码、测试和文档提交推送，原始行情和本机运行文件不发布。
 
 2026-09-16 U21：用户明确“照此施工”，授权[实战复核方案](docs/research/REVIEW_V2_PRACTICAL_PLAN.md)的报价修复、真实样本与价值表、独立冻结的影子接入工程。当前成果与真实业务尚未验收部分见[交付说明](docs/research/PRACTICAL_BUILD_DELIVERY.md)。不改本日已冻结观察运行，不凭点估值更换正式DV1规则。

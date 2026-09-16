@@ -5,6 +5,7 @@
 本模式没有真实仓位或券商订单。模型尚未证明盈利；模拟成交、预测正确和可交易优势分别报告。
 
 - [FIELD 当前交付、运行命令与验收](docs/FIELD_DELIVERY.md)
+- [外部审查复现、修复和人工Pin入口](docs/FIELD_PREOPEN_REVIEW_FIX.md)
 - [本轮最小重构方案](docs/FIELD_V1_PLAN.md)
 - [FIELD 试运行配置](examples/field/2026-09-16.json)
 - [决策与授权](docs/governance/DECISIONS.md)、[研究宪法](docs/governance/STRATEGY_CHARTER.md)

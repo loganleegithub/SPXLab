@@ -13,6 +13,12 @@ from .field_model import MinuteTape, cdf, marginal, payoff, quantile
 DERIVED_FIELD = {'FIELD_PREDICTION','FIELD_SCORE','FIELD_WAIT_SCORE'}
 
 
+def event_risk(events, as_of, target_at):
+    return [{**deepcopy(e),'phase':'BEFORE_EVENT' if stamp(as_of)<stamp(e['at']) else 'AFTER_EVENT',
+             'crosses_target':stamp(as_of)<stamp(e['at'])<=stamp(target_at),
+             'model_treatment':'NOT_SEPARATELY_PRICED'} for e in events]
+
+
 class FieldTracker:
     def __init__(self, plan):
         self.tape = MinuteTape(plan['schedule'])
@@ -26,6 +32,8 @@ class FieldTracker:
         self.last_pin = None
         self.history_reference = None
         self.last_score_second = None
+        self.in_packet = False
+        self.known_events = deepcopy(plan.get('known_events',[]))
 
     def apply(self, kind, p):
         if kind == 'FIELD_PREDICTION': self.predictions.append(deepcopy(p))
@@ -39,6 +47,8 @@ class FieldTracker:
         kind = event['event_type']
         if epoch_change or kind in {'DISCONNECTED','DATA_LOST','RESTART'}:
             self.tape.break_path(clock.utc,'CLOCK_EPOCH_CHANGED' if epoch_change else kind)
+            self.in_packet = False
+        if kind == 'PACKET_STARTED': self.in_packet = True
         if kind == 'FIELD_MODEL_STATUS': self.diagnostic = deepcopy(event['payload']['diagnostic'])
         if kind == 'HISTORY_REFERENCE': self.history_reference = deepcopy(event['payload'])
         if kind == 'DISTRIBUTION':
@@ -47,7 +57,10 @@ class FieldTracker:
         if kind == 'MARKET_BARRIER':
             spot,_ = spot_quote(market,clock.mono_ns)
             if spot: self.tape.add(spot)
-        self.tape.advance(clock.utc)
+            self.in_packet = False
+            self.tape.advance(clock.utc)
+        elif kind in {'TIMER','HEARTBEAT'} and not self.in_packet:
+            self.tape.advance(clock.utc)
 
     def prediction(self, distribution, value, clock):
         if distribution is None or value['timing_issues']: return None
@@ -56,6 +69,7 @@ class FieldTracker:
             'as_of':value['as_of'],'model_hash':digest(distribution),'state':distribution['diagnostic']['state'],
             'spot':distribution['process']['spot'],'pin':distribution['diagnostic']['pin'],
             'distribution':deepcopy(distribution),'selected':value['selected'],
+            'known_event_risk':event_risk(self.known_events,value['as_of'],distribution['target_at']),
             'candidates':[{k:r.get(k) for k in ('candidate_id','center','width','cost_points','payoff_point','point_edge','eligible')} for r in value['rows']],
             'timing':deepcopy(value['timing']),'short_horizons':{}}
         for horizon in (1,5):
@@ -91,6 +105,7 @@ class FieldTracker:
                     'target_at':forecast['target_at'],'evaluated_at':clock.utc,'outcome':actual,
                     'outcome_ref':deepcopy(spot) if valid else None,'status':'HIT' if hit else 'MISS' if valid else 'UNKNOWN',
                     'error_points':actual-forecast['mean'] if valid else None,'interval80_hit':hit,
+                    'known_event_risk':event_risk(self.known_events,pred['as_of'],forecast['target_at']) if self.known_events else [],
                     'state_direction_correct':state_correct,'meaning':'预测区间命中/失配；非独立交易日、非盈利判断'}))
             timing = pred['timing']
             if pred['prediction_id'] in self.wait_scored or not timing.get('verify_at'): continue
@@ -98,17 +113,34 @@ class FieldTracker:
             if stamp(clock.utc) < due: continue
             delay = (stamp(clock.utc)-due).total_seconds()
             if value is None and delay <= 3: continue
-            candidates = {r['candidate_id'] for r in pred['candidates']}
-            rows = [r for r in (value or {}).get('rows',[]) if r['candidate_id'] in candidates and r['eligible']]
-            known = value is not None and delay <= 3 and not value.get('timing_issues')
-            complete = known and all(any(r['candidate_id'] == cid and r['cost_points'] is not None and
-                r['quote'] and not r['quote']['reasons'] for r in value['rows']) for cid in candidates)
-            observed = max([0.]+[r['actionable_edge'] for r in rows]) if complete else None
+            candidates = {r['candidate_id'] for r in timing.get('fits',[]) or pred['candidates']}
+            reasons = []
+            if value is None: reasons.append('VALUATION_MISSING')
+            if delay > 3 or (value is not None and not 0 <= (stamp(value['as_of'])-due).total_seconds() <= 3):
+                reasons.append('TARGET_TIME_MISMATCH')
+            if (value or {}).get('timing_issues'): reasons.append('VALUATION_TIMING_INVALID')
+            current = {r['candidate_id']:r for r in (value or {}).get('rows',[])}
+            edges = []
+            if not candidates: reasons.append('CANDIDATE_SET_EMPTY')
+            for cid in sorted(candidates):
+                row = current.get(cid)
+                if not row or row['cost_points'] is None or not row['quote'] or row['quote']['reasons'] or 'INVALID_COMBO_DEBIT' in row['reasons']:
+                    reasons.append(cid+':QUOTE_OR_COST_UNAVAILABLE')
+                    continue
+                # A known risk rejection needs no payoff model to retain cash.
+                if set(row['reasons']) & {'COST_CAP','DOMINATED_COST'}: continue
+                if not value.get('distribution_hash') or row.get('payoff_point') is None or row.get('actionable_edge') is None or set(row['reasons'])-{'VALUE_NOT_ABOVE_THRESHOLD'}:
+                    reasons.append(cid+':MODEL_OR_PAYOFF_UNAVAILABLE')
+                    continue
+                edges.append(float(row['actionable_edge']))
+            complete = not reasons
+            observed = max([0.]+edges) if complete else None
             proposals.append(('FIELD_WAIT_SCORE',{'prediction_id':pred['prediction_id'],'target_at':timing['verify_at'],
                 'evaluated_at':clock.utc,'predicted_C':timing['C_points'],'observed_H_same_candidates':observed,
                 'error_points':observed-timing['C_points'] if observed is not None and timing['C_points'] is not None else None,
-                'wait_better_than_then_H':observed > timing['H_points'] if observed is not None else None,
+                'wait_better_than_then_H':observed > timing['H_points'] if observed is not None and timing['H_points'] is not None else None,
                 'status':'OBSERVED' if complete else 'UNKNOWN_COVERAGE_OR_TARGET_TIME',
+                'score_version':'FIELD_WAIT_SCORE_V2','reasons':reasons,'candidate_ids':sorted(candidates),
                 'meaning':'同候选未来可观察点价值诊断，非未来成交或可实现收益'}))
         return proposals
 
@@ -143,6 +175,7 @@ def terminal_scores(engine, settled):
         eligible=[c for c in outcomes if c['eligible'] and c['hypothetical_net_at_decision_cost'] is not None]
         best=max((c['hypothetical_net_at_decision_cost'] for c in eligible),default=None)
         rows.append({'prediction_id':pred['prediction_id'],'as_of':pred['as_of'],'terminal_outcome':actual,
+            'known_event_risk':deepcopy(pred.get('known_event_risk',[])),
             'terminal_error':actual-sum(c['weight']*c['mean'] for c in mix),
             'terminal_interval80_hit':.1 <= cdf(mix,actual) <= .9,'crps_points':crps,'candidates':outcomes,
             'selection_regret_same_observed_eligible_set':best-chosen['hypothetical_net_at_decision_cost'] if chosen and best is not None else None})
@@ -154,6 +187,9 @@ def terminal_scores(engine, settled):
         'require_matched_valuation':False,'reason':'TIMING_COMPARISON_SAME_SESSION',
         'error_categories':{
             'state_distribution':{'terminal_predictions':len(rows),'terminal_interval_misses':sum(not r['terminal_interval80_hit'] for r in rows)},
+            'known_events':{e['id']:{phase:{'predictions':sum(any(c['id']==e['id'] and c['phase']==phase for c in r['known_event_risk']) for r in rows),
+                'terminal_interval_misses':sum(not r['terminal_interval80_hit'] and any(c['id']==e['id'] and c['phase']==phase for c in r['known_event_risk']) for r in rows)}
+                for phase in ('BEFORE_EVENT','AFTER_EVENT')} for e in engine.field.known_events},
             'selection':{'scope':'ex_post_same_observed_eligible_set_regret_not_executable_hindsight_profit'},
             'waiting':{'observed':sum(s['status']=='OBSERVED' for s in engine.field.wait_scores)},
             'execution_fees':{'book_statuses':{k:v['status'] for k,v in books.items()},'fees':'ESTIMATED_NOT_ACCOUNT_CONFIRMED'}},
@@ -199,6 +235,16 @@ def write_page(directory, engine, *, health=None, settled=None):
         [round(v,2) for v in p['distribution']['diagnostic'].get('interval80',[])]])+'</tr>' for p in engine.field.predictions)
     current_health = health or {}
     now = utc_now()
+    from .forecast import eligibility, anchor_value
+    from .calendar import decision_times
+    received_source = engine.source(now)
+    usable = received_source if not eligibility(received_source,now,engine.plan['schedule']['close_utc']) else None
+    source_info = ('已接收本日Pin '+num(anchor_value(usable)) if usable else '当前来源模式 MARKET_ONLY')
+    if received_source:
+        source_info += f' · 原统计标签 {received_source["statistic_type"]} · 状态 {received_source["status"]} · 实际接收 {received_source["first_seen_at"]} · 可用 {received_source["available_at"]} · 版本 {received_source["forecast_id"]}'
+    next_grid = next((t for t in decision_times({**engine.plan['schedule'],'entry_end_utc':engine.plan['schedule']['close_utc']}) if stamp(t)>stamp(now)),None)
+    event_notes = '；'.join(e['label']+' · '+e['at']+' · '+('终值预测跨越该事件' if e['crosses_target'] else '已过事件时点')
+        for e in event_risk(engine.field.known_events,now,engine.plan['schedule']['close_utc']))
     phase = ('今日采集结束' if current_health.get('stop_requested') or stamp(now) >= stamp(engine.plan['schedule']['capture_end_utc']) else
              '开盘前等待' if stamp(now) < stamp(engine.plan['schedule']['open_utc']) else
              '数据中断／等待恢复' if not current_health.get('connected') or current_health.get('spot_issue') else '真实行情接收中')
@@ -214,6 +260,8 @@ table{{border-collapse:collapse;width:100%;font-size:13px}}th,td{{padding:10px;b
 <main><span class="tag">FIELD_PAPER_V1 · 真实行情 / 探索性模型 / 影子账本</span><h1>SPX 现场判断</h1>
 <p>本模式无真实仓位、无券商订单。<strong>{phase}</strong> · 更新 {esc(now)} · 会话 {result['session']} · SPX {num(current_health.get('current_spx'))}</p>
 <p>行情时点 {esc(current_health.get('spot_observed_at'))} · 模型条件时点 {esc(model.get('spot_at'))} · 决策时点 {esc(value.get('as_of'))}</p>
+<p class="note">{esc(event_notes)}{'。当前模型未专门定价事件风险；固定厚尾先验不代表事件风险已受控。' if event_notes else ''}</p>
+<p>{esc(source_info)} · 下一评价 {esc(next_grid)}。来源修订不重置每日意图次数；下方显示最近一次模型实际使用的来源。</p>
 <h2>{translations.get(model.get('state'),'模型等待')} · {'不使用作者Pin（MARKET_ONLY）' if source=='MARKET_ONLY' else '使用有效Pin '+num(model.get('pin'))}</h2>
 <p>模型80%终值区间 {esc([round(x,2) for x in model.get('interval80',[])])}（模型分位区间，非统计置信界）</p>
 <div class="cards"><article>有效分钟增量 <strong>{model.get('n_increments',0)} / 至少20</strong><p>κ原始 {num(model.get('kappa_raw'))}；收缩 {num(model.get('kappa_shrunk'))}；κτ {num(model.get('kappa_tau'))}</p></article>

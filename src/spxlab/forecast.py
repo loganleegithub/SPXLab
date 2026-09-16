@@ -4,7 +4,7 @@ from copy import deepcopy
 from .contracts import digest, fields, file_hash, number, require, stamp, versioned
 
 
-def normalize_forecast(record, *, verify_assets=False):
+def normalize_forecast(record, *, verify_assets=False, allow_field_pin=False):
     versioned(record)
     fields(record, ('forecast_id', 'source_product_id', 'model_version', 'target_session', 'target_at',
                     'series', 'statistic_type', 'first_seen_at', 'validated_at', 'raw_assets',
@@ -14,11 +14,18 @@ def normalize_forecast(record, *, verify_assets=False):
     require(stamp(record['target_at']) == stamp(session_schedule(record['target_session'])['close_utc']), 'Forecast session/target conflict')
     require(record['series'] == 'SPXW_PM', 'Wrong forecast series')
     require(record['status'] in {'VALIDATED', 'AMBIGUOUS', 'RETRACTED'}, 'Invalid source status')
-    require(record['statistic_type'] == 'median', 'Only explicit median point forecasts supported')
+    human_pin = record.get('source_role') == 'HUMAN_EXPERT_PIN'
+    require(not human_pin or allow_field_pin, 'Human Pin is FIELD-only')
+    if human_pin:
+        require(isinstance(record['statistic_type'],str) and bool(record['statistic_type'].strip()), 'Original statistic label required')
+        require('median' not in record, 'Human Pin uses anchor; do not synthesize median')
+    else:
+        require(record['statistic_type'] == 'median', 'Only explicit median point forecasts supported')
     require(record['gamma'] in {'LONG', 'SHORT', 'UNKNOWN'}, 'Unknown gamma label')
     require(record['reviewed_by'], 'Reviewer identity required; no privileged reviewer name')
     if record['status'] != 'RETRACTED':
-        number(record.get('median'), 'median')
+        point = number(record.get('anchor') if human_pin else record.get('median'), 'anchor' if human_pin else 'median')
+        if human_pin: require(point > 0, 'Positive SPX anchor required')
     first, reviewed = stamp(record['first_seen_at']), stamp(record['validated_at'])
     require(first <= reviewed, 'Review precedes receipt')
     require(record['raw_assets'], 'Source assets required')
@@ -57,11 +64,12 @@ def eligibility(record, as_of, target_at, source_product_id=None):
 
 
 class ForecastBook:
-    def __init__(self):
+    def __init__(self, *, allow_field_pin=False):
         self.records = []
+        self.allow_field_pin = allow_field_pin
 
     def add(self, record):
-        new = normalize_forecast(record)
+        new = normalize_forecast(record,allow_field_pin=self.allow_field_pin)
         previous = next((r for r in self.records if r['forecast_id'] == new['forecast_id']), None)
         if previous:
             require(previous == new, 'Forecast ID reused for different content')
@@ -79,3 +87,8 @@ class ForecastBook:
                    stamp(r['target_at']) == stamp(target_at) and stamp(r['available_at']) <= stamp(as_of)]
         # Retractions/ambiguous revisions remain visible; no silent old-version fallback.
         return deepcopy(max(visible, key=lambda r: (stamp(r['available_at']), self.records.index(r)))) if visible else None
+
+
+def anchor_value(record):
+    """FIELD adapter; preserve original statistics in the source record."""
+    return record['anchor'] if record.get('source_role') == 'HUMAN_EXPERT_PIN' else record['median']

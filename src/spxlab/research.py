@@ -14,7 +14,7 @@ from .contracts import Clock, digest, number, require, stamp, validate_plan
 from .distribution import validate_distribution
 from .engine import spot_quote
 from .events import EventStore, atomic_json, read_events
-from .forecast import ForecastBook, eligibility, normalize_forecast
+from .forecast import ForecastBook, eligibility, normalize_forecast, anchor_value
 from .policy import apply_book_event, decide, new_book
 from .quotes import ResearchMarketState, candidate_universe, quote_universe
 from .shadow import shadow_step
@@ -29,7 +29,7 @@ class ResearchEngine:
     def __init__(self, plan):
         self.plan = validate_plan(plan)
         self.market = ResearchMarketState()
-        self.forecasts = ForecastBook()
+        self.forecasts = ForecastBook(allow_field_pin=self.plan['mode'] == 'FIELD_PAPER_V1')
         self.distributions = []
         self.books = {s['id']: new_book(s) for s in self.plan['strategies']}
         self.last_evaluation = None
@@ -62,7 +62,7 @@ class ResearchEngine:
         spot, _ = spot_quote(self.market, clock.mono_ns)
         usable_source = source if not eligibility(source, clock.utc, self.plan['schedule']['close_utc']) else None
         universe = candidate_universe(spot['value'] if spot else None,
-                                      usable_source['median'] if usable_source else None,
+                                      anchor_value(usable_source) if usable_source else None,
                                       market_neighbors=self.field is not None)
         batch = quote_universe(self.market, universe, clock, self.plan,
                                synthetic=self.plan['mode'] == 'SYNTHETIC_REPLAY_V1')
@@ -104,7 +104,9 @@ class ResearchEngine:
         if self.field:
             self.field.market_event(event,self.market,clock,epoch_change)
         if kind == 'FORECAST':
-            record = normalize_forecast(p['record'])
+            record = normalize_forecast(p['record'],allow_field_pin=self.field is not None)
+            if self.field:
+                require(record['target_session'] == self.plan['session'], 'Pin target differs from FIELD session')
             if self.plan['mode'] != 'SYNTHETIC_REPLAY_V1':
                 record['available_at'] = max(stamp(record['available_at']), stamp(clock.utc)).isoformat()
             self.forecasts.add(record)

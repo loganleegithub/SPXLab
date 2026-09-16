@@ -8,6 +8,7 @@ from datetime import timedelta
 import math
 
 from .contracts import digest, require, stamp
+from .forecast import anchor_value
 
 VERSION = 'FIELD_LOCAL_MIXTURE_V1'
 ROOT2 = math.sqrt(2)
@@ -109,6 +110,10 @@ class MinuteTape:
         self.advance(ref['utc'])
         start = t.replace(second=0,microsecond=0)
         end = start+timedelta(minutes=1)
+        # Closed bars are immutable, including after a reconnect. A delayed
+        # observation must never create a second bar for an already closed minute.
+        if self.bars and start < stamp(self.bars[-1]['end_at']): return
+        if self.current and t < stamp(self.current['last_at']): return
         if self.current is None:
             if self.bars and stamp(self.bars[-1]['end_at']) < start and self.bars[-1]['segment'] == self.segment:
                 self.gaps.append({'at':start.isoformat(),'reason':'MISSING_MINUTES',
@@ -178,7 +183,7 @@ def make_process(parameters, spot, minutes, *, anchor_shift=0., noise_scale=1.):
 
 
 def build_model(tape, spot, at, target, source, *, computed_at, algorithm_hash, previous_pin=None):
-    anchor = float(source['median']) if source else None
+    anchor = float(anchor_value(source)) if source else None
     parameters = estimate(tape, at, anchor)
     minutes = (stamp(target)-stamp(at)).total_seconds()/60
     status = parameters['status']
@@ -186,6 +191,7 @@ def build_model(tape, spot, at, target, source, *, computed_at, algorithm_hash, 
         'anchor_mode':'PIN' if source else 'MARKET_ONLY','pin':anchor,
         'pin_change':anchor-previous_pin if anchor is not None and previous_pin is not None else None,
         'source_hash':source.get('content_hash') if source else None,'remaining_minutes':minutes,
+        'pin_source':({k:source.get(k) for k in ('forecast_id','source_role','statistic_type','first_seen_at','available_at','model_version')} if source else None),
         'spot':spot['value'] if spot else None,'spot_at':spot['utc'] if spot else None,
         'assumptions':['未校准算术正态混合','宽噪声10%为模型先验，非实测跳跃概率',
                        '背景/锚定各半是模型权重，非收敛概率']}

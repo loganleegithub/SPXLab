@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "run_id": "field-2026-09-16-v1-002",
+  "run_id": "field-2026-09-16-v1-003",
   "mode": "FIELD_PAPER_V1",
   "session": "2026-09-16",
   "calendar_version": "CBOE_SPXW_PM_2026_20260916",
@@ -47,6 +47,22 @@
   "source_product_id": "BALDER_SPX_PM_MEDIAN",
   "authorization": "U23: FIELD V1 real-market prototype; no broker orders",
   "research_status": "EXPLORATORY_UNCALIBRATED_FORWARD_TEST",
-  "engineering_revision": "FIELD_V1_UNKNOWN_H_FIX",
+  "engineering_revision": "FIELD_V1_PACKET_SCORE_PIN_EVENT_FIX",
+  "known_events": [
+    {
+      "id": "FOMC_STATEMENT_20260916",
+      "label": "FOMC决议 纽约14:00 / 北京次日02:00",
+      "at": "2026-09-16T18:00:00+00:00",
+      "source_url": "https://www.federalreserve.gov/newsevents/2026-september.htm",
+      "verified_at": "2026-09-16T13:24:37+00:00"
+    },
+    {
+      "id": "FOMC_PRESS_CONFERENCE_20260916",
+      "label": "FOMC记者会 纽约14:30 / 北京次日02:30",
+      "at": "2026-09-16T18:30:00+00:00",
+      "source_url": "https://www.federalreserve.gov/newsevents/2026-september.htm",
+      "verified_at": "2026-09-16T13:24:37+00:00"
+    }
+  ],
   "model_version": "FIELD_LOCAL_MIXTURE_V1"
 }

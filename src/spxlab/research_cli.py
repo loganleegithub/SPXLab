@@ -21,6 +21,10 @@ def fresh_output(path):
 
 
 def register(sub):
+    pin=sub.add_parser('field-pin')
+    pin.add_argument('--run',required=True);pin.add_argument('--text-file',required=True)
+    pin.add_argument('--pin');pin.add_argument('--retract',action='store_true')
+    pin.add_argument('--statistic-label',default='unspecified_point');pin.add_argument('--session')
     for name, options in {
         'evaluate':['bundle','output'], 'dataset-check':['manifest'], 'validate-plan':['plan'],
         'freeze':['plan','directory'], 'observe':['plan','directory'], 'shadow':['plan','directory','events'],
@@ -37,7 +41,10 @@ def register(sub):
 
 
 def execute(args):
-    if args.command == 'evaluate':
+    if args.command == 'field-pin':
+        from .field_pin import submit_pin
+        result=submit_pin(args.run,args.text_file,args.pin,statistic_label=args.statistic_label,retract=args.retract,session=args.session)
+    elif args.command == 'evaluate':
         from .valuation import value_candidates,render_valuation
         b=load(args.bundle)
         result=value_candidates(b['distribution'],b['batch'],b['spec'],b['mode'])
