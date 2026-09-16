@@ -25,6 +25,7 @@ SPX 概率预测与自动交易研究项目。最终路线：持续采集 → �
 
 | 文档 | 回答的问题 |
 |---|---|
+| [收敛门与无偏收益的机制研究](docs/research/CONVERGENCE_GATE_AND_UNBIASED_EDGE.md) | 隐藏门可能是什么算法，如何证伪，“无偏”究竟指什么？[研究宪法](docs/governance/STRATEGY_CHARTER.md)已确认分布价值优先、方向贡献单列，具体算法待验证。 |
 | [Balder 策略重建与复现方案](docs/governance/BALDER_STRATEGY_RECONSTRUCTION.md) | 独立蝶式怎样筛选、定价，哪些能借鉴，哪些仍未公开？ |
 | [X 来源与阅读覆盖](docs/governance/BALDER_SOURCE_INDEX.md) | 初轮 72 个详情、40 个日内预测，及收盘后 11 个详情复查的实际范围与重叠？ |
 | [交接审查](docs/governance/HANDOFF_REVIEW.md) | 原方案哪些可以保留，哪些缺口会改变实现或研究结论？ |
